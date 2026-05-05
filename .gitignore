@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 *.log
 .DS_Store
 .env
@@ -22,4 +23,22 @@
 _ide_helper.php
 Homestead.json
 Homestead.yaml
+=======
+# Vendor (dependências)
+vendor/
+
+# Ambiente local
+.env
+
+# XAMPP / sistema
+.htaccess
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+>>>>>>> c892ad40c0f30e9397b3303123e35bd3a14992f9
 Thumbs.db
