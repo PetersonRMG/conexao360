@@ -1,0 +1,17 @@
+# Vendor (dependências)
+vendor/
+
+# Ambiente local
+.env
+
+# XAMPP / sistema
+.htaccess
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
