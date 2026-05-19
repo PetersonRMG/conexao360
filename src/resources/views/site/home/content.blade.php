@@ -42,15 +42,15 @@
     <section id="palestra" class="palestra">
 
         <div class="teste">
-
+            @foreach ($video as $item)
+                
             <div class="conteudo">
-                <h2>Conduzida por quem vive a <br> advocacia na prática</h2>
+                <h2>{{$item->titulo_video}}</h2>
 
                 <span class="tag">Palestra Exclusiva</span>
 
                 <p>
-                    Uma imersão presencial, estratégica e exclusiva para advogados que desejam assumir o controle da
-                    própria carreira.
+                    {{$item->subtitulo_video}}
                 </p>
 
                 <ul>
@@ -61,21 +61,19 @@
             </div>
 
             <div class="imagem">
-                <a class="data-lity" href="img/videos/VID-20260130-WA0003.mp4" data-lity>
-                    <img src="{{asset('conexao360/img/simonevideo.jpg')}}" alt="Palestra advocacia">
+                <a class="data-lity" href="{{asset('conexao360/img/'.$item->url_video)}}" data-lity>
+                    <img src="{{asset('conexao360/img/'.$item->capa_video)}}" alt="Palestra advocacia">
                     <span class="play-btn">
                         <span class="play-icon"></span>
 
                     </span>
                 </a>
                 <div>
-                    <p class="tit-video"> — Video Conexão 360º 2º edição — </p>
+                    <p class="tit-video"> — {{$item->legenda_video}} — </p>
                 </div>
 
             </div>
-
-
-
+            @endforeach
         </div>
 
     </section>
@@ -86,46 +84,19 @@
         <div class="tds-abordagem">
 
             <div class="coluna-esquerda">
-                <h2 class="title">O que você vai ativar<br> no conexão 360° </h2>
-                <h3 class="sub-title">( Não é conteúdo. É virada de chave )</h3>
-
+                
+            <h2 class="title">O que você vai ativar<br> no conexão 360° </h2>
+            <h3 class="sub-title">( Não é conteúdo. É virada de chave )</h3>
+                @foreach ($temas as $item)
+                
                 <div class="card">
-
-                    <span class="card-text">Mentalidade Exponencial do Advogado de Alta Performance</span>
-                    <h3>Você vai entender por que esforço sem mentalidade trava resultados e como reprogramar decisões, coragem e posicionamento para crescer com estrátegia, autorirade e proposta. <br> <br> - Aqui, o advogado deixa de operar no automático e passa a jogar o jogo grande.</h3>
+                    
+                    <span class="card-text">{{$item->titulo_tema}}</span>
+                    <h3>{{$item->subtitulo_tema}} <br> <br> - {{$item->breve_descricao_tema}}.</h3>
                 </div>
-
-                <div class="card">
-
-                    <span class="card-text">Atendimento Consultivo que Converte sem Pressão</span>
-                    <h3>Aprenda a conduzir atendimentos que geram confiança imediata,
-                        segurança jurídica e decisão consciente Sem implorar, sem convencer, sem desconto. <br><br> - O cliente percebe valor antes mesmo de perguntar o preço.</h3>
-                </div>
-
-                <div class="card">
-
-                    <span class="card-text">Posicionamento Estratégico para ser Lembrado e Indicado</span>
-                    <h3> Descubra como sair da guerra de preços,
-                        construir autoridade real e ser reconhecido pelo valor que entrega —
-                        mesmo que hoje você se sinta “mais um” no mercado. <br><br> - Quem não se posiciona… é escolhido pelo menor preço.</h3>
-                </div>
-
-                <div class="card">
-
-                    <span class="card-text">Da conversa ao Contrato: O Método da Conversão Natural</span>
-                    <h3> Entenda o passo a passo que transforma conversas em contratos assinados,
-                        com ética, segurança e previsibilidade. <br><br> - Conversão não é dom. É método.</h3>
-                </div>
+                @endforeach
 
 
-                <div class="card">
-
-                    <span class="card-text">Precificação com Valor, Consciência e Autorirade</span>
-                    <h3>Aprenda a precificar sem medo,
-                        sustentar seus honorários com segurança
-                        e cobrar pelo impacto que você gera — não por hora trabalhada. <br><br> - Advogado que entende valor nunca mais pede permissão para cobrar.
-                    </h3>
-                </div>
             </div>
 
             <div class="coluna-direita">
@@ -162,50 +133,19 @@
             <div class="coluna-esquerda">
                 <h2 class="title">O que você vai ativar<br> no conexão 360° </h2>
                 <h3 class="sub-title">( Não é conteúdo. É virada de chave )</h3>
+                @foreach ($temas as $item)
 
-                <div class="card" href="#mentalidade" data-lity>
+                <div class="card" href="#{{$item->id_tema}}" data-lity>
 
                     <span class=" card-text">
-                        Mentalidade & Exponencial do Advogado de Alta Performance</span>
-                    <h3 class=" card-text-lity" id="mentalidade"> <img src="{{asset('conexao360/img/mentalidade.png')}}" alt=""> <br> <br> Você vai entender por que esforço sem mentalidade trava resultados e como reprogramar decisões, coragem e posicionamento para crescer com estrátegia, autorirade e proposta. <br> <br> - Aqui, o advogado deixa de operar no automático e passa a jogar o jogo grande.</h3>
+                        {{$item->titulo_tema}}</span>
+                    <h3 class=" card-text-lity" id="{{$item->id_tema}}"> <img src="{{asset('conexao360/img/'.$item->foto_tema)}}" alt="`{{$item->titulo_tema}}"> <br> <br>{{$item->titulo_tema}} <br> <br> - {{$item->breve_descricao_tema}}.</h3>
 
                 </div>
 
-                <div class="card" href="#atendimento" data-lity>
+                    @endforeach
 
-                    <span class="card-text">Atendimento Consultivo que Converte sem Pressão</span>
-                    <h3 class="card-text-lity" id="atendimento"> <img src="{{asset('conexao360/img/pessoa.png')}}" alt=""> <br><br> Aprenda a conduzir atendimentos que geram confiança imediata,
-                        segurança jurídica e decisão consciente Sem implorar, sem convencer, sem desconto. <br><br> -O cliente percebe valor antes mesmo de perguntar o preço.</h3>
-                </div>
-
-                <div class="card" href="#posicionamento" data-lity>
-
-                    <span class="card-text">Posicionamento Estratégico para ser Lembrado e Indicado</span>
-                    <h3 class="card-text-lity" id="posicionamento"> <img src="{{asset('conexao360/img/posicionamento.png')}}" alt=""> <br><br> Descubra como sair da guerra de preços,
-                        construir autoridade real e ser reconhecido pelo valor que entrega —
-                        mesmo que hoje você se sinta “mais um” no mercado. <br><br> -Quem não se posiciona… é escolhido pelo menor preço.</h3>
-                </div>
-
-                <div class="card" href="#conversa" data-lity>
-
-                    <span class="card-text">Da conversa ao Contrato: O Método da Conversão Natural</span>
-                    <h3 class="card-text-lity" id="conversa"> <img src="{{asset('conexao360/img/performace.png')}}" alt=""><br><br> Entenda o passo a passo que transforma conversas em contratos assinados,
-                        com ética, segurança e previsibilidade. <br><br> -Conversão não é dom. É método.</h3>
-                </div>
-
-
-                <div class="card" href="#precificacao" data-lity>
-
-                    <span class="card-text">Precificação com Valor, Consciência e Autorirade</span>
-                    <h3 class="card-text-lity" id="precificacao"> <img src="{{asset('conexao360/img/seguranca.png')}}" alt=""> <br><br>Aprenda a precificar sem medo,
-                        sustentar seus honorários com segurança
-                        e cobrar pelo impacto que você gera — não por hora trabalhada. <br><br> -Advogado que entende valor nunca mais pede permissão para cobrar.
-                    </h3>
-                </div>
             </div>
-
-
-
 
         </div>
     </section>
@@ -216,23 +156,18 @@
             <h4>A Mente que Provoca Mudança</h4>
 
             <div class="sobre-tds">
+                @foreach ($dra as $item)
                 <div class="ajst-img">
-                    <img src="{{asset('conexao360/img/Advocacia Exponencial (8).png')}}" alt="Dra. Simone Baptista">
+                    <img src="{{asset('conexao360/img/'.$item->foto_dra)}}" alt="Dra. Simone Baptista">
                 </div>
 
                 <div class="sobre-info">
-                    <h3>Dra. Simone Baptista</h3>
-                    <h4>Advogada | Mentora de Advogados | Idealizadora do Conexão 360</h4>
-
-
-                    <p>Eu escolhi a advocacia como missão. E escolhi ensinar porque sei o peso de carregar um sonho
-                        sozinha.</p>
-                    <p>Mentoro advogados que decidiram parar de aceitar migalhas e passaram a construir uma carreira
-                        sólida, estratégica e sustentável — com postura, método e constância.</p>
-                    <p>No Advocacia Exponencial Conexão 360, eu vou te conduzir numa virada de chave completa. Mente,
-                        posicionamento, comunicação e decisão. Você não sai igual. Você sai com clareza, com plano e com
-                        uma nova postura.</p>
-                    <p>Eu sou advogada de sucesso. E eu ensino você a se tornar uma também.</p>
+                        
+                    <h3>{{$item->titulo_dra}}</h3>
+                    <h4>{{$item->sub_titulo_dra}}</h4>                    
+                    
+                    <p>{{$item->descricao_dra}}</p>
+                @endforeach
 
                 </div>
             </div>

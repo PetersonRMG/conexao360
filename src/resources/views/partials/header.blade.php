@@ -1,7 +1,7 @@
     <header class="">
         <div class="topo">
             <div>
-                <img src="img/pint.svg" alt="">
+                <img src="{{asset('conexao360/img/pint.svg')}}" alt="">
                 <h5> ADVOCACIA <br> E<span>X</span>PONENCIAL</h5>
             </div>
 
