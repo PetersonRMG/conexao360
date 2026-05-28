@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Site;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -9,7 +9,8 @@ use App\Models\Temas;
 use App\Models\Dra;
 use App\Models\Video;
 
-class HomeController extends Controller
+
+class DashController extends Controller
 {
     //
     public function index(){
@@ -24,6 +25,7 @@ class HomeController extends Controller
         ->get();
 
             //dd( $video);
-        return view('site.home.home',compact('temas', 'dra', 'video'));
+        return view('admin/dash/dashboard',compact('temas', 'dra', 'video'));
+       
     }
 }

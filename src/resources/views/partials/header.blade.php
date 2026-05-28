@@ -1,8 +1,10 @@
     <header class="">
         <div class="topo">
             <div>
-                <img src="{{asset('conexao360/img/pint.svg')}}" alt="">
-                <h5> ADVOCACIA <br> E<span>X</span>PONENCIAL</h5>
+                <a href="{{route('admin.dash')}}">
+                    <img src="{{asset('conexao360/img/pint.svg')}}" alt="">
+                    <h5> ADVOCACIA <br> E<span>X</span>PONENCIAL</h5>
+                </a>
             </div>
 
             <button class="abrir-menu"></button>
