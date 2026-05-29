@@ -17,3 +17,11 @@ Route::get('/',  [HomeController::class,'index'])->name('home');
 Route::prefix('admin')->name('admin.')->group(function(){
     Route::get('/',[DashController::class,'index'])->name('dash');
 });
+
+
+Route::prefix('admin')->name('admin.')->group(function(){
+    Route::get('/', [DashController::class, 'index'])->name('dash');
+    
+    // Nova rota para salvar as alterações da página principal (com foto)
+    Route::post('/pagina-principal/update', [DashController::class, 'updatePaginaPrincipal'])->name('pagina_principal.update');
+});

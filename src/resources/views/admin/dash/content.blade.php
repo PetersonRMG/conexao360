@@ -8,6 +8,87 @@
         </div>
         <!--end::Container-->
     </div>
+
+
+<div class="card card-primary collapsed-card">
+    <div class="card-header">
+        <h3 class="card-title">Editar Página Principal Conexão</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body" style="display: none;">
+        <!-- Formulário preparado para textos e upload de imagem (enctype) -->
+        <form action="{{ route('admin.pagina_principal.update') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            
+            <div class="form-group mb-3">
+                <label for="tag_topo">Tag do Topo</label>
+                <input type="text" name="tag_topo" id="tag_topo" class="form-control" value="{{ $dra[0]->tag_topo ?? '– INSCRIÇÕES ABERTAS • VAGAS LIMITADAS –' }}">
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="titulo">Título Principal</label>
+                <textarea name="titulo" id="titulo" class="form-control" rows="2">{{ $dra[0]->titulo ?? 'a virada de chave <br> da advocacia <br> exponencial' }}</textarea>
+                <small class="text-muted">Dica: Use <code>&lt;br&gt;</code> para quebrar a linha.</small>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="subtitulo">Subtítulo / Descrição</label>
+                <textarea name="subtitulo" id="subtitulo" class="form-control" rows="3">{{ $dra[0]->subtitulo ?? 'Participe da 3ª Edição do Conexão 360º e dê a <br> Virada de Chave na Sua Carreira na Advocacia.' }}</textarea>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="texto_botao">Texto do Botão</label>
+                <input type="text" name="texto_botao" id="texto_botao" class="form-control" value="{{ $dra[0]->texto_botao ?? 'Garantir minha vaga no Conexão 360º' }}">
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="url_botao">Link do Botão (Eduzz)</label>
+                <input type="url" name="url_botao" id="url_botao" class="form-control" value="{{ $dra[0]->url_botao ?? 'https://sun.eduzz.com/Q9N56RAK01' }}">
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="foto_capa">Foto de Capa (Background)</label>
+                <input type="file" name="foto_capa" id="foto_capa" class="form-control-file d-block">
+                @if(!empty($dra[0]->foto_capa))
+                    <div class="mt-2">
+                        <small class="d-block text-muted">Capa atual:</small>
+                        <img src="{{ asset('storage/' . $dra[0]->foto_capa) }}" alt="Capa Atual" style="max-height: 100px; border-radius: 5px;">
+                    </div>
+                @endif
+            </div>
+
+            <button type="submit" class="btn btn-success">Salvar Alterações</button>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <div class="app-content">
 
       <h5 class="mb-2">Editar HomePage Conexão</h5>

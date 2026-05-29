@@ -6,8 +6,13 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Http\\Controllers\\Admin\\DashController' => $baseDir . '/app/Http/Controllers/Admin/DashController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
+    'App\\Http\\Controllers\\Site\\HomeController' => $baseDir . '/app/Http/Controllers/Site/HomeController.php',
+    'App\\Models\\Dra' => $baseDir . '/app/Models/Dra.php',
+    'App\\Models\\Temas' => $baseDir . '/app/Models/Temas.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
+    'App\\Models\\Video' => $baseDir . '/app/Models/Video.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
     'Brick\\Math\\BigDecimal' => $vendorDir . '/brick/math/src/BigDecimal.php',
