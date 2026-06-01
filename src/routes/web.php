@@ -18,5 +18,10 @@ Route::prefix('admin')->name('admin.')->group(function(){
     Route::get('/',[DashController::class,'index'])->name('dash');
     Route::post('/{id}', [DashController::class,'update'])->name('update');
 
-     Route::put('/criar', [DashController::class,'create'])->name('create');
+    Route::put('/criar', [DashController::class,'create'])->name('create');
+
+
+    Route::post('/{id}', [DashController::class,'updateVideo'])->name('updateVideo');
+
+    Route::put('/criar', [DashController::class,'createVideo'])->name('createVideo');
 });
