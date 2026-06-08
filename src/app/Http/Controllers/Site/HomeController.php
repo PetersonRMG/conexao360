@@ -8,8 +8,9 @@ use Illuminate\Http\Request;
 use App\Models\Temas;
 use App\Models\Dra;
 use App\Models\Video;
+use App\Models\Eventos;
 
-class HomeController extends Controller
+class HomeController extends Controller 
 {
     //
     public function index(){
@@ -23,7 +24,10 @@ class HomeController extends Controller
         $video = Video::where('status_video', 'ATIVO')               
         ->get();
 
-            //dd( $video);
+        $evento = Eventos::where('status_evento', 'ATIVO')
+        ->get();
+
+            // dd($evento);
         return view('site.home.home',compact('temas', 'dra', 'video'));
     }
 }

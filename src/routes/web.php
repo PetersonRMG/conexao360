@@ -21,7 +21,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
     Route::put('/criar', [DashController::class,'create'])->name('create');
 
 
-    Route::post('/{id}', [DashController::class,'updateVideo'])->name('updateVideo');
+    Route::post('video/{id}', [DashController::class,'updateVideo'])->name('updateVideo');
 
-    Route::put('/criar', [DashController::class,'createVideo'])->name('createVideo');
+   
 });

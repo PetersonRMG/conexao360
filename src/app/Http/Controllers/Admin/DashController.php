@@ -114,41 +114,7 @@ class DashController extends Controller
     }
 
 
-    public function createVideo(Request $request)
-    {
-        $request->validate([
-            'titulo_video'       => 'required|string|max:100',
-            'subtitulo_video'       => 'required|string|max:200',
-            'legenda_video'=>    'required|string|max:100',
-            'breve_descricao_video' => 'required|string',
-            'capa_video'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'url_video'      => 'nullable|file|mimes:mp4,avi,mov,webm|max:102400',
-            'status_video'    => 'required|in:ATIVO,INATIVO',
-         
-            
-        ]);
 
-        $fotoTema = $request->file('foto_tema');
-   
-        $nomeFoto = time() . '.' . $fotoTema->getClientOriginalExtension();
-        $fotoTema->move(public_path('conexao360/img/tema'), $nomeFoto);
-        $caminhoFoto = 'tema/' . $nomeFoto;
-
-
-        Temas::create([
-            'titulo_tema'      => $request->titulo_tema,          
-            'subtitulo_tema'      => $request->subtitulo_tema,
-            'breve_descricao_tema' => $request->breve_descricao_tema,
-            'foto_tema'      => $caminhoFoto,
-            'status_tema'    => $request->status_tema,
-
-        ]);
-
-        return redirect()
-        ->route('admin.dash')
-        ->with('success', 'Tema criado com sucesso!');
-
-    }
 
     public function updateVideo(Request $request, $id)
     {
