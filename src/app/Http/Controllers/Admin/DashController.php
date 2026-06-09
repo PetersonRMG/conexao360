@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Temas;
 use App\Models\Dra;
 use App\Models\Video;
+use App\Models\Eventos;
 use Illuminate\Support\Str;
 
 class DashController extends Controller
@@ -15,6 +16,9 @@ class DashController extends Controller
     //
     public function index()
     {
+        $evento = Eventos::where('status_evento', 'ATIVO')
+        ->get();
+
         $temas = Temas::orderBy('status_tema')
         ->inRandomOrder()        
         ->get();
@@ -25,8 +29,8 @@ class DashController extends Controller
         $video = Video::where('status_video', 'ATIVO')               
         ->get();
 
-            //dd( $video);
-        return view('admin/dash/dashboard',compact('temas', 'dra', 'video'));
+           // dd( $evento);
+        return view('admin/dash/dashboard',compact('temas', 'dra', 'video','evento'));
        
     }
 
@@ -112,9 +116,6 @@ class DashController extends Controller
 
        
     }
-
-
-
 
     public function updateVideo(Request $request, $id)
     {

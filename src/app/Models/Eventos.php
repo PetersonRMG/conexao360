@@ -17,7 +17,7 @@ class Eventos extends Model
     const UPDATED_AT = 'atualizado_em_evento'; 
     
     protected $fillable = [
-       'banner_evento',
+        'banner_evento',
         'titulo_evento',
         'edicao_evento',
         'descricao_evento',

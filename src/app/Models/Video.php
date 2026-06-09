@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Eventos;
 
 class Video extends Model
 {
@@ -26,4 +27,7 @@ class Video extends Model
         'capa_video' ,   
         
     ];
+        public function eventos(){
+        return $this->belongsTo(Eventos::class, 'id_evento', 'id_evento');
+    }
 }

@@ -14,20 +14,24 @@ class HomeController extends Controller
 {
     //
     public function index(){
-        $temas = Temas::where('status_tema', 'ATIVO')
+        $evento = Eventos::orderBy('id_evento')
+        ->get();
+
+        $temas = Temas::with('eventos')
+        ->where('status_tema', 'ATIVO')        
         ->inRandomOrder()        
         ->get();
 
-        $dra = Dra::where('status_dra', 'ATIVO')               
+        $dra = Dra::with('eventos')
+        ->where('status_dra', 'ATIVO')                     
         ->get();
 
-        $video = Video::where('status_video', 'ATIVO')               
+        $video = Video::with('eventos')
+        ->where('status_video','ATIVO')                    
         ->get();
 
-        $evento = Eventos::where('status_evento', 'ATIVO')
-        ->get();
 
-            // dd($evento);
-        return view('site.home.home',compact('temas', 'dra', 'video'));
+        //  dd($evento);
+        return view('site.home.home',compact('temas', 'dra', 'video','evento'));
     }
 }
