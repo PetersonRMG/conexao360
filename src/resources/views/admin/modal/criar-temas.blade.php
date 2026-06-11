@@ -8,7 +8,9 @@
             </div>
             <div class="modal-body">
 
-                <form method="POST" action="{{ route('admin.create') }}" enctype="multipart/form-data">
+                <form method="POST" 
+                {{-- action="{{ route('admin.create') }}"  --}}
+                enctype="multipart/form-data">
                     {{-- O @csrf cria uma proteção para o form --}}
 
                     @csrf

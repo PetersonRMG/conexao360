@@ -17,12 +17,12 @@ class HeroSection extends Model
 
     // Permite o preenchimento em massa dos campos no controlador
     protected $fillable = [
-        'tagline',
-        'titulo',
-        'subtitulo',
-        'texto_botao',
-        'link_botao',
-        'foto_banner',
-        'status'
+        'tagline_hero',
+        'titulo_hero',
+        'subtitulo_hero',
+        'texto_botao_hero',
+        'link_botao_hero',
+        'foto_banner_hero',
+        'status_hero'
     ];
 }

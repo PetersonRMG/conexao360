@@ -1,4 +1,4 @@
-{{-- <div class="modal modal-lg fade" id="criar" tabindex="-1" aria-labelledby="exampleModalLabel"
+ <div class="modal modal-lg fade" id="criar" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content ">
@@ -26,7 +26,7 @@
                             <div id="emailHelp" class="form-text">Escolha a foto do Produto.</div>
                         </div>
 
-                        <label for="titulo_tema" class="form-label">Titulo Tema</label>
+                        <label for="titulo_tema" class="form-label">Titulo Tema </label>
                         <input type="text" class="form-control" id="titulo_tema" name="titulo_tema">
                         <div id="emailHelp" class="form-text">Informe nome da Produto.</div>
                     </div>
@@ -69,4 +69,4 @@
             </div>
         </div>
     </div>
-</div> --}}
+</div> 

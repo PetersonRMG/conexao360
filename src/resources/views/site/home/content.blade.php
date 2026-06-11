@@ -1,22 +1,23 @@
-<section class="header-advocacia" style="@if(!empty($hero->foto_banner)) background-image: url('{{ asset('conexao360/img/' . $hero->foto_banner) }}'); @endif">
+    @foreach($hero as $item)
+<section class="header-advocacia" style="@if(!empty($item->foto_banner_hero)) background-image: url('{{ asset('conexao360/img/' . $item->foto_banner_hero) }}'); @endif">
     <div class="container">
         <div class="logo-container">
         </div>
 
         <div class="tds-header">
-            @if(!empty($hero->tagline))
-                <p class="tit-header">{{ $hero->tagline }}</p>
+            @if(!empty($item->tagline_hero))
+                <p class="tit-header">{{ $item->tagline_hero }}</p>
             @else
                 <p class="tit-header"> — INSCRIÇÕES ABERTAS • VAGAS LIMITADAS — </p>
             @endif
 
             <h1 class="sub-tit">
-                {!! nl2br(e($hero->titulo ?? 'a virada de chave da advocacia exponencial')) !!}
+                {!! nl2br(e($item->titulo_hero ?? 'a virada de chave da advocacia exponencial')) !!}
             </h1>
 
-            @if(!empty($hero->subtitulo))
+            @if(!empty($item->subtitulo_hero))
                 <p class="descricao-header">
-                    {!! nl2br(e($hero->subtitulo)) !!}
+                    {!! nl2br(e($item->subtitulo_hero)) !!}
                 </p>
             @else
                 <p class="descricao-header">
@@ -24,12 +25,13 @@
                 </p>
             @endif
 
-            <a href="{{ $hero->link_botao ?? 'https://sun.eduzz.com/Q9N56RAK01' }}" class="cta-header" target="_blank">
-                {{ $hero->texto_botao ?? 'Garantir minha vaga no Conexão 360º' }}
+            <a href="{{ $item->link_botao_hero ?? 'https://sun.eduzz.com/Q9N56RAK01' }}" class="cta-header" target="_blank">
+                {{ $item->texto_botao_hero ?? 'Garantir minha vaga no Conexão 360º' }}
             </a>
         </div>
     </div>
 </section>
+    @endforeach
 
 
 
@@ -49,7 +51,7 @@
 <section id="palestra" class="palestra">
 
     <div class="teste">
-        @foreach 
+        @foreach  ($video as $item)
             <div class="conteudo">
                 <h2>{{ $item->titulo_video }}</h2>
 

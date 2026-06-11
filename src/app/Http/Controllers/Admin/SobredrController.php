@@ -25,6 +25,6 @@ class SobreDraController extends Controller
         $dra->status_dra = 'ATIVO'; 
         $dra->save();
 
-        return redirect()->route('admin.dash')->with('success', 'Dados da Dra. Simone atualizados com sucesso!');
+        return redirect()->route('admin.dash.dashboard')->with('success', 'Dados da Dra. Simone atualizados com sucesso!');
     }
 }
