@@ -3,41 +3,93 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\HeroSection;
+use Illuminate\Http\Request;
 
 class HeroController extends Controller
 {
-    public function update(Request $request)
-    {
-        $hero = HeroSection::first();
 
-        $dados = [
-            'tagline_hero'     => $request->tagline_hero,
-            'titulo_hero'      => $request->titulo_hero,
-            'subtitulo_hero'   => $request->subtitulo_hero,
-            'texto_botao_hero' => $request->texto_botao_hero,
-            'link_botao_hero'  => $request->link_botao_hero,
-        ];
 
-        if ($request->hasFile('foto_banner')) {
+    public function createHero(Request $request){
+         $request->validate([
+            'titulo_hero'       => 'required|string|max:255',
+            'tagline_hero'      => 'nullable|string|max:255',
+            'subtitulo_hero'    => 'nullable|string',
+            'texto_botao_hero'  => 'nullable|string|max:100',
+            'link_botao_hero'   => 'nullable|string',
+            'foto_banner'  => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'status_hero'       => 'required|in:ATIVO,INATIVO'
+        ]);
 
-            $arquivo = $request->file('foto_banner');
 
-            $nomeArquivo = time() . '_' . $arquivo->getClientOriginalName();
+            $imagem = $request->file('foto_banner');
+            $nomeImagem = time() . '.' . $imagem->getClientOriginalExtension();
+            $imagem->move(public_path('conexao360/img/hero/'), $nomeImagem);
+            $caminhoBanner = 'hero/' . $nomeImagem;
 
-            $arquivo->move(
-                public_path('conexao360/img'),
-                $nomeArquivo
-            );
-
-            $dados['foto_banner'] = $nomeArquivo;
-        }
-
-        $hero->update($dados);
+        HeroSection::create([
+            'titulo_hero'      => $request->titulo_hero,          
+            'tagline_hero'      => $request->tagline_hero,
+            'subtitulo_hero' => $request->subtitulo_hero,
+            'texto_botao_hero'      => $request->texto_botao_hero,
+            'link_botao_hero'    => $request->link_botao_hero,
+            'foto_banner'       =>  $caminhoBanner,
+            'status_hero'       =>  $request->status_hero,
+        ]);
 
         return redirect()
-            ->back()
-            ->with('success', 'Banner atualizado com sucesso!');
+        ->route('admin.dash')
+        ->with('success', 'Banner criado com sucesso!');
+
+
+    }
+
+
+    public function updateHero(Request $request, $id )
+    {      
+
+        $request->validate([
+            'titulo_hero'       => 'required|string|max:255',
+            'tagline_hero'      => 'nullable|string|max:255',
+            'subtitulo_hero'    => 'nullable|string',
+            'texto_botao_hero'  => 'nullable|string|max:100',
+            'link_botao_hero'   => 'nullable|string',
+            'foto_banner'  => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'status_hero'       => 'required|in:ATIVO,INATIVO'
+        ]);
+
+        // FORÇA pegar o primeiro registro do banco. Se não existir nenhum, cria um novo!
+        $hero = HeroSection::findOfFail($id);
+        
+
+        $caminhoBanner = $hero->foto_banner;
+
+        if ($request->hasFile('foto_banner')) {
+            $imagem = $request->file('foto_banner');
+            $nomeImagem = time() . '.' . $imagem->getClientOriginalExtension();
+            $imagem->move(public_path('conexao360/img/hero/'), $nomeImagem);
+            $caminhoBanner = 'hero/' . $nomeImagem;
+        }
+
+        $hero->fill($request->only(['tagline', 'titulo', 'subtitulo', 'texto_botao', 'link_botao', 'status']));
+        $hero->foto_banner = $caminhoBanner;
+        $hero->save();
+
+
+        
+        $hero->update([
+            'titulo_hero'      => $request->titulo_hero,          
+            'tagline_hero'      => $request->tagline_hero,
+            'subtitulo_hero' => $request->subtitulo_hero,
+            'texto_botao_hero'      => $request->texto_botao_hero,
+            'link_botao_hero'    => $request->link_botao_hero,
+            'foto_banner'       =>  $caminhoBanner,
+            'status_hero'       =>  $request->status_hero,
+
+
+        ]);
+
+        // Retorna explicitamente para a página do painel com a mensagem real do Hero
+        return redirect()->route('admin.dash')->with('success', 'Sessão Principal salva com sucesso no banco!');
     }
 }

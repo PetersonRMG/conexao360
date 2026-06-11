@@ -13,7 +13,12 @@ class HeroSection extends Model
     protected $table = 'tbl_hero_section';
 
     // Define a chave primária correta que você usou na rota e no formulário (id_hero)
-    protected $primaryKey = 'id_hero';
+    protected $primaryKey = 'id_hero_section';
+
+        public $timestamps = true;
+
+    const CREATED_AT = 'criado_em_hero';
+    const UPDATED_AT = 'atualizado_em_hero'; 
 
     // Permite o preenchimento em massa dos campos no controlador
     protected $fillable = [
@@ -22,7 +27,7 @@ class HeroSection extends Model
         'subtitulo_hero',
         'texto_botao_hero',
         'link_botao_hero',
-        'foto_banner_hero',
+        'foto_banner',
         'status_hero'
     ];
 }

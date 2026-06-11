@@ -30,7 +30,7 @@
           <div class="card-tools col-md-10 d-flex   align-items-center justify-content-end">    
 
             <div class="col-md-4">
-              <button type="button" class="card-tools btn btn-warning " data-bs-toggle="modal"data-bs-target="#criar">
+              <button type="button" class="card-tools btn btn-warning " data-bs-toggle="modal"data-bs-target="#criar-banner">
               <i class="bi bi-plus-circle"></i> Novo Tema
               </button>
             </div>
@@ -49,7 +49,9 @@
         <!-- /.card-header -->
         <div class="card-body     ">
           <div class="row justify-content-around p-3">
-            <form action="{{ route('admin.updateHero') }}"
+          @foreach($hero as $item)
+          
+            <form action="{{ route('admin.updateHero', $item->id_hero_section) }}"
                   method="POST"
                   enctype="multipart/form-data">
             
@@ -66,7 +68,7 @@
                                 type="text"
                                 class="form-control"
                                 name="tagline_hero"
-                                value="{{ $hero->tagline_hero ?? '' }}">
+                                value="{{ $item->tagline_hero ?? '' }}">
                         </div>
             
                         <div class="mb-3">
@@ -75,7 +77,7 @@
                                 type="text"
                                 class="form-control"
                                 name="titulo_hero"
-                                value="{{ $hero->titulo_hero ?? '' }}">
+                                value="{{ $item->titulo_hero ?? '' }}">
                         </div>
             
                         <div class="mb-3">
@@ -83,7 +85,7 @@
                             <textarea
                                 class="form-control"
                                 name="subtitulo_hero"
-                                rows="4">{{ $hero->subtitulo_hero ?? '' }}</textarea>
+                                rows="4">{{ $item->subtitulo_hero ?? '' }}</textarea>
                         </div>
             
                         <div class="mb-3">
@@ -92,7 +94,7 @@
                                 type="text"
                                 class="form-control"
                                 name="texto_botao_hero"
-                                value="{{ $hero->texto_botao_hero ?? '' }}">
+                                value="{{$item->texto_botao_hero ?? '' }}">
                         </div>
             
                         <div class="mb-3">
@@ -101,16 +103,16 @@
                                 type="text"
                                 class="form-control"
                                 name="link_botao_hero"
-                                value="{{ $hero->link_botao_hero ?? '' }}">
+                                value="{{ $item->link_botao_hero ?? '' }}">
                         </div>
             
                     </div>
             
                     <div class="col-md-4">
             
-                    @if(!empty($hero->foto_banner))
+                    @if(!empty($item->foto_banner))
                         <img
-                            src="{{ asset('conexao360/img/' . $hero->foto_banner) }}"
+                            src="{{ asset('conexao360/img/' . $item->foto_banner) }}"
                             class="img-fluid rounded mb-3">
                     @endif
         
@@ -128,6 +130,7 @@
                 </button>
             
             </form>
+          @endforeach  
           </div>
         </div>
         <!-- /.card-body -->
@@ -164,10 +167,10 @@
             @foreach ($evento as $item)
               <div class="col-12 col-md-6">
                 <form method="POST" 
-                {{-- action="{{ route('admin.updateVideo', $item->id_video) }}"  --}}
+                 {{-- action="{{ route('admin.updateVideo', $item->id_video) }}"   --}}
                  enctype="multipart/form-data">
                   @csrf
-                  @method('POST')
+                  @method('PUT')
                   <div class="card  p-2 my-3 ">
                     <div class="mb-3 col-md-12">
                       <div>
@@ -298,9 +301,9 @@
           <div class="row justify-content-around p-3">
             @foreach ($temas as $item)
               <div class="col-12 col-md-6">
-                <form method="POST" action="{{ route('admin.update', $item->id_tema) }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('admin.update-tema', $item->id_tema) }}" enctype="multipart/form-data">
                   @csrf
-                  @method('POST')
+                  @method('PUT')
                   <div class="card  p-2 my-3 ">
                     <div class="mb-3 col-md-12">
                       <div>
@@ -439,7 +442,7 @@
                 action="{{ route('admin.updateVideo', $item->id_video) }}" 
                  enctype="multipart/form-data">
                   @csrf
-                  @method('POST')
+                  @method('PUT')
                   <div class="card  p-2 my-3 ">
                     <div class="mb-3 col-md-12">
                       <div>
@@ -562,6 +565,7 @@
 {{-- @include('admin.modal.criar') --}}
 @include('admin.modal.criar-temas')
 @include('admin.modal.criar-videos')
+@include('admin.modal.criar-banner')
 
 
 

@@ -9,7 +9,7 @@
             <div class="modal-body">
 
                 <form method="POST" 
-                {{-- action="{{ route('admin.create') }}"  --}}
+                action="{{ route('admin.create-tema') }}"  
                 enctype="multipart/form-data">
                     {{-- O @csrf cria uma proteção para o form --}}
 
