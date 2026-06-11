@@ -1,7 +1,7 @@
     <script>
         function startCountdown() {
             // 14 de março de 2026 às 00:00 (Brasil)
-            const eventDate = new Date(2026, 2, 14, 0, 0, 0).getTime();
+            const eventDate = new Date(2026, 10, 14, 0, 0, 0).getTime();
 
             const timer = setInterval(() => {
                 const now = new Date().getTime();

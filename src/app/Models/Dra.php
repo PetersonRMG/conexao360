@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Eventos;
 
 class Dra extends Model
 {
@@ -24,4 +25,8 @@ class Dra extends Model
         'status_dra',       
         
     ];
+
+    public function eventos(){
+        return $this->belongsTo(Eventos::class, 'id_evento', 'id_evento');
+    }
 }

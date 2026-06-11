@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Eventos;
 
 class Temas extends Model
 {
@@ -25,4 +26,7 @@ class Temas extends Model
         'status_tema',       
         
     ];
+        public function eventos(){
+        return $this->belongsTo(Eventos::class, 'id_evento', 'id_evento');
+    }
 }
