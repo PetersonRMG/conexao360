@@ -85,11 +85,9 @@ class HeroController extends Controller
             'link_botao_hero'    => $request->link_botao_hero,
             'foto_banner'       =>  $caminhoBanner,
             'status_hero'       =>  $request->status_hero,
-
-
         ]);
 
-        // Retorna explicitamente para a página do painel com a mensagem real do Hero
+ 
         return redirect()->route('admin.dash')->with('success', 'Sessão Principal salva com sucesso no banco!');
     }
 }

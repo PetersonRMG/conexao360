@@ -17,14 +17,14 @@ class DashController extends Controller
   
     public function index()
     {
-        $evento = Eventos::where('status_evento', 'ATIVO')
+        $evento = Eventos::orderBy('status_evento')
         ->get();
 
         $temas = Temas::orderBy('status_tema')
         ->inRandomOrder()        
         ->get();
 
-        $dra = Dra::where('status_dra', 'ATIVO')               
+        $dra = Dra::orderBy('status_dra')               
         ->get();
 
         $video = Video::where('status_video', 'ATIVO')               

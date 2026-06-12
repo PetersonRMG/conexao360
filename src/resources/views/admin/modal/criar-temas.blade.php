@@ -1,4 +1,4 @@
-<div class="modal modal-lg fade" id="criar" tabindex="-1" aria-labelledby="exampleModalLabel"
+<div class="modal modal-lg fade" id="criarTemas" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content ">
@@ -9,7 +9,7 @@
             <div class="modal-body">
 
                 <form method="POST" 
-                action="{{ route('admin.create-tema') }}"  
+                action="{{ route('admin.tema.create') }}"  
                 enctype="multipart/form-data">
                     {{-- O @csrf cria uma proteção para o form --}}
 

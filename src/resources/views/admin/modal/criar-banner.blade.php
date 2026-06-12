@@ -1,4 +1,4 @@
-<div class="modal modal-lg fade" id="criar-banner" tabindex="-1" aria-labelledby="exampleModalLabel"
+<div class="modal modal-lg fade" id="criarBanner" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content ">
@@ -8,7 +8,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="{{ route('admin.createHero') }}"
+                <form action="{{ route('admin.hero.create') }}"
                         method="POST"
                         enctype="multipart/form-data">
 
