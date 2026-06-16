@@ -97,11 +97,12 @@
                         </div>
                         
 
-                    </div>
 
-                    <button type="submit" class="btn btn-success">
-                        Salvar Banner
-                    </button>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="submit" class="btn btn-light">Criar Banner</button>
+                        </div>
+                    </div>
 
                 </form>
             </div>

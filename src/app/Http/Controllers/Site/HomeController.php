@@ -11,12 +11,12 @@ use App\Models\Video;
 use App\Models\Eventos;
 use App\Models\HeroSection;
 
+
 class HomeController extends Controller 
 {
     //
     public function index(){
-        $evento = Eventos::orderBy('id_evento')
-        ->get();
+  
 
         $temas = Temas::where('status_tema', 'ATIVO')        
         ->inRandomOrder()        
@@ -31,10 +31,14 @@ class HomeController extends Controller
         $hero = HeroSection::where('status_hero', 'ATIVO')
         ->get();
 
+        $evento = Eventos::where('status_evento', 'ATIVO')
+        ->first();
 
 
 
-         // dd($hero);
+
+
+        // dd($hero);
         return view('site.home.home',compact('temas', 'dra', 'video','evento','hero'));
     }
 }

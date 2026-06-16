@@ -1,8 +1,13 @@
     <script>
         function startCountdown() {
             // 14 de março de 2026 às 00:00 (Brasil)
-            const eventDate = new Date(2026, 10, 14, 0, 0, 0).getTime();
+            // console.log("Data:", "{{ $evento->data_inicial_evento }}");
+            // console.log("Hora:", "{{ $evento->hora_inicial_evento }}");
+           const eventDate = {{ \Carbon\Carbon::parse(
+                $evento->data_inicial_evento.' '.$evento->hora_inicial_evento
+            )->timestamp * 1000 }};
 
+    console.log(eventDate);
             const timer = setInterval(() => {
                 const now = new Date().getTime();
                 const distance = eventDate - now;

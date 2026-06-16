@@ -110,6 +110,22 @@
                         </div>
                     </div>
 
+                    <div class="mb-3 col-md-12">
+                        <label for="legenda_video" class="form-label">
+                            Legenda do Vídeo
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="legenda_video"
+                            name="legenda_video">
+
+                        <div id="emailHelp" class="form-text">
+                            Informe uma breve descrição.
+                        </div>
+                    </div>
+
                     <div class="col-md-6 mb-3">
                         <label for="status_video" class="form-label">
                             Status

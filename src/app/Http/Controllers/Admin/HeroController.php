@@ -59,7 +59,7 @@ class HeroController extends Controller
         ]);
 
         // FORÇA pegar o primeiro registro do banco. Se não existir nenhum, cria um novo!
-        $hero = HeroSection::findOfFail($id);
+        $hero = HeroSection::findOrFail($id);
         
 
         $caminhoBanner = $hero->foto_banner;

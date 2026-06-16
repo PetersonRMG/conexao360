@@ -1,37 +1,33 @@
-    @foreach($hero as $item)
-<section class="header-advocacia" style="@if(!empty($item->foto_banner_hero)) background-image: url('{{ asset('conexao360/img/' . $item->foto_banner_hero) }}'); @endif">
-    <div class="container">
-        <div class="logo-container">
-        </div>
+@foreach($hero as $item)
+    @if($item->status_hero === 'ATIVO')
+        <section class="header-advocacia" style=" background-image: url('{{ asset('conexao360/img/' . $item->foto_banner) }}')">
+            <div class="container">
+                <div class="logo-container">
+                </div>
 
-        <div class="tds-header">
-            @if(!empty($item->tagline_hero))
-                <p class="tit-header">{{ $item->tagline_hero }}</p>
-            @else
-                <p class="tit-header"> — INSCRIÇÕES ABERTAS • VAGAS LIMITADAS — </p>
-            @endif
+                <div class="tds-header">
 
-            <h1 class="sub-tit">
-                {!! nl2br(e($item->titulo_hero ?? 'a virada de chave da advocacia exponencial')) !!}
-            </h1>
+                    <p class="tit-header">{{ $item->tagline_hero }}</p>
 
-            @if(!empty($item->subtitulo_hero))
-                <p class="descricao-header">
-                    {!! nl2br(e($item->subtitulo_hero)) !!}
-                </p>
-            @else
-                <p class="descricao-header">
-                    Participe da 3ª Edição do Conexão 360º e dê a <br> Virada de Chave na Sua Carreira na Advocacia.
-                </p>
-            @endif
 
-            <a href="{{ $item->link_botao_hero ?? 'https://sun.eduzz.com/Q9N56RAK01' }}" class="cta-header" target="_blank">
-                {{ $item->texto_botao_hero ?? 'Garantir minha vaga no Conexão 360º' }}
-            </a>
-        </div>
-    </div>
-</section>
-    @endforeach
+                    <h1 class="sub-tit">
+                        {{$item->titulo_hero }}
+                    </h1>
+
+                    <p class="descricao-header">
+                        {{ $item->subtitulo_hero }}
+                    </p>
+
+
+                    <a href="{{ $item->link_botao_hero  }}" class="cta-header" target="_blank">
+                        {{ $item->texto_botao_hero  }}
+                    </a>
+                </div>
+            </div>
+        </section>
+    @endif
+
+@endforeach
 
 
 
@@ -147,7 +143,8 @@
                         {{ $item->titulo_tema }}</span>
                     <h3 class=" card-text-lity" id="{{ $item->id_tema }}"> <img
                             src="{{ asset('conexao360/img/' . $item->foto_tema) }}" alt="`{{ $item->titulo_tema }}">
-                        <br> <br>{{ $item->titulo_tema }} <br> <br> - {{ $item->breve_descricao_tema }}.</h3>
+                        <br> <br>{{ $item->titulo_tema }} <br> <br> - {{ $item->breve_descricao_tema }}.
+                    </h3>
 
                 </div>
             @endforeach
@@ -176,8 +173,8 @@
                     <p>{{ $item->descricao_dra }}</p>
             @endforeach
 
+            </div>
         </div>
-    </div>
     </div>
 </section>
 
@@ -195,6 +192,8 @@
 </section>
 
 <section class="local_sessao">
+    
+    
     <div class="container">
         <h2 class="tit_local">Sua transformação tem hora e lugar marcados</h2>
 
@@ -205,7 +204,7 @@
 
                     <div class="mapa-botao">Ver no Google Maps</div>
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!4v1770671449477!6m8!1m7!1sfyHhGVpN2cpdkC8-XjOdgA!2m2!1d-23.50074578412579!2d-46.84116819281623!3f190.46136!4f0!5f0.7820865974627469"
+                        src="{{$evento->url_evento    }}"
                         width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </a>
@@ -222,7 +221,7 @@
                     </div>
                     <div class="info-text">
                         <strong>Data e Horário:</strong>
-                        <p> 14 e 15 de Março de 2026, às 19h.</p>
+                        <p> {{ $evento->data_formatada }}.</p>
                     </div>
                 </div>
 
@@ -232,15 +231,20 @@
                     </div>
                     <div class="info-text">
                         <strong>Localização Evento:</strong>
-                        <p> Alameda Araguaia 2104 - Alphaville industrial </p>
+                        <p>{{ $evento->endereco_evento }}</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
+
 </section>
 
 <section id="ingressos" class="cta-sessao">
+
+
+
     <div class="plano"></div>
     <div class="container cta-container">
         <h2>O próximo nível da sua carreira jurídica é uma decisão estratégica.</h2>
@@ -289,4 +293,5 @@
             Garantir meu ingresso <span>›</span>
         </a>
     </div>
+
 </section>

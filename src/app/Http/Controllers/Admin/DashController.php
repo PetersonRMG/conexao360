@@ -27,7 +27,7 @@ class DashController extends Controller
         $dra = Dra::orderBy('status_dra')               
         ->get();
 
-        $video = Video::where('status_video', 'ATIVO')               
+        $video = Video::orderBy('status_video')               
         ->get();
 
         $hero = HeroSection::orderBy('status_hero')
