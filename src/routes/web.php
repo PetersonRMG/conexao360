@@ -1,62 +1,64 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+// CONTROLLERS DO SITE
+use App\Http\Controllers\Site\HomeController;
+
+// CONTROLLERS DO ADMINISTRADOR
 use App\Http\Controllers\Admin\DashController;
-use App\Http\Controllers\Admin\HomeController;
-use App\Http\Controllers\Admin\ConexaoController;
-use App\Http\Controllers\Admin\EventoController;
-use App\Http\Controllers\Admin\DataController;
-use App\Http\Controllers\Admin\FormularioController;
+use App\Http\Controllers\Admin\ChatController;
+use App\Http\Controllers\Admin\DepoimentoController;
+use App\Http\Controllers\Admin\ModificacoesController; // Importado o correto
+use App\Http\Controllers\Admin\UsuarioController;
+use App\Http\Controllers\Admin\PalestranteController;
 
-
-// Rota Pública do Site
+/*
+|--------------------------------------------------------------------------
+| Rotas do Site Institucional
+|--------------------------------------------------------------------------
+*/
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Rota Pública do Site
-Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Rotas do Painel Administrativo
+/*
+|--------------------------------------------------------------------------
+| Rotas do Painel Administrativo (Painel Conexão 360)
+|--------------------------------------------------------------------------
+*/
 Route::prefix('admin')->name('admin.')->group(function () {
+    
+    // Visão Geral do Ecossistema (controle.blade.php / controlebas.php)
+    Route::get('/', [DashController::class, 'index'])->name('dash');
+    
+    // Modificações do Site (content.blade.php) -> Apontado para ModificacoesController
+    Route::get('/content', [ModificacoesController::class, 'content'])->name('content');
+    
+    // Atualizações e Criação de Conteúdo -> Ajustados para o controlador correto se necessário
+    Route::post('/{id}', [ModificacoesController::class, 'update'])->name('update');
+    Route::put('/criar', [ModificacoesController::class, 'create'])->name('create');
+    Route::post('video/{id}', [ModificacoesController::class, 'updateVideo'])->name('updateVideo');
 
-    Route::get(
-        '/',
-        [DashController::class, 'index']
-    )
-        ->name('dash');
+    // Gerenciamento de Depoimentos (Ajustado para bater com o .index do seu menu)
+    Route::get('/depoimentos', [DepoimentoController::class, 'index'])->name('depoimentos.index');
 
-    Route::put(
-        '/home/update',
-        [DashController::class, 'updateHero']
-    )
-        ->name('home.update');
+    // Sistema de Mensagens Internas (Chat)
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+    Route::get('/chat/messages/{conversationId}', [ChatController::class, 'getMessages'])->name('chat.messages');
+    Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
 
-    Route::put(
-        '/update/{id}',
-        [DashController::class, 'update']
-    )
-        ->name('update');
-
-    Route::put('/evento/update', [EventoController::class, 'update'])->name('evento.update');
-
-    Route::put('/hero/update', [DataController::class, 'update'])->name('hero.update');
-
-
-    Route::put('/lista/update', [FormularioController::class, 'update'])->name('admin.lista.update');
+    // SUBGRUPO: CADASTROS (Usuários e Palestrantes)
+    Route::prefix('cadastro')->name('cadastro.')->group(function () {
+        Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios');
+        Route::get('/palestrantes', [PalestranteController::class, 'index'])->name('palestrantes');
+    });
 
 });
 
 
 
-Route::prefix('admin')->name('admin.')->group(function () {
-    // ... suas outras rotas ...
-
-    // Adicione esta rota única para a Dra
-    Route::put('/dra/update', [SobreDraController::class, 'update'])->name('dra.update');
-});
 
 
-
-Route::put('/conexao/update', [ConexaoController::class, 'update'])->name('admin.conexao.update');
 
 
 

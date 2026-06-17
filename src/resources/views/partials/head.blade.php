@@ -21,7 +21,6 @@
 
 
     <link rel="apple-touch-icon" sizes="57x57" href="{{asset('conexao360/icon/apple-icon-57x57.png')}}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="apple-touch-icon" sizes="60x60" href="{{asset('conexao360/icon/apple-icon-60x60.png')}}">
     <link rel="apple-touch-icon" sizes="72x72" href="{{asset('conexao360/icon/apple-icon-72x72.png')}}">
     <link rel="apple-touch-icon" sizes="76x76" href="{{asset('conexao360/icon/apple-icon-76x76.png')}}">

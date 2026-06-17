@@ -1,37 +1,24 @@
-<section class="header-advocacia" style="@if(!empty($hero->foto_banner)) background-image: url('{{ asset('conexao360/img/' . $hero->foto_banner) }}'); @endif">
+<section class="header-advocacia">
     <div class="container">
         <div class="logo-container">
         </div>
 
         <div class="tds-header">
-            @if(!empty($hero->tagline))
-                <p class="tit-header">{{ $hero->tagline }}</p>
-            @else
-                <p class="tit-header"> — INSCRIÇÕES ABERTAS • VAGAS LIMITADAS — </p>
-            @endif
+            <p class="tit-header"> — INSCRIÇÕES ABERTAS • VAGAS LIMITADAS — </p>
 
             <h1 class="sub-tit">
-                {!! nl2br(e($hero->titulo ?? 'a virada de chave da advocacia exponencial')) !!}
+                a virada de chave <br> da advocacia <br> exponencial
             </h1>
 
-            @if(!empty($hero->subtitulo))
-                <p class="descricao-header">
-                    {!! nl2br(e($hero->subtitulo)) !!}
-                </p>
-            @else
-                <p class="descricao-header">
-                    Participe da 3ª Edição do Conexão 360º e dê a <br> Virada de Chave na Sua Carreira na Advocacia.
-                </p>
-            @endif
-
-            <a href="{{ $hero->link_botao ?? 'https://sun.eduzz.com/Q9N56RAK01' }}" class="cta-header" target="_blank">
-                {{ $hero->texto_botao ?? 'Garantir minha vaga no Conexão 360º' }}
+            <p class="descricao-header">
+                Participe da 3ª Edição do Conexão 360º e dê a <br> Virada de Chave na Sua Carreira na Advocacia.
+            </p>
+            <a href="https://sun.eduzz.com/Q9N56RAK01" class="cta-header" target="_blank">
+                Garantir minha vaga no Conexão 360º
             </a>
         </div>
     </div>
 </section>
-
-
 
 <section class="conexao">
 
@@ -49,7 +36,7 @@
 <section id="palestra" class="palestra">
 
     <div class="teste">
-        @foreach 
+        @foreach ($video as $item)
             <div class="conteudo">
                 <h2>{{ $item->titulo_video }}</h2>
 
