@@ -18,7 +18,7 @@ class EventoController extends Controller
             'data_inicial_evento'   => 'required|date',
             'hora_inicial_evento'   => 'required',
             'endereco_evento'       => 'required|string|max:255',
-            'url_evento'            => 'nullable|url|max:255',
+            'url_evento'            => 'nullable|string|max:5000',
             'status_evento'         => 'required|in:ATIVO,INATIVO',
             'data_termino_evento'   => 'required|date|after_or_equal:data_inicial_evento',
             'hora_termino_evento'   => 'required',
@@ -29,6 +29,18 @@ class EventoController extends Controller
         $imagem->move(public_path('conexao360/img/evento/'), $nomeImagem);
         $caminhoBanner = 'evento/' . $nomeImagem;
 
+        $urlEvento = $request->url_evento;
+
+        if (!empty($urlEvento) && str_contains($urlEvento, '<iframe')) {
+            preg_match('/src="([^"]+)"/', $urlEvento, $matches);
+
+            if (isset($matches[1])) {
+                $urlEvento = $matches[1];
+            }
+        }
+
+        
+
         Eventos::create([
             'banner_evento' => $caminhoBanner,
             'titulo_evento' => $request->titulo_evento,
@@ -37,7 +49,7 @@ class EventoController extends Controller
             'data_inicial_evento'  => $request->data_inicial_evento,
             'hora_inicial_evento'  => $request->hora_inicial_evento,
             'endereco_evento'  => $request->endereco_evento,
-            'url_evento'  => $request->url_evento,
+            'url_evento'  => $urlEvento,
             'status_evento'  => $request->status_evento,
             'data_termino_evento'  => $request->data_termino_evento,
             'hora_termino_evento'  => $request->hora_termino_evento,
@@ -52,8 +64,7 @@ class EventoController extends Controller
 
     public function updateEvento(Request $request, $id )
     {      
-
-         $request->validate([
+        $request->validate([
             'banner_evento'         => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'titulo_evento'         => 'required|string|max:255',
             'edicao_evento'         => 'required|string|max:100',
@@ -61,27 +72,32 @@ class EventoController extends Controller
             'data_inicial_evento'   => 'required|date',
             'hora_inicial_evento'   => 'required',
             'endereco_evento'       => 'required|string|max:255',
-            'url_evento'            => 'nullable|url|max:255',
+            'url_evento'            => 'nullable|string|max:5000',
             'status_evento'         => 'required|in:ATIVO,INATIVO',
             'data_termino_evento'   => 'required|date|after_or_equal:data_inicial_evento',
             'hora_termino_evento'   => 'required',
         ]);
         
-
+        
         $evento = Eventos::findOrFail($id);
-        
 
+        $urlEvento = $request->url_evento;
+
+        
+        if (!empty($urlEvento) && str_contains($urlEvento, '<iframe')) {
+            preg_match('/src="([^"]+)"/', $urlEvento, $matches);
+
+            if (isset($matches[1])) {
+                $urlEvento = $matches[1];
+            }
+        }      
+ 
+        
+        
         $caminhoBanner = $evento->banner_evento;
-
-        if ($request->hasFile('banner_evento')) {
-             $imagem = $request->file('banner_evento');
-            $nomeImagem = time() . '.' . $imagem->getClientOriginalExtension();
-            $imagem->move(public_path('conexao360/img/evento/'), $nomeImagem);
-            $caminhoBanner = 'evento/' . $nomeImagem;
-        }
         
-
-
+        
+        
         
         $evento->update([
             'banner_evento'         => $caminhoBanner,
@@ -91,12 +107,12 @@ class EventoController extends Controller
             'data_inicial_evento'   => $request->data_inicial_evento,
             'hora_inicial_evento'   => $request->hora_inicial_evento,
             'endereco_evento'       => $request->endereco_evento,
-            'url_evento'            => $request->url_evento,
+            'url_evento'            => $urlEvento,
             'status_evento'         => $request->status_evento,
             'data_termino_evento'   => $request->data_termino_evento,
             'hora_termino_evento'   => $request->hora_termino_evento,
         ]);
-
+        
         
         return redirect()->route('admin.dash')->with('success', 'Evento editado com sucesso!');
     } 

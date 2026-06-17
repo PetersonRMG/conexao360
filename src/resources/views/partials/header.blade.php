@@ -1,7 +1,7 @@
     <header class="">
         <div class="topo">
             <div>
-                <a href="{{route('admin.dash')}}">
+                <a href="{{route('admin.login')}}">
                     <img src="{{asset('conexao360/img/pint.svg')}}" alt="">
                     <h5> ADVOCACIA <br> E<span>X</span>PONENCIAL</h5>
                 </a>

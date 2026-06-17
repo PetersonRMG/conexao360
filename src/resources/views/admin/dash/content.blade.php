@@ -1,6 +1,3 @@
-
-
-
 <main class="app-main">
 
   <!--begin::App Content Header-->
@@ -363,7 +360,7 @@
                                         {{-- URL --}}
                                         <div class="mb-3">
                                             <label class="form-label">URL Evento</label>
-                                            <input type="url"
+                                            <input type="text"
                                                 class="form-control"
                                                 name="url_evento"
                                                 value="{{ $item->url_evento }}">
@@ -976,6 +973,7 @@
 
 
         </div>  
+        
 
 
     </div>
@@ -1025,4 +1023,4 @@
     }
   });
 </script>
-</script>
+

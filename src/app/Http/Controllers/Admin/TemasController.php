@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class TemasController extends Controller
 {
     //
-        public function createTema(Request $request)
+    public function createTema(Request $request)
     {
         $request->validate([
             'titulo_tema'       => 'required|string|max:100',
