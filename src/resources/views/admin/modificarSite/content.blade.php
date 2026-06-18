@@ -1,3 +1,6 @@
+@section('title', 'Modificação do Site')
+@section('pg-titulo', 'Modificação do Site')
+@section('link-topo', 'Modificação do Site')
 <main class="app-main">
 
   <!--begin::App Content Header-->
@@ -12,7 +15,7 @@
 
 
     <div class="app-content ps-3 pt-2">
-        <h5 class="mb-2">Editar HomePage Conexão</h5>
+        
 
       
         <div class="row ms-3  g-4 mb-4 row-gap-3 col-md-3 col-md-9 ">

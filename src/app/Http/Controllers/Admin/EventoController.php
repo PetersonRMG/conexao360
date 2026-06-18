@@ -58,7 +58,7 @@ class EventoController extends Controller
 
 
         return redirect()
-        ->route('admin.dash')
+        ->route('admin.modificar.site')
         ->with('success', 'Evento criado com sucesso!');
     }
 
@@ -114,6 +114,6 @@ class EventoController extends Controller
         ]);
         
         
-        return redirect()->route('admin.dash')->with('success', 'Evento editado com sucesso!');
+        return redirect()->route('admin.modificar.site')->with('success', 'Evento editado com sucesso!');
     } 
 }

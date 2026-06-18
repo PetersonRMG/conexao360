@@ -65,7 +65,7 @@ class VideoController extends Controller
 
 
         return redirect()
-        ->route('admin.dash')
+        ->route('admin.modificar.site')
         ->with('success', 'Video criado com sucesso!');
     }
     public function updateVideo(Request $request, $id)
@@ -126,7 +126,7 @@ class VideoController extends Controller
 
 
         return redirect()
-        ->route('admin.dash')
+        ->route('admin.modificar.site')
         ->with('success', 'Video editado com sucesso!');
     }
 }

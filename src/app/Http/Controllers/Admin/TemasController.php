@@ -37,7 +37,7 @@ class TemasController extends Controller
         ]);
 
         return redirect()
-        ->route('admin.dash')
+        ->route('admin.modificar.site')
         ->with('success', 'Tema criado com sucesso!');
 
     }
@@ -86,7 +86,7 @@ class TemasController extends Controller
         ]);
 
         return redirect()       
-            ->route('admin.dash')     
+            ->route('admin.modificar.site')     
             ->with('success', 'Tema Editado com sucesso!');
     }
 }

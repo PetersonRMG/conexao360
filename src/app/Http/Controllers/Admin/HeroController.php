@@ -38,7 +38,7 @@ class HeroController extends Controller
         ]);
 
         return redirect()
-        ->route('admin.dash')
+        ->route('admin.modificar.site')
         ->with('success', 'Banner criado com sucesso!');
 
 
@@ -88,6 +88,6 @@ class HeroController extends Controller
         ]);
 
  
-        return redirect()->route('admin.dash')->with('success', 'Sessão Principal salva com sucesso no banco!');
+        return redirect()->route('admin.modificar.site')->with('success', 'Sessão Principal salva com sucesso no banco!');
     }
 }

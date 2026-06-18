@@ -34,7 +34,7 @@ class DraController extends Controller
         ]);
 
         return redirect()
-        ->route('admin.dash')
+        ->route('admin.modificar.site')
         ->with('success', 'Informações da Dra criadas com sucesso!');
 
     }
@@ -70,7 +70,7 @@ class DraController extends Controller
         ]);
 
         return redirect()
-        ->route('admin.dash')
+        ->route('admin.modificar.site')
         ->with('success', 'Dados Dra editado com sucesso!');
 
     }
