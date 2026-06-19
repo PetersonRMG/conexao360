@@ -10,9 +10,10 @@
 
             <div class="modal-body">
 
-                <form {{-- action="{{ route('admin.depoimento.create') }}" --}} method="POST">
+                <form  action="{{ route('admin.palestrante.depoimento.create') }}"   method="POST"  enctype="multipart/form-data">
 
                     @csrf
+                    @method('PUT')
 
                     <div class="row">
 

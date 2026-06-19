@@ -11,10 +11,8 @@ class DashController extends Controller
 {
   
     public function index()
-    {
-   
+    {   
 
-        //dd( $dra);
         return view('admin.dash.controlebas');
        
     }

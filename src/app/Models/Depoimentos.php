@@ -3,28 +3,32 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Eventos;
+use App\Models\Usuarios;
 
 class Depoimentos extends Model
 {    //
     protected $table = 'tbl_depoimentos';
     
-    protected $primaryKey = 'id_dra';
+    protected $primaryKey = 'id_depoimentos';
     
     public $timestamps = true;
 
-    const CREATED_AT = 'criado_em_dra';
-    const UPDATED_AT = 'atualizado_em_dra'; 
+    const CREATED_AT = 'criado_em_depoimento';
+    const UPDATED_AT = 'atualizado_em_depoimento'; 
     
     protected $fillable = [
-        'foto_dra',
-        'titulo_dra',
-        'sub_titulo_dra', 
-        'descricao_dra',
-        'status_dra',       
-        
+        'id_usuario',
+        'id_evento',
+        'status_depoimento',
+        'descricao_depoimento',        
     ];
 
-    public function eventos(){
+    public function evento(){
         return $this->belongsTo(Eventos::class, 'id_evento', 'id_evento');
+    }
+
+    public function usuario(){
+        return $this->belongsTo(Usuarios::class, 'id_usuario', 'id_usuario');
     }
 }

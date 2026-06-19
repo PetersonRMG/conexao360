@@ -9,6 +9,6 @@ class PalestrantesController extends Controller
 {
     //
     public function index(){
-        return view('admin.cadastro.palestrante');
+        return view('palestrante.dashPalestrante.dashboard');
     }
 }

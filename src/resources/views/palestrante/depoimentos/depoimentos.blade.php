@@ -1,4 +1,4 @@
-@extends('layout.admin')
+@extends('layout.palestrante')
 @section('title', 'Depoimentos | ')
 @section('pg-titulo', 'Depoimentos')
 @section('link-topo', 'Depoimentos')
@@ -18,6 +18,17 @@
                 </h3>
                 <p style="color: #94a3b8; margin: 0; font-size: 0.9rem;">Gerencie e publique os feedbacks dos membros na
                     Landing Page.</p>
+            </div>
+            <div>
+
+                <button
+                    style="background-color: #dfcaa0; color: #0d0f14; border: none; padding: 0.6rem 1.5rem; font-weight: 600; border-radius: 50px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: background 0.2s;"
+                    data-bs-toggle="modal" data-bs-target="#criarDepoimento">
+                    <i class="bi bi-plus-lg"></i> Inserir Manualmente
+                </button>
+
+
+
             </div>
         </div>
 
@@ -54,26 +65,28 @@
                 <!-- CONTEÚDO: PENDENTES -->
                 <div id="pendentes" class="tab-content-panel active"
                     style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
-                    @foreach ( $depoimentos as $item)
+
                     <!-- Card 1 -->
                     <div class="dep-card"
                         style="background-color: #161a23; border: 1px solid #262d3d; border-radius: 10px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; transition: transform 0.2s, border-color 0.2s;">
                         <div style="padding: 1.5rem;">
                             <!-- Perfil do Autor -->
                             <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem;">
-                                <img src="{{ asset('dash/assets/img/'. $item->usuario->foto_usuario) }}"
+                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=120"
                                     style="width: 48px; height: 48px; object-fit: cover; border-radius: 50%; border: 1px solid #dfcaa0;"
                                     alt="Avatar">
                                 <div>
                                     <h5
                                         style="color: #ffffff; margin: 0 0 0.15rem 0; font-size: 0.95rem; font-weight: 600;">
-                                       {{ $item->usuario->nome_usuario }}</h5>
-                                    <small style="color: #94a3b8; font-size: 0.78rem;">{{ $item->usuario->areat_atuacao_usuario }} • {{ $item->usuario->estado_usuario }}</small>
+                                        Dra. Amanda Rodrigues</h5>
+                                    <small style="color: #94a3b8; font-size: 0.78rem;">Advogada Trabalhista • SP</small>
                                 </div>
                             </div>
                             <!-- Texto do Depoimento -->
                             <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; font-style: italic; margin: 0;">
-                                "{{ $item->descricao_depoimento }}"
+                                "O Conexão 360 mudou completamente a forma como precifico meus honorários. Em menos de 2
+                                meses após a mentoria, consegui fechar contratos com valor 40% maior aplicando a postura de
+                                alta performance."
                             </p>
                         </div>
 
@@ -82,14 +95,9 @@
                             <div
                                 style="display: flex; justify-content: space-between; align-items: center; padding: 0 1.5rem 1rem 1.5rem; font-size: 0.75rem;">
                                 <span
-                                    style="background-color: rgba(148, 163, 184, 0.1); color: #94a3b8; padding: 0.25rem 0.6rem; border-radius: 4px; font-weight: 500;">
-                                     @if($item->usuario->perfil_usuario === 'palestrante')
-                                        Logado
-                                    @else
-                                        Via Landing Page
-                                    @endif
-                                     </span>
-                               <span style="color: #64748b;">{{ $item->criado_em_depoimento }}</span>
+                                    style="background-color: rgba(148, 163, 184, 0.1); color: #94a3b8; padding: 0.25rem 0.6rem; border-radius: 4px; font-weight: 500;">Via
+                                    Landing Page</span>
+                                <span style="color: #64748b;">12/06/2026</span>
                             </div>
                             <!-- Ações -->
                             <div style="display: flex; border-top: 1px solid #262d3d;">
@@ -104,72 +112,61 @@
                             </div>
                         </div>
                     </div>
-                    
-                    @endforeach
 
-
-
-                </div>
-
-                <!-- CONTEÚDO: APROVADOS (Escondido por padrão) -->
-                <div id="aprovados" class="tab-content-panel" style="display: none;">
-                    @foreach ( $depoimentos as $item)
-                        @if ($item->status_depoimento === 'PENDENTE') 
-                    <!-- Card 1 -->
+                    <!-- Card 2 -->
                     <div class="dep-card"
                         style="background-color: #161a23; border: 1px solid #262d3d; border-radius: 10px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; transition: transform 0.2s, border-color 0.2s;">
                         <div style="padding: 1.5rem;">
-                            <!-- Perfil do Autor -->
                             <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem;">
-                                <img src="{{ asset('dash/assets/img/'. $item->usuario->foto_usuario) }}"
+                                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=120"
                                     style="width: 48px; height: 48px; object-fit: cover; border-radius: 50%; border: 1px solid #dfcaa0;"
                                     alt="Avatar">
                                 <div>
                                     <h5
                                         style="color: #ffffff; margin: 0 0 0.15rem 0; font-size: 0.95rem; font-weight: 600;">
-                                       {{ $item->usuario->nome_usuario }}</h5>
-                                    <small style="color: #94a3b8; font-size: 0.78rem;">{{ $item->usuario->areat_atuacao_usuario }} • {{ $item->usuario->estado_usuario }}</small>
+                                        Dr. Bruno Cantanhêde</h5>
+                                    <small style="color: #94a3b8; font-size: 0.78rem;">Direito Digital • RJ</small>
                                 </div>
                             </div>
-                            <!-- Texto do Depoimento -->
                             <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; font-style: italic; margin: 0;">
-                                "{{ $item->descricao_depoimento }}"
+                                "A mentalidade que a Dra. Simone transmite quebra os paradigmas tradicionais da advocacia. O
+                                ecossistema de networking gerado dentro da rede é espetacular."
                             </p>
                         </div>
-
-                        <!-- Rodapé do Card -->
                         <div>
                             <div
                                 style="display: flex; justify-content: space-between; align-items: center; padding: 0 1.5rem 1rem 1.5rem; font-size: 0.75rem;">
                                 <span
-                                    style="background-color: rgba(148, 163, 184, 0.1); color: #94a3b8; padding: 0.25rem 0.6rem; border-radius: 4px; font-weight: 500;">
-                                     @if($item->usuario->perfil_usuario === 'palestrante')
-                                        Logado
-                                    @else
-                                        Via Landing Page
-                                    @endif
-                                     </span>
-                                <span style="color: #64748b;">{{ $item->criado_em_depoimento }}</span>
+                                    style="background-color: rgba(223, 202, 160, 0.1); color: #dfcaa0; padding: 0.25rem 0.6rem; border-radius: 4px; font-weight: 500;">Área
+                                    Logada</span>
+                                <span style="color: #64748b;">10/06/2026</span>
                             </div>
-                            <!-- Ações -->
-
+                            <div style="display: flex; border-top: 1px solid #262d3d;">
+                                <button class="btn-action-reject"
+                                    style="width: 50%; background: transparent; border: none; padding: 0.8rem; color: #ef4444; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                    <i class="bi bi-x-lg"></i> Recusar
+                                </button>
+                                <button class="btn-action-approve"
+                                    style="width: 50%; background: transparent; border: none; border-left: 1px solid #262d3d; padding: 0.8rem; color: #22c55e; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                    <i class="bi bi-check-lg"></i> Aprovar
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    
-                        @else
-                    <p style="color: #94a3b8; font-size: 0.9rem; margin: 0;">
-                        
-                    Não há depoimentos aprovados exibidos no
+
+                </div>
+
+                <!-- CONTEÚDO: APROVADOS (Escondido por padrão) -->
+                <div id="aprovados" class="tab-content-panel" style="display: none;">
+                    <p style="color: #94a3b8; font-size: 0.9rem; margin: 0;">Não há depoimentos aprovados exibidos no
                         momento.</p>
-                        @endif
-                    @endforeach
                 </div>
 
             </div>
         </div>
     </div>
 
-   
+    @include('palestrante.modal.criar-depoimento')
 
     <!-- Estilos e Efeitos Interativos Compartilhados -->
     <style>

@@ -36,7 +36,7 @@ class AuthController extends Controller
                 return redirect('admin');
             }
             if($usuario->perfil_usuario == 'palestrante'){
-                return redirect('admin');
+                return redirect('admin/palestrante');
 
             }
 

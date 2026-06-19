@@ -21,24 +21,10 @@
       <ul class="nav sidebar-menu flex-column gap-1" data-lte-toggle="treeview" role="navigation"
         aria-label="Main navigation" data-accordion="false" id="navigation">
 
-        <li class="nav-header px-3 mt-4 mb-2 text-uppercase fw-bold"
-          style="font-size: 0.75rem; letter-spacing: 1.2px; color: #64748b;">
-          Gerenciar Site
-        </li>
 
-
-
-        {{-- SUBMENU: Apontando para os IDs corretos dentro de content.blade.php --}}
-        <li class="nav-item">
-          <a href="{{ route('admin.modificar.site') }}"
-            class="nav-link d-flex align-items-center rounded-3 px-3 py-2 text-white {{ Request::routeIs('admin.content') ? 'active' : '' }} sidebar-custom-hover">
-            <i class="nav-icon bi bi-pencil-square me-2" style="font-size: 1.1rem; color: #94a3b8;"></i>
-            <p class="mb-0">Modificações do Site</p>
-          </a>
-        </li>
 
         <li class="nav-item">
-          <a href="{{ route('admin.depoimentos.index') }}"
+          <a href="{{ route('admin.palestrante.depoimento.index') }}"
             class="nav-link d-flex align-items-center rounded-3 px-3 py-2 text-white sidebar-custom-hover">
             <i class="nav-icon bi bi-chat-left-quote-fill me-2" style="font-size: 1.1rem; color: #94a3b8;"></i>
             <p class="mb-0">Depoimentos</p>
@@ -57,38 +43,7 @@
         </li>
 
 
-        {{-- MENU PRINCIPAL: CADASTROS --}}
-        <li class="nav-item {{ Request::is('admin/cadastro*') ? 'menu-open' : '' }}">
-          <a href="#"
-            class="nav-link d-flex align-items-center justify-content-between rounded-3 px-3 py-2 text-white-50 sidebar-custom-hover">
-            <div class="d-flex align-items-center">
-              <i class="nav-icon bi bi-plus-circle-fill me-2" style="font-size: 1.1rem; color: #94a3b8;"></i>
-              <p class="mb-0 text-white">Cadastros</p>
-            </div>
-            <i class="nav-arrow bi bi-chevron-right" style="font-size: 0.8rem; transition: transform 0.3s;"></i>
-          </a>
 
-          {{-- SUBMENU: Opções de Cadastro --}}
-          <ul class="nav nav-treeview flex-column gap-1 mt-1 ps-2">
-            {{-- Opção: Usuários --}}
-            <li class="nav-item">
-              <a href="{{ route('admin.cadastro.usuarios') }}"
-                class="nav-link d-flex align-items-center rounded-3 px-3 py-2 sidebar-subitem-custom {{ Request::routeIs('admin.cadastro.usuarios') ? 'active' : '' }}">
-                <i class="bi bi-people me-2" style="font-size: 0.95rem;"></i>
-                <p class="mb-0">Usuários</p>
-              </a>
-            </li>
-
-            {{-- Opção: Palestrantes --}}
-            <li class="nav-item">
-              <a href="{{ route('admin.cadastro.palestrantes') }}"
-                class="nav-link d-flex align-items-center rounded-3 px-3 py-2 sidebar-subitem-custom {{ Request::routeIs('admin.cadastro.palestrantes') ? 'active' : '' }}">
-                <i class="bi bi-mic me-2" style="font-size: 0.95rem;"></i>
-                <p class="mb-0">Palestrantes</p>
-              </a>
-            </li>
-          </ul>
-        </li>
         <li class="nav-item">
           <a href="#" class="nav-link d-flex align-items-center rounded-3 px-3 py-2 text-white sidebar-custom-hover">
             <i class="nav-icon bi bi-shield-exclamation me-2" style="font-size: 1.1rem; color: #94a3b8;"></i>
