@@ -1802,3 +1802,32 @@ header.scrolled {
     transition: .5s;
 }
 
+/* ##################### upload-component #################### */
+
+.d-none { display: none; }
+
+.drop-area {
+    border: 2px dashed #333; /* Borda técnica */
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    transition: 0.3s ease;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.drop-area:hover, .drop-area.is-dragover {
+    border-color: #c5a059; /* Dourado ao passar o mouse */
+    background: rgba(197, 160, 89, 0.05);
+}
+
+.text-gold { color: #c5a059; }
+
+#upload-component {
+    transition: opacity 0.3s ease-in-out;
+    opacity: 1;
+}
+
+#upload-component.d-none {
+    display: none !important;
+    opacity: 0;
+}
