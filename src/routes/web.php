@@ -62,8 +62,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('/dra/update{id}', [DraController::class, 'updateDra'])->name('dra.update');
         
         //ROTAS DE DEPOIMENTO
-        //Route::get('/depoimentos', [DepoimentosController::class, 'index'])->name('depoimentos.index');
         Route::get('/depoimentos', [DepoimentosController::class, 'indexAdmin'])->name('depoimentos.index');
+        Route::put('/depoimentos/aceitar{id}', [DepoimentosController::class, 'DepoAceitar'])->name('depoimentos.aceitar');
+        Route::put('/depoimentos/recusar{id}', [DepoimentosController::class, 'DepoRecusar'])->name('depoimentos.recusar');
         
         
         Route::get('/palestrantes', [PalestrantesController::class, 'index'])->name('cadastro.palestrantes');

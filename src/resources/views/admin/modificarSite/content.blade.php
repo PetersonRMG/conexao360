@@ -767,7 +767,7 @@
                                     class="btn btn-danger px-4">
 
                                     <i class="bi bi-play-btn"></i>
-                                    Salvar Vídeo
+                                    Criar Vídeo
 
                                 </button>
 
@@ -953,7 +953,7 @@
                                                     type="submit"
                                                     class="btn btn-primary px-4">
 
-                                                    <i class="bi bi-person-badge"></i>
+                                                    {{-- <i class="bi bi-person-badge"></i> --}}
                                                     Salvar Alterações
 
                                                 </button>

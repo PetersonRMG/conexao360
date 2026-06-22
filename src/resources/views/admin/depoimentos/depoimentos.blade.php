@@ -34,7 +34,8 @@
                             style="background: transparent; border: none; color: #dfcaa0; padding: 1.2rem 1rem; font-weight: 600; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; position: relative; border-bottom: 2px solid #dfcaa0;">
                             <i class="bi bi-clock-history" style="color: #ffc107;"></i> Pendentes
                             <span
-                                style="background-color: rgba(255, 193, 7, 0.15); color: #ffc107; font-size: 0.75rem; padding: 0.15rem 0.5rem; border-radius: 10px; font-weight: 700;">3</span>
+                                style="background-color: rgba(255, 193, 7, 0.15); color: #ffc107; font-size: 0.75rem; padding: 0.15rem 0.5rem; border-radius: 10px; font-weight: 700;">
+                                {{$depoimentosPend->count()  }}</span>
                         </button>
                     </li>
                     <li style="margin: 0;">
@@ -42,7 +43,17 @@
                             style="background: transparent; border: none; color: #94a3b8; padding: 1.2rem 1rem; font-weight: 500; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem;">
                             <i class="bi bi-check-circle-fill" style="color: #28a745;"></i> Aprovados
                             <span
-                                style="background-color: rgba(40, 167, 69, 0.15); color: #28a745; font-size: 0.75rem; padding: 0.15rem 0.5rem; border-radius: 10px; font-weight: 700;">12</span>
+                                style="background-color: rgba(40, 167, 69, 0.15); color: #28a745; font-size: 0.75rem; padding: 0.15rem 0.5rem; border-radius: 10px; font-weight: 700;">
+                                {{$depoimentosAceitos->count()  }}</span>
+                        </button>
+                    </li>
+
+                    <li style="margin: 0;">
+                        <button class="tab-btn" data-target="#reprovados"
+                            style="background: transparent; border: none; color: #94a3b8; padding: 1.2rem 1rem; font-weight: 500; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="bi bi-x-circle-fill" style="color: #af3f3fff;"></i>Reprovados
+                            <span
+                                style="background-color: rgba(40, 167, 69, 0.15); color: #af3f3fff; font-size: 0.75rem; padding: 0.15rem 0.5rem; border-radius: 10px; font-weight: 700;">{{$depoimentosRegei->count()  }}</span></span>
                         </button>
                     </li>
                 </ul>
@@ -54,122 +65,228 @@
                 <!-- CONTEÚDO: PENDENTES -->
                 <div id="pendentes" class="tab-content-panel active"
                     style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
-                    @foreach ( $depoimentos as $item)
-                    <!-- Card 1 -->
-                    <div class="dep-card"
-                        style="background-color: #161a23; border: 1px solid #262d3d; border-radius: 10px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; transition: transform 0.2s, border-color 0.2s;">
-                        <div style="padding: 1.5rem;">
-                            <!-- Perfil do Autor -->
-                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem;">
-                                <img src="{{ asset('dash/assets/img/'. $item->usuario->foto_usuario) }}"
-                                    style="width: 48px; height: 48px; object-fit: cover; border-radius: 50%; border: 1px solid #dfcaa0;"
-                                    alt="Avatar">
-                                <div>
-                                    <h5
-                                        style="color: #ffffff; margin: 0 0 0.15rem 0; font-size: 0.95rem; font-weight: 600;">
-                                       {{ $item->usuario->nome_usuario }}</h5>
-                                    <small style="color: #94a3b8; font-size: 0.78rem;">{{ $item->usuario->areat_atuacao_usuario }} • {{ $item->usuario->estado_usuario }}</small>
+
+                    @forelse ($depoimentosPend as $item)
+                        <!-- Card 1 -->
+                        <div class="dep-card"
+                            style="background-color: #161a23; border: 1px solid #262d3d; border-radius: 10px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; transition: transform 0.2s, border-color 0.2s;">
+                            <div style="padding: 1.5rem;">
+                                <!-- Perfil do Autor -->
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem;">
+                                    <img src="{{ asset('dash/assets/img/' . $item->usuario->foto_usuario) }}"
+                                        style="width: 48px; height: 48px; object-fit: cover; border-radius: 50%; border: 1px solid #dfcaa0;"
+                                        alt="Avatar">
+                                    <div>
+                                        <h5
+                                            style="color: #ffffff; margin: 0 0 0.15rem 0; font-size: 0.95rem; font-weight: 600;">
+                                            {{ $item->usuario->nome_usuario }}
+                                        </h5>
+                                        <small
+                                            style="color: #94a3b8; font-size: 0.78rem;">{{ $item->usuario->areat_atuacao_usuario }}
+                                            • {{ $item->usuario->estado_usuario }}</small>
+                                    </div>
+                                </div>
+                                <!-- Texto do Depoimento -->
+                                <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; font-style: italic; margin: 0;">
+                                    "{{ $item->descricao_depoimento }}"
+                                </p>
+                            </div>
+
+                            <!-- Rodapé do Card -->
+                            <div>
+                                <div
+                                    style="display: flex; justify-content: space-between; align-items: center; padding: 0 1.5rem 1rem 1.5rem; font-size: 0.75rem;">
+                                    <span
+                                        style="background-color: rgba(148, 163, 184, 0.1); color: #94a3b8; padding: 0.25rem 0.6rem; border-radius: 4px; font-weight: 500;">
+                                        @if($item->usuario->perfil_usuario === 'palestrante')
+                                            Logado
+                                        @else
+                                            Via Landing Page
+                                        @endif
+                                    </span>
+                                    <span style="color: #64748b;">{{ $item->criado_em_depoimento }}</span>
+                                </div>
+                                <!-- Ações -->
+                                <div style="display: flex; border-top: 1px solid #262d3d;">
+                                    <form action="{{ route('admin.depoimentos.recusar', $item->id_depoimentos) }}" method="POST"
+                                        enctype="multipart/form-data">
+
+                                        @csrf
+                                        @method('PUT')
+                                        <button class="btn-action-reject" type="submit"
+                                            style="width: 50%; background: transparent; border: none; padding: 0.8rem; color: #ef4444; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                            <i class="bi bi-x-lg"></i> Recusar
+                                        </button>
+                                    </form>
+                                    <form action="{{ route('admin.depoimentos.aceitar', $item->id_depoimentos) }}" method="POST"
+                                        enctype="multipart/form-data">
+
+                                        @csrf
+                                        @method('PUT')
+                                        <button class="btn-action-approve" type="submit"
+                                            style="width: 50%; background: transparent; border: none; border-left: 1px solid #262d3d; padding: 0.8rem; color: #22c55e; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                            <i class="bi bi-check-lg"></i> Aprovar
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
-                            <!-- Texto do Depoimento -->
-                            <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; font-style: italic; margin: 0;">
-                                "{{ $item->descricao_depoimento }}"
-                            </p>
                         </div>
 
-                        <!-- Rodapé do Card -->
-                        <div>
-                            <div
-                                style="display: flex; justify-content: space-between; align-items: center; padding: 0 1.5rem 1rem 1.5rem; font-size: 0.75rem;">
-                                <span
-                                    style="background-color: rgba(148, 163, 184, 0.1); color: #94a3b8; padding: 0.25rem 0.6rem; border-radius: 4px; font-weight: 500;">
-                                     @if($item->usuario->perfil_usuario === 'palestrante')
-                                        Logado
-                                    @else
-                                        Via Landing Page
-                                    @endif
-                                     </span>
-                               <span style="color: #64748b;">{{ $item->criado_em_depoimento }}</span>
-                            </div>
-                            <!-- Ações -->
-                            <div style="display: flex; border-top: 1px solid #262d3d;">
-                                <button class="btn-action-reject"
-                                    style="width: 50%; background: transparent; border: none; padding: 0.8rem; color: #ef4444; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
-                                    <i class="bi bi-x-lg"></i> Recusar
-                                </button>
-                                <button class="btn-action-approve"
-                                    style="width: 50%; background: transparent; border: none; border-left: 1px solid #262d3d; padding: 0.8rem; color: #22c55e; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
-                                    <i class="bi bi-check-lg"></i> Aprovar
-                                </button>
-                            </div>
+                    @empty
+
+                        <div class="text-center py-5">
+                            <i class="bi bi-chat-square-text fs-1 text-secondary"></i>
+                            <h5 class="mt-3 text-secondary">
+                                Nenhum depoimento pendente.
+                            </h5>
                         </div>
-                    </div>
-                    
-                    @endforeach
+
+                    @endforelse
+
 
 
 
                 </div>
 
                 <!-- CONTEÚDO: APROVADOS (Escondido por padrão) -->
+
                 <div id="aprovados" class="tab-content-panel" style="display: none;">
-                    @foreach ( $depoimentos as $item)
-                        @if ($item->status_depoimento === 'PENDENTE') 
-                    <!-- Card 1 -->
-                    <div class="dep-card"
-                        style="background-color: #161a23; border: 1px solid #262d3d; border-radius: 10px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; transition: transform 0.2s, border-color 0.2s;">
-                        <div style="padding: 1.5rem;">
-                            <!-- Perfil do Autor -->
-                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem;">
-                                <img src="{{ asset('dash/assets/img/'. $item->usuario->foto_usuario) }}"
-                                    style="width: 48px; height: 48px; object-fit: cover; border-radius: 50%; border: 1px solid #dfcaa0;"
-                                    alt="Avatar">
-                                <div>
-                                    <h5
-                                        style="color: #ffffff; margin: 0 0 0.15rem 0; font-size: 0.95rem; font-weight: 600;">
-                                       {{ $item->usuario->nome_usuario }}</h5>
-                                    <small style="color: #94a3b8; font-size: 0.78rem;">{{ $item->usuario->areat_atuacao_usuario }} • {{ $item->usuario->estado_usuario }}</small>
+                    @forelse ($depoimentosAceitos as $item)
+
+                        <!-- Card 1 -->
+                        <div class="dep-card"
+                            style="background-color: #161a23; border: 1px solid #262d3d; border-radius: 10px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; transition: transform 0.2s, border-color 0.2s;">
+                            <div style="padding: 1.5rem;">
+                                <!-- Perfil do Autor -->
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem;">
+                                    <img src="{{ asset('dash/assets/img/' . $item->usuario->foto_usuario) }}"
+                                        style="width: 48px; height: 48px; object-fit: cover; border-radius: 50%; border: 1px solid #dfcaa0;"
+                                        alt="Avatar">
+                                    <div>
+                                        <h5
+                                            style="color: #ffffff; margin: 0 0 0.15rem 0; font-size: 0.95rem; font-weight: 600;">
+                                            {{ $item->usuario->nome_usuario }}
+                                        </h5>
+                                        <small
+                                            style="color: #94a3b8; font-size: 0.78rem;">{{ $item->usuario->areat_atuacao_usuario }}
+                                            • {{ $item->usuario->estado_usuario }}</small>
+                                    </div>
                                 </div>
+                                <!-- Texto do Depoimento -->
+                                <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; font-style: italic; margin: 0;">
+                                    "{{ $item->descricao_depoimento }}"
+                                </p>
                             </div>
-                            <!-- Texto do Depoimento -->
-                            <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; font-style: italic; margin: 0;">
-                                "{{ $item->descricao_depoimento }}"
-                            </p>
+                            <!-- Rodapé do Card -->
+                            <div>
+                                <div
+                                    style="display: flex; justify-content: space-between; align-items: center; padding: 0 1.5rem 1rem 1.5rem; font-size: 0.75rem;">
+                                    <span
+                                        style="background-color: rgba(148, 163, 184, 0.1); color: #94a3b8; padding: 0.25rem 0.6rem; border-radius: 4px; font-weight: 500;">
+                                        @if($item->usuario->perfil_usuario === 'palestrante')
+                                            Logado
+                                        @else
+                                            Via Landing Page
+                                        @endif
+                                    </span>
+                                    <span style="color: #64748b;">{{ $item->criado_em_depoimento }}</span>
+                                    <form action="{{ route('admin.depoimentos.recusar', $item->id_depoimentos) }}" method="POST"
+                                        enctype="multipart/form-data">
+
+                                        @csrf
+                                        @method('PUT')
+                                        <button class="btn-action-reject" type="submit"
+                                            style="width: 50%; background: transparent; border: none; padding: 0.8rem; color: #ef4444; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                            <i class="bi bi-x-lg"></i> Recusar
+                                        </button>
+                                    </form>
+                                </div>
+                                <!-- Ações -->
+
+                            </div>
                         </div>
 
-                        <!-- Rodapé do Card -->
-                        <div>
-                            <div
-                                style="display: flex; justify-content: space-between; align-items: center; padding: 0 1.5rem 1rem 1.5rem; font-size: 0.75rem;">
-                                <span
-                                    style="background-color: rgba(148, 163, 184, 0.1); color: #94a3b8; padding: 0.25rem 0.6rem; border-radius: 4px; font-weight: 500;">
-                                     @if($item->usuario->perfil_usuario === 'palestrante')
-                                        Logado
-                                    @else
-                                        Via Landing Page
-                                    @endif
-                                     </span>
-                                <span style="color: #64748b;">{{ $item->criado_em_depoimento }}</span>
-                            </div>
-                            <!-- Ações -->
+                    @empty
+                        <p style="color: #94a3b8; font-size: 0.9rem; margin: 0;">
 
-                        </div>
-                    </div>
-                    
-                        @else
-                    <p style="color: #94a3b8; font-size: 0.9rem; margin: 0;">
-                        
-                    Não há depoimentos aprovados exibidos no
-                        momento.</p>
-                        @endif
-                    @endforeach
+                            Não há depoimentos aprovados exibidos no
+                            momento.</p>
+
+                    @endforelse
                 </div>
+
+                <div id="reprovados" class="tab-content-panel" style="display: none;">
+                    @forelse ($depoimentosRegei as $item)
+
+                        <!-- Card 1 -->
+                        <div class="dep-card"
+                            style="background-color: #161a23; border: 1px solid #262d3d; border-radius: 10px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; transition: transform 0.2s, border-color 0.2s;">
+                            <div style="padding: 1.5rem;">
+                                <!-- Perfil do Autor -->
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem;">
+                                    <img src="{{ asset('dash/assets/img/' . $item->usuario->foto_usuario) }}"
+                                        style="width: 48px; height: 48px; object-fit: cover; border-radius: 50%; border: 1px solid #dfcaa0;"
+                                        alt="Avatar">
+                                    <div>
+                                        <h5
+                                            style="color: #ffffff; margin: 0 0 0.15rem 0; font-size: 0.95rem; font-weight: 600;">
+                                            {{ $item->usuario->nome_usuario }}
+                                        </h5>
+                                        <small
+                                            style="color: #94a3b8; font-size: 0.78rem;">{{ $item->usuario->areat_atuacao_usuario }}
+                                            • {{ $item->usuario->estado_usuario }}</small>
+                                    </div>
+                                </div>
+                                <!-- Texto do Depoimento -->
+                                <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; font-style: italic; margin: 0;">
+                                    "{{ $item->descricao_depoimento }}"
+                                </p>
+                            </div>
+                            <!-- Rodapé do Card -->
+                            <div>
+                                <div
+                                    style="display: flex; justify-content: space-between; align-items: center; padding: 0 1.5rem 1rem 1.5rem; font-size: 0.75rem;">
+                                    <span
+                                        style="background-color: rgba(148, 163, 184, 0.1); color: #94a3b8; padding: 0.25rem 0.6rem; border-radius: 4px; font-weight: 500;">
+                                        @if($item->usuario->perfil_usuario === 'palestrante')
+                                            Logado
+                                        @else
+                                            Via Landing Page
+                                        @endif
+                                    </span>
+                                    <span style="color: #64748b;">{{ $item->criado_em_depoimento }}</span>
+                                    <form action="{{ route('admin.depoimentos.aceitar', $item->id_depoimentos) }}" method="POST"
+                                        enctype="multipart/form-data">
+
+                                        @csrf
+                                        @method('PUT')
+                                        <button class="btn-action-approve" type="submit"
+                                            style="width: 50%; background: transparent; border: none; border-left: 1px solid #262d3d; padding: 0.8rem; color: #22c55e; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                            <i class="bi bi-check-lg"></i> Aprovar
+                                        </button>
+                                    </form>
+                                </div>
+                                <!-- Ações -->
+                            </div>
+
+
+                        </div>
+
+                    @empty
+                        <p style="color: #94a3b8; font-size: 0.9rem; margin: 0;">
+
+                            Não há depoimentos reprovados exibidos no
+                            momento.</p>
+
+                    @endforelse
+                </div>
+
 
             </div>
         </div>
     </div>
 
-   
+
 
     <!-- Estilos e Efeitos Interativos Compartilhados -->
     <style>

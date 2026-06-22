@@ -189,16 +189,40 @@
     </div>
 
     <div class="caixa-car ">
-        <div class="carrosel  " id="carousel">
+
+        <div class="carousel " id="carousel"  >
+            @foreach ( $depoimentos as $item)
+            <div class="cards  ">
+                <div class="texto-depoimentos ">
+                    <img class="img-advo" src="{{ asset('dash/assets/img/' . $item->usuario->foto_usuario) }}" alt={{ $item->usuario->nome_usuario }} width="120px">
+                    <div class="divisao"></div>
+                    <h3> {{ $item->usuario->nome_usuario }} <br> </h3>
+                    <h4> <br> {{ $item->usuario->area_atuacao_usuario }}</h4>
+                    <div class="divisao"></div>
+                    <p class="textetexto">
+                        <img src="img/aspas (1).svg" alt="" width="30   ">
+                        {{ $item->descricao_depoimento }}
+
+                        <img class="ajst" src="img/aspas (3).svg" alt="" width="30px">
+                    </p>
+
+                </div>
+            </div>
+            
+            @endforeach
+
 
 
         </div>
     </div>
+
+
+
 </section>
 
 <section class="local_sessao">
-    
-    
+
+
     <div class="container">
         <h2 class="tit_local">Sua transformação tem hora e lugar marcados</h2>
 
@@ -208,10 +232,8 @@
                 <a href="" target="_blank" rel="">
 
                     <div class="mapa-botao">Ver no Google Maps</div>
-                    <iframe
-                        src="{{$evento->url_evento    }}"
-                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <iframe src="{{$evento->url_evento    }}" width="600" height="450" style="border:0;"
+                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </a>
             </div>
 
@@ -242,7 +264,7 @@
             </div>
         </div>
     </div>
-    
+
 
 </section>
 

@@ -10,6 +10,7 @@ use App\Models\Dra;
 use App\Models\Video;
 use App\Models\Eventos;
 use App\Models\HeroSection;
+use App\Models\Depoimentos;
 
 
 class HomeController extends Controller 
@@ -34,11 +35,14 @@ class HomeController extends Controller
         $evento = Eventos::where('status_evento', 'ATIVO')
         ->first();
 
+        $depoimentos = Depoimentos::where('status_depoimento', 'ATIVO')
+        ->get();
+
 
 
 
 
         // dd($hero);
-        return view('site.home.home',compact('temas', 'dra', 'video','evento','hero'));
+        return view('site.home.home',compact('temas', 'dra', 'video','evento','hero','depoimentos'));
     }
 }

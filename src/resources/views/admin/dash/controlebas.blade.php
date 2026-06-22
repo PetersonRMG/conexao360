@@ -52,7 +52,7 @@
                 </div>
                 <div>
                     <span style="color: #94a3b8; font-size: 0.85rem; display: block; margin-bottom: 0.15rem; font-weight: 500;">Depoimentos no Site</span>
-                    <h3 style="color: #ffffff; margin: 0; font-weight: 700; font-size: 1.6rem; letter-spacing: -0.5px;">15</h3>
+                    <h3 style="color: #ffffff; margin: 0; font-weight: 700; font-size: 1.6rem; letter-spacing: -0.5px;"></h3>
                 </div>
             </div>
 

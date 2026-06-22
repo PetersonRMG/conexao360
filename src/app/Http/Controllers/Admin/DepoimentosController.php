@@ -7,22 +7,83 @@ use App\Models\Depoimentos;
 use App\Models\Eventos;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use ResourceBundle;
 
 class DepoimentosController extends Controller
 {
     public function indexPalestrante()
     {
-      
-        return view('palestrante.depoimentos.depoimentos');
+
+       $idUsuario = Auth::guard('admin')->id();
+
+        $query = Depoimentos::with(['usuario','evento'])
+        ->where ('id_usuario', $idUsuario);
+
+        $depoimentos = (clone $query)->get();
+
+        $depoimentosPend = (clone $query)
+        ->where('status_depoimento', 'PENDENTE')
+        ->get();
+        $depoimentosAceitos = (clone $query)
+        ->where('status_depoimento', 'ATIVO')
+        ->get();
+        $depoimentosRegei = (clone $query)
+        ->where('status_depoimento', 'RECUSADO')
+        ->get();
+
+       
+        return view('palestrante.depoimentos.depoimentos', compact('depoimentos', 'depoimentosPend','depoimentosRegei','depoimentosAceitos'));
+
+        
     }
 
         public function indexAdmin()
     {   
         $depoimentos = Depoimentos::with(['usuario','evento'])->get();
+
+        $depoimentosPend = Depoimentos::with(['usuario','evento'])
+         ->where('status_depoimento', 'PENDENTE')
+         ->get();
+
+        $depoimentosAceitos = Depoimentos::with(['usuario','evento'])
+         ->where('status_depoimento', 'ATIVO')
+         ->get();
+
+        $depoimentosRegei = Depoimentos::with(['usuario','evento'])
+         ->where('status_depoimento', 'RECUSADO')
+         ->get();
         
        // dd($depoimentos->all());
        
-        return view('admin.depoimentos.depoimentos', compact('depoimentos'));
+        return view('admin.depoimentos.depoimentos', compact('depoimentos', 'depoimentosPend','depoimentosRegei','depoimentosAceitos'));
+    }
+
+    public function DepoAceitar($id)
+    {   
+        $depoimentos = Depoimentos::findOrFail($id);
+
+        $depoimentos->update([
+            'status_depoimento' => 'ATIVO'
+        ]);
+        
+       // dd($depoimentos->all());
+       
+        return redirect() 
+        ->route('admin.depoimentos.index');
+    }
+
+        public function DepoRecusar( $id)
+    {   
+        $depoimentos = Depoimentos::findOrFail($id);
+
+        $depoimentos->update([
+            'status_depoimento' => 'RECUSADO'
+        ]);
+        
+       // dd($depoimentos->all());
+       
+        return redirect() 
+        ->route('admin.depoimentos.index');
     }
 
     public function createDepoimento(Request $request)
