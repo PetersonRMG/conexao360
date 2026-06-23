@@ -200,12 +200,20 @@ nav ul li a:hover {
     }
 
 }
+
+
 .conexao {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 800px;
+    background-image: url('../img/Mídia\ \(1\).jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    background-color: #000; 
 }
 
 .conexao h2 {
@@ -1462,65 +1470,137 @@ nav ul li a:hover {
         margin: 0;
 
     }
+/* ==========================================================================
+   HEADER PRINCIPAL FIXO E SEGURO
+   ========================================================================== */
+header {
+    background-color: #000000 !important; /* Força o fundo escuro sólido no mobile */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px; /* Altura fixa confortável para o topo */
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
 
-    header {
-        background-color: #000000e5;
-        z-index: 99999;
-    }
+header .topo {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between; /* Ajustado para jogar a logo pra esquerda e o botão pra direita */
+    align-items: center;
+    padding: 0 20px;
+}
 
-    header .topo {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        justify-content: space-around;
-    }
+/* ==========================================================================
+   NAVEGAÇÃO MOBILE (ESTILO GAVETA FULLSCREEN PROFISSIONAL)
+   ========================================================================== */
+header nav {
+    background-color: rgba(10, 10, 10, 0.98); /* Fundo quase totalmente opaco muito elegante */
+    position: fixed;
+    top: 0;
+    right: -100%; /* Esconde o menu para a lateral direita evitando vazamento vertical */
+    width: 100%;
+    max-width: 320px; /* Largura padrão ideal para gavetas mobile */
+    height: 100vh; /* Ocupa toda a altura da tela do celular */
+    transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* Transição suave e moderna */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 80px 20px 40px 20px; /* Padding superior abre espaço para o botão fechar */
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.8);
+    opacity: 0;
+    visibility: hidden; /* Evita que o leitor de tela ou o mouse acessem itens invisíveis */
+}
 
-    header nav {
-        background-color: hsla(0, 0%, 13%, 0.644);
-        height: 50%;
-        position: fixed;
-        top: -100%;
-        max-width: 400px;
-        width: 100%;
-        transition: top 1s ease-in-out;
-    }
+/* Classe engatilhada pelo JavaScript que abre o menu */
+.menu-ativo nav {
+    right: 0;
+    opacity: 1;
+    visibility: visible;
+}
 
-    header nav ul li {
-        padding-block: .5em;
-    }
+/* Lista interna do Menu */
+header nav ul.fechar {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    gap: 25px; /* Espaçamento idêntico entre os links */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
 
-    .abrir-menu {
-        background-image: url(../img/barra-de-menu.png);
-        background-color: #00000000;
-        display: inline-block;
-        background-size: cover;
-        padding: 20px;
-        border: 0;
-        width: 50px;
-        height: 50px;
-    }
+header nav ul.fechar li {
+    width: 100%;
+    text-align: center;
+}
 
-    .abrir-menu:active,
-    .fechar-menu:active {
-        transform: scale(1.1);
-        filter: brightness(1.1);
-    }
+header nav ul.fechar li a {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: 1px;
+    display: block;
+    padding: 10px;
+    transition: color 0.3s ease;
+}
 
-    .fechar-menu {
-        background-image: url("../img/perto (1).png");
-        background-color: #00000000;
-        display: inline;
-        background-size: cover;
-        padding: 20px;
-        margin: 10px, 0;
-        border: 0;
-        width: 50px;
-        height: 50px;
-    }
+header nav ul.fechar li a:hover,
+header nav ul.fechar li a:active {
+    color: #d4af37; /* Destaque em dourado ao interagir */
+}
 
-    .menu-ativo nav {
-        top: 0;
-    }
+/* Forçar comportamento correto do botão customizado da Rede Exclusiva dentro do menu mobile */
+header nav ul.fechar li a.btn-rede-exclusiva {
+    margin-top: 15px;
+    border: 1.5px solid #d4af37;
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 6px;
+    padding: 12px 20px;
+}
+
+/* ==========================================================================
+   BOTÕES DE ABRIR E FECHAR CONTROLES
+   ========================================================================== */
+.abrir-menu {
+    background-image: url(../img/barra-de-menu.png);
+    background-color: transparent;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 0;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+}
+
+.fechar-menu {
+    background-image: url("../img/perto\ \(1\).png"); /* Escapando corretamente os espaços */
+    background-color: transparent;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 0;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 20px;
+    right: 20px; /* Fixa o 'X' perfeitamente no topo superior direito da gaveta */
+    cursor: pointer;
+}
+
+/* Efeito tátil de clique padrão */
+.abrir-menu:active,
+.fechar-menu:active {
+    transform: scale(0.92);
+    filter: brightness(0.8);
+}
 
     .abordagem-mobile .card {
         width: 100%;
@@ -1794,11 +1874,5 @@ nav ul li a:hover {
     .conteudo p {
         margin: 0 auto 32px auto;
     }
-}
-header.scrolled {
-    height: 80px;
-    background: #000 !important;
-    background-image: none !important;
-    transition: .5s;
 }
 
