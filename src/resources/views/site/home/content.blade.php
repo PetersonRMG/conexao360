@@ -19,55 +19,73 @@
     </div>
 </section>
 
-<section class="conexao">
-    <img src="{{ asset('conexao360/img/pint.svg') }}" alt="" width="200px">
-    <h2> Conexão 360º </h2>
+<section class="conexao-container">
+    <div class="conexao-carousel" id="conexaoCarousel">
+        
+        <div class="conexao-slide active-slide" style="background-image: url('{{ asset('conexao360/img/Mídia (1).jpg') }}');">
+            <div class="conexao-content">
+                <img src="{{ asset('conexao360/img/pint.svg') }}" alt="Logo" width="200px">
+                <h2>Conexão 360º</h2>
+                <h3>ADVOCACIA <br> E<span>X</span>PONENCIAL</h3>
+                <h4>3ª EDIÇÃO</h4>
+            </div>
+        </div>
 
-    <h3> ADVOCACIA <br> E<span>X</span>PONENCIAL</h3>
-    <h4>3º EDIÇÃO </h4>
+        <div class="conexao-slide" style="background-image: url('{{ asset('conexao360/img/captura.png')}}');">
+            <div class="conexao-content">
+                <img src="{{ asset('conexao360/img/pint.svg') }}" alt="Logo" width="200px">
+                <h2>Networking de Elite</h2>
+                <h3>CONEXÕES <br> E<span>X</span>CLUSIVAS</h3>
+                <h4>VAGAS LIMITADAS</h4>
+            </div>
+        </div>
+
+        <div class="conexao-slide" style="background-image: url('{{ asset('conexao360/img/Mídia (1).jpg') }}');">
+            <div class="conexao-content">
+                <img src="{{ asset('conexao360/img/pint.svg') }}" alt="Logo" width="200px">
+                <h2>Imersão Prática</h2>
+                <h3>MENTORIA <br> E<span>X</span>STRATÉGICA</h3>
+                <h4>PRÓXIMO EVENTO</h4>
+            </div>
+        </div>
+
+    </div>
 </section>
 
 <section id="palestra" class="palestra">
- 
-        <div class="teste">
-            @foreach ($video as $item)
-               
+    <div class="teste">
+        @foreach ($video as $item)
             <div class="conteudo">
-                <h2>{{$item->titulo_video}}</h2>
- 
+                <h2>{{ $item->titulo_video }}</h2>
+
                 <span class="tag">Palestra Exclusiva</span>
- 
+
                 <p>
-                    {{$item->subtitulo_video}}
+                    {{ $item->subtitulo_video }}
                 </p>
- 
+
                 <ul>
                     <li>Com método, clareza e direção estratégica</li>
                     <li>Sem promessas vazias</li>
                     <li>Sem atalhos irreais</li>
                 </ul>
             </div>
- 
+
             <div class="imagem">
-                <a class="data-lity" href="{{asset('conexao360/img/'.$item->url_video)}}" data-lity>
-                    <img src="{{asset('conexao360/img/'.$item->capa_video)}}" alt="Palestra advocacia">
+                <a class="data-lity" href="{{ asset('conexao360/img/' . $item->url_video) }}" data-lity>
+                    <img src="{{ asset('conexao360/img/' . $item->capa_video) }}" alt="Palestra advocacia">
                     <span class="play-btn">
                         <span class="play-icon"></span>
- 
                     </span>
                 </a>
                 <div>
-                    <p class="tit-video"> — {{$item->legenda_video}} — </p>
+                    <p class="tit-video"> — {{ $item->legenda_video }} — </p>
                 </div>
- 
             </div>
-            @endforeach
-        </div>
- 
-    </section>
- 
+        @endforeach
+    </div>
+</section>
 
-<!-- telas grande -->
 <section class="abordagem">
     <div class="tds-abordagem">
         <div class="coluna-esquerda">
@@ -102,14 +120,12 @@
     </div>
 </section>
 
-<!-- mobile -->
 <section class="abordagem-mobile">
     <div class="tds-abordagem">
         <div class="coluna-esquerda">
             <h2 class="title">O que você vai ativar<br> no conexão 360° </h2>
             <h3 class="sub-title">( Não é conteúdo. É virada de chave )</h3>
             @foreach ($temas as $item)
-                <!-- CORREÇÃO: Envolvendo o card em uma tag 'a' válida para o lity -->
                 <a href="#{{ $item->id_tema }}" data-lity style="text-decoration: none; color: inherit; display: block;">
                     <div class="card">
                         <span class="card-text">{{ $item->titulo_tema }}</span>
@@ -140,19 +156,67 @@
                     <h3>{{ $item->titulo_dra }}</h3>
                     <h4>{{ $item->sub_titulo_dra }}</h4>
                     <p>{{ $item->descricao_dra }}</p>
-                </div> <!-- CORREÇÃO: Faltava fechar esta div sobre-info interna -->
+                </div> 
             @endforeach
-        </div> <!-- CORREÇÃO: Faltava fechar esta div sobre-tds -->
+        </div> 
     </div>
 </section>
 
 <section id="depoimento" class="depoimentos">
     <h2 class="titulo">
-        A Voz de Quem Já Esteve Lá <span>O que profissionais da advocacia dizem sobre as palestras anteriores</span>
+        A Voz de Quem Já Esteve Lá 
+        <span>O que profissionais da advocacia dizem sobre as palestras anteriores</span>
     </h2>
 
     <div class="caixa-car">
-        <div class="carrosel" id="carousel"></div>
+        <div class="carrosel" id="carousel">
+            
+            <div class="card-item">
+                <div class="texto-depoimentos">
+                    <p class="depoimento-texto">
+                        O método apresentado transformou radicalmente a visão estratégica do nosso escritório. A clareza e a profundidade dos conteúdos entregues superaram todas as expectativas.
+                    </p>
+                    
+                    <div class="footer-card">
+                        <div class="divisao"></div>
+                        <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=150" alt="Avatar" class="img-advo">
+                        <h3>Dr. Guilherme Ramos</h3>
+                        <h4>Advogado Associado</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-item">
+                <div class="texto-depoimentos">
+                    <p class="depoimento-texto">
+                        Conexões de altíssimo valor. O ambiente exclusivo nos proporcionou parcerias que já estão gerando grandes resultados operacionais neste trimestre.
+                    </p>
+                    
+                    <div class="footer-card">
+                        <div class="divisao"></div>
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=150" alt="Avatar" class="img-advo">
+                        <h3>Dra. Mariana Souza</h3>
+                        <h4>Sócio-Diretora</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-item">
+                <div class="texto-depoimentos">
+                    <p class="depoimento-texto">
+                        Uma imersão indispensável para quem busca posição premium no mercado jurídico. Recomendo fortemente a todos os líderes de bancas estruturadas.
+                    </p>
+                    
+                    <div class="footer-card">
+                        <div class="divisao"></div>
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=150" alt="Avatar" class="img-advo">
+                        <h3>Dr. Roberto Kalil</h3>
+                        <h4>Consultor Jurídico</h4>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </section>
 
@@ -162,7 +226,6 @@
 
         <div class="local-cont">
             <div class="mapa">
-                <!-- Removido o link 'a' que envolvia o iframe, o iframe já possui o link interno do maps, mantendo apenas o botão funcional -->
                 <div class="mapa-container-link" style="position: relative;">
                     <a href="https://maps.google.com" target="_blank" class="mapa-botao">Ver no Google Maps</a>
                     <iframe
@@ -244,22 +307,156 @@
 </section>
 
 <style>
-    .conexao {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 800px;
-        /* CORREÇÃO: Utilizando a chamada dinâmica do Laravel para evitar erros com espaço no nome do arquivo */
-        background-image: url("{{ asset('conexao360/img/Mídia (1).jpg') }}"); 
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        position: relative;
-    }
+/* ==========================================================================
+   BANNER HERO - CARROSSEL DINÂMICO (CONEXÃO 360)
+   ========================================================================== */
+.conexao-container {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    line-height: 0; /* Remove espaços vazios causados por elementos inline/block inline */
+}
+
+/* Força o Slick a ocupar exatamente o tamanho do container sem deixar rebarbas */
+.conexao-container .slick-list,
+.conexao-container .slick-track {
+    height: 100% !important;
+}
+
+.conexao-carousel {
+    width: 100%;
+    display: flex;
+    margin-bottom: 0 !important; /* Garante que o carrossel não empurre a próxima seção */
+}
+
+.conexao-slide {
+    width: 100%;
+    height: 800px; 
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+
+
+.conexao-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 0 20px;
+    width: 100%;
+    line-height: normal; /* Restaura o espaçamento de texto correto dentro do slide */
+}
+
+/* AJUSTE DE CENTRALIZAÇÃO DO LOGO SVG */
+.conexao-content img {
+    display: block;
+    margin: 0 auto 20px auto; 
+    max-width: 100%;
+    height: auto;
+}
+
+.conexao-content h2 {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-top: 20px;
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 2px;
+}
+
+.conexao-content h3 {
+    font-size: 4rem;
+    color: #d6b26a; 
+    font-family: 'Playfair Display', serif;
+    line-height: 1.1;
+    margin: 15px 0;
+    font-weight: 700;
+}
+
+.conexao-content h3 span {
+    color: #fff;
+}
+
+.conexao-content h4 {
+    font-size: 1.5rem;
+    color: #9d9a9a;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+/* Customização dos pontos de navegação (Dots) do Carrossel */
+.conexao-container .slick-dots {
+    bottom: 30px;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    z-index: 5;
+}
+
+.conexao-container .slick-dots li {
+    display: inline-block;
+    margin: 0 6px;
+}
+
+.conexao-container .slick-dots li button {
+    width: 12px;
+    height: 12px;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    border-radius: 50%;
+    text-indent: -9999px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.conexao-container .slick-dots li.slick-active button {
+    background: #d6b26a;
+    transform: scale(1.2);
+}
+
+/* Remove folgas que possam existir na seção seguinte (#palestra) */
+#palestra {
+    margin-top: 0 !important;
+    padding-top: 60px; /* Ajuste o padding do topo caso queira mais ou menos respiro para o conteúdo da palestra */
+}
+
+@media (max-width: 768px) {
+    .conexao-content h2 { font-size: 1.8rem; }
+    .conexao-content h3 { font-size: 2.5rem; }
+    .conexao-content h4 { font-size: 1.1rem; }
+    .conexao-slide { height: 550px; } 
+}
 </style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 
+<script>
+    $(document).ready(function(){
+        // Carrossel do Banner Principal
+        $('#conexaoCarousel').slick({
+            dots: true,
+            infinite: true,
+            speed: 900,
+            fade: true,
+            cssEase: 'linear',
+            autoplay: true,
+            autoplaySpeed: 5000,
+            arrows: false,
+            pauseOnHover: false
+        });
 
-
-
-
+        // Seu carrossel de depoimentos existente
+        $('#carousel').slick({
+            // ... suas configurações antigas do depoimento
+        });
+    });
+</script>

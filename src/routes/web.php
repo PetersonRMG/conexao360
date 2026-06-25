@@ -1,59 +1,94 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
-// CONTROLLERS DO SITE
 use App\Http\Controllers\Site\HomeController;
 
-// CONTROLLERS DO ADMINISTRADOR
-use App\Http\Controllers\Admin\DashController;
-use App\Http\Controllers\Admin\ChatController;
-use App\Http\Controllers\Admin\DepoimentoController;
-use App\Http\Controllers\Admin\ModificacoesController; // Importado o correto
-use App\Http\Controllers\Admin\UsuarioController;
-use App\Http\Controllers\Admin\PalestranteController;
 
-/*
-|--------------------------------------------------------------------------
-| Rotas do Site Institucional
-|--------------------------------------------------------------------------
-*/
+use App\Http\Controllers\Admin\DashController;
+use App\Http\Controllers\Admin\ConexaoController;
+use App\Http\Controllers\Admin\EventoController;
+use App\Http\Controllers\Admin\DataController;
+use App\Http\Controllers\Admin\FormularioController;
+use App\Http\Controllers\Admin\TemasController;
+use App\Http\Controllers\Admin\HeroController;
+use App\Http\Controllers\Admin\VideoController;
+use App\Http\Controllers\Admin\DraController;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\DepoimentosController;
+use App\Http\Controllers\Admin\ModificacaoSiteController;
+use App\Http\Controllers\Admin\PalestrantesController;
+use App\Http\Controllers\Admin\UsuariosController;
+
+
+
+// Rota Pública do Site
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
-/*
-|--------------------------------------------------------------------------
-| Rotas do Painel Administrativo (Painel Conexão 360)
-|--------------------------------------------------------------------------
-*/
+// Rotas do Painel Administrativo
 Route::prefix('admin')->name('admin.')->group(function () {
     
-    // Visão Geral do Ecossistema (controle.blade.php / controlebas.php)
-    Route::get('/', [DashController::class, 'index'])->name('dash');
+    Route::get('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/login/autenticar', [AuthController::class , 'autenticar'])->name('login.autenticar');
+    Route::post('/logout',[AuthController::class , 'logout'])->name('logout');
     
-    // Modificações do Site (content.blade.php) -> Apontado para ModificacoesController
-    Route::get('/content', [ModificacoesController::class, 'content'])->name('content');
+    //ROTAS PROTEGIDAS
+    Route::middleware('auth:admin')->group(function(){   
+
+        // HOME DASH
+        Route::get( '/',[DashController::class, 'index'] )->name('dash');
+        
+        //MODIFICACAO DO SITE
+        Route::get( '/modificar-site',[ModificacaoSiteController::class, 'index'] )->name('modificar.site');
+        
+        //CREATE E UPDATE DE BANNER
+        Route::put('/banner/create', [HeroController::class, 'createHero'])->name('hero.create');
+        Route::put('/banner/update{id}', [HeroController::class, 'updateHero'])->name('hero.update');
     
-    // Atualizações e Criação de Conteúdo -> Ajustados para o controlador correto se necessário
-    Route::post('/{id}', [ModificacoesController::class, 'update'])->name('update');
-    Route::put('/criar', [ModificacoesController::class, 'create'])->name('create');
-    Route::post('video/{id}', [ModificacoesController::class, 'updateVideo'])->name('updateVideo');
-
-    // Gerenciamento de Depoimentos (Ajustado para bater com o .index do seu menu)
-    Route::get('/depoimentos', [DepoimentoController::class, 'index'])->name('depoimentos.index');
-
-    // Sistema de Mensagens Internas (Chat)
-    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-    Route::get('/chat/messages/{conversationId}', [ChatController::class, 'getMessages'])->name('chat.messages');
-    Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
-
-    // SUBGRUPO: CADASTROS (Usuários e Palestrantes)
-    Route::prefix('cadastro')->name('cadastro.')->group(function () {
-        Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios');
-        Route::get('/palestrantes', [PalestranteController::class, 'index'])->name('palestrantes');
+        //CREATE E UPDATE DE TEMA
+        Route::put( '/tema/create',[TemasController::class, 'createTema']  )->name('tema.create');
+        Route::put( '/tema/update{id}',[TemasController::class, 'updateTema']  )->name('tema.update');
+        
+        //CREATE E UPDATE DE EVENTO
+        Route::put('/evento/create', [EventoController::class, 'createEvento'])->name('evento.create');
+        Route::put('/evento/update{id}', [EventoController::class, 'updateEvento'])->name('evento.update');
+        
+        //CREATE E UPDATE DE VIDEO
+        Route::put('/video/create', [VideoController::class, 'createVideo'])->name('video.create');
+        Route::put('/video/update{id}', [VideoController::class, 'updateVideo'])->name('video.update');
+        
+        //CREATE E UPDATE DE DRA
+        Route::put('/dra/create', [DraController::class, 'createDra'])->name('dra.create');
+        Route::put('/dra/update{id}', [DraController::class, 'updateDra'])->name('dra.update');
+        
+        //ROTAS DE DEPOIMENTO
+        Route::get('/depoimentos', [DepoimentosController::class, 'indexAdmin'])->name('depoimentos.index');
+        Route::put('/depoimentos/aceitar{id}', [DepoimentosController::class, 'DepoAceitar'])->name('depoimentos.aceitar');
+        Route::put('/depoimentos/recusar{id}', [DepoimentosController::class, 'DepoRecusar'])->name('depoimentos.recusar');
+        
+        
+        Route::get('/palestrantes', [PalestrantesController::class, 'index'])->name('cadastro.palestrantes');
+        Route::get('/usuarios', [UsuariosController::class, 'index'])->name('cadastro.usuarios');        
+        
+        
+        Route::put('/lista/update', [FormularioController::class, 'update'])->name('admin.lista.update'); 
+        Route::put('/conexao/update', [ConexaoController::class, 'update'])->name('admin.conexao.update');   
     });
 
+    Route::prefix('palestrante')->middleware(['auth:admin'])->group(function () {
+        //HOME PALESTRANTE
+        Route::get('/', [PalestrantesController::class, 'index'])->name('palestrante.dash');
+
+        //DEPOIMENTO PALESTRANTE
+        Route::get('/depoimentos', [DepoimentosController::class, 'indexPalestrante'])->name('palestrante.depoimento.index');
+         Route::put('/depoimentos', [DepoimentosController::class, 'createDepoimento'])->name('palestrante.depoimento.create');
+
+    });
+
+
+     
 });
+
 
 
 

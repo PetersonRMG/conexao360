@@ -14,34 +14,7 @@ document.querySelector('.fechar').onclick = function () {
 /*map dos depoimentos*/
 const container = document.getElementById("carousel");
 
-let html = "";
 
-depoimentos.forEach((item) => {
-
-
-    html += `
-
-        <div class="cards  " >
-        <div class="texto-depoimentos ">
-            <img class="img-advo" src=${item.imagem || "img/draGabriela.png"} alt=${item.nome} width="120px">
-                <div class="divisao"></div>
-                <h3> ${item.nome} <br> </h3>
-                <h4> <br> ${item.cargo}</h4>
-                <div class="divisao"></div>
-                <p class="textetexto">
-                    <img src="img/aspas (1).svg" alt="" width="30   ">
-                        ${item.texto}
-                
-                    <img class="ajst" src="img/aspas (3).svg" alt="" width="30px">
-                </p>
-
-        </div>
-        </div>
-`
-
-});
-
-container.innerHTML = html;
 
 
 $("#carousel").slick({
@@ -78,4 +51,3 @@ $("#carousel").slick({
     ]
 
 });
-z

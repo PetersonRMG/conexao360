@@ -11,8 +11,10 @@
                 </div>
             </div>
             <div class="card-body" style="display: none;">
-                <form method="POST" action="{{ route('admin.lista.update') }}">
-                    @csrf @method('PUT')
+                <form method="POST" >
+                <!-- action="{{ route('admin.lista.update') }}" -->
+                    @csrf 
+                    @method('PUT')
                     <div class="mb-3">
                         <label class="form-label">Título da Seção</label>
                         <input type="text" class="form-control" name="titulo_lista" value="{{ $lista->titulo_lista ?? 'Entre para a lista prioritária da Conexão 360º' }}">

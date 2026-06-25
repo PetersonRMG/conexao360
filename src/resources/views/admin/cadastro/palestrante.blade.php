@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 @extends('admin.dash.dashboard')
+=======
+@extends('layout.admin')
+@section('title', 'Cadastro Palestrante')
+@section('pg-titulo', 'Cadastro Palestrante')
+@section('link-topo', 'Cadastro Palestrante')
+>>>>>>> 8532a288ff91fc142bec881a2eddf19935781021
 
 @section('content')
 <main class="app-main">

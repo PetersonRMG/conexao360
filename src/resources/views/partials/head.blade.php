@@ -38,6 +38,7 @@
     <meta name="msapplication-TileImage" content="{{asset('conexao360/icon/ms-icon-144x144.png')}}">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="{{asset('conexao360/css/reset.css')}}">
+    <link href="https://jsdelivr.net" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{asset('conexao360/css/slick.css')}}" />
     <link rel="stylesheet" type="text/css" href="{{asset('conexao360/css/slick-theme.css')}}" />
     <link rel="stylesheet" href="{{asset('conexao360/css/lity.min.css')}}">

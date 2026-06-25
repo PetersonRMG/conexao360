@@ -9,7 +9,6 @@ use App\Models\Temas;
 use App\Models\Dra;
 use App\Models\Video;
 use App\Models\Eventos;
-
 class HomeController extends Controller 
 {
     //

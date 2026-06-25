@@ -12,6 +12,7 @@
             <p style="color: #94a3b8; margin: 0; font-size: 0.9rem;">Monitore as métricas, engajamento e solicitações pendentes da rede privada.</p>
         </div>
 
+<<<<<<< HEAD
         <!-- 1. SEÇÃO DE CARDS DE MONITORAMENTO RÁPIDO -->
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem;">
             
@@ -25,6 +26,10 @@
                     <h3 style="color: #ffffff; margin: 0; font-weight: 700; font-size: 1.6rem; letter-spacing: -0.5px;">1.248</h3>
                 </div>
             </div>
+=======
+    @include('admin.modificarSite.content')
+    
+>>>>>>> 8532a288ff91fc142bec881a2eddf19935781021
 
             <!-- Card 2: Moderações Pendentes -->
             <div style="background-color: #11141a; border: 1px solid #1e2330; border-radius: 10px; padding: 1.5rem; display: flex; align-items: center; gap: 1.25rem; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">

@@ -119,7 +119,10 @@ nav ul li a:hover {
     width: 100%;
     height: 900px;
     padding: 40px 10%;
-    background: url('../img/simone_imgprincipal.jpg') center/cover no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    
 }
 
 .logo-container {
@@ -723,118 +726,49 @@ nav ul li a:hover {
         padding: 0 20px;
     }
 }
-
-/* sessao depoimentos */
-.depoimentos {
-    padding: 100px 6%;
-    text-align: center;
-    background-color: var(--bg-deep);
-}
-
-.titulo span {
-    display: block;
-    font-size: 22px;
-    color: var(--text);
-    margin-top: 20px;
-    margin-bottom: 40px
-}
-
-.caixa-car {
-    width: 100%;
-    max-width: 1750px;
-    /* Largura da "janela" visÃ­vel */
-    margin: 0 auto;
-    /* Esconde os cards que saem da Ã¡rea */
-    border-radius: 10px;
-}
-
-.carrosel {
-    display: flex;  
-}
-
-.cards {
-    display: flex;
-    gap: 40px;
-    justify-content: center;
-    align-items: flex-end;
-    flex-wrap: wrap;
-}
-
-.texto-depoimentos {
-    background: linear-gradient(180deg, #140d1c, #0c0812);
-    border: 1px solid rgba(214, 178, 106, 0.2);
-    border-radius: 18px;
-    padding: 10px 10px;
-    width: 300px;
-    height: 490px;
-    transition: all 0.4s ease;
-    margin: auto;
-}
-
-.texto-depoimentos .img-advo {
-    margin: auto;
-}
-
-.texto-depoimentos:hover {
-    border-color: var(--gold);
-}
-
-.divisao {
-    width: 60%;
-    height: 1px;
-    margin: 10px auto 10px;
-    background: linear-gradient(to right,
-            transparent,
-            rgba(214, 178, 106, 0.8),
-            transparent);
-}
-
-.texto-depoimentos h3 {
-    color: #d6b26a;
-    font-family: 'Playfair Display', serif;
-    font-size: 17px;
-}
-
-.texto-depoimentos h4 {
-    color: #9d9a9a;
-}
-
-.texto-depoimentos p {
-    line-height: 1.2;
+.texto-depoimentos p.depoimento-texto {
     font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #e0e0e0;
+    margin-bottom: 25px;
+    font-weight: 400;
+    position: relative;
+    padding: 0 15px; /* Espaço para as aspas não cobrirem o texto */
+    display: inline-block;
 }
 
-.slick-slide img {
-    display: flex !important;
+/* Aspas de Abertura Injetada via CSS */
+.texto-depoimentos p.depoimento-texto::before {
+    content: "\201C"; /* Código Unicode para aspas de abertura elegante “ */
+    font-family: 'Georgia', 'Playfair Display', serif;
+    font-size: 32px;
+    color: #d6b26a; /* Cor Dourada */
+    font-weight: bold;
+    line-height: 0;
+    margin-right: 6px;
+    display: inline-block;
+    vertical-align: middle;
+    transform: translateY(-2px);
 }
 
-.ajst {
-    display: flex;
-    align-items: flex-end;
-    justify-self: end;
+/* Aspas de Fechamento Injetada via CSS */
+.texto-depoimentos p.depoimento-texto::after {
+    content: "\201D"; /* Código Unicode para aspas de fechamento elegante ” */
+    font-family: 'Georgia', 'Playfair Display', serif;
+    font-size: 32px;
+    color: #d6b26a; /* Cor Dourada */
+    font-weight: bold;
+    line-height: 0;
+    margin-left: 6px;
+    display: inline-block;
+    vertical-align: middle;
+    transform: translateY(6px);
 }
 
-.slick-prev:before,
-.slick-next:before {
-    content: "";
-    display: block;
-    width: 20px;
-    height: 20px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    opacity: 1;
-}
 
-.slick-prev:before {
-    background-image: url("../img/left-arrow.png");
-}
 
-.slick-next:before {
-    background-image: url("../img/right-arrow.png");
-}
 
-/* fim sessao depoimentos */
 /* sessao local */
 .local_sessao {
     background-color: #0a0a0b;

@@ -64,3 +64,19 @@
       "Foram dois dias repletos de palestras maravilhosas e muito network. Fui acolhida de tal forma que já me sentia parte daquele ecossistema. O próximo evento está chegando: se você não for, só você não vai! Venha fazer parte dessa advocacia que cresce exponencialmente a cada novo encontro!"
   }
 ];
+
+
+$(document).ready(function(){
+    // Inicialização do Carrossel do Banner Principal (Conexão 360)
+    $('#conexaoCarousel').slick({
+        dots: true,               /* Ativa as bolinhas de paginação no rodapé */
+        infinite: true,           /* Carrossel em loop infinito */
+        speed: 900,               /* Velocidade de transição suave */
+        fade: true,               /* Ativa o efeito Fade (esmaecer) igual ao painel */
+        cssEase: 'linear',
+        autoplay: true,           /* Passa os slides automaticamente */
+        autoplaySpeed: 5000,      /* Tempo que cada banner fica na tela (5 segundos) */
+        arrows: false,            /* Oculta as setas laterais para manter o design limpo */
+        pauseOnHover: false       /* Impede que o slide pare ao passar o mouse */
+    });
+});
