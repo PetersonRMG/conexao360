@@ -14,7 +14,9 @@ document.querySelector('.fechar').onclick = function () {
 /*map dos depoimentos*/
 const container = document.getElementById("carousel");
 
+let html = "";
 
+ 
 
 
 $("#carousel").slick({
@@ -51,3 +53,4 @@ $("#carousel").slick({
     ]
 
 });
+z

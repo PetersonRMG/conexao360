@@ -22,10 +22,15 @@ class Usuarios extends Authenticatable
     
     protected $fillable = [
         'nome_usuario',
-        'email_usuario',
-        'senha_usuario',
-        'perfil_usuario',
         'foto_usuario',
+        'email_usuario',
+        'area_atuacao_usuario',
+        'senha_usuario',
+        'termos_usuario',
+        'perfil_usuario',
+        'estado_usuario',
+        'sobre_usuario',
+        'status_usuario' ,
                 
     ];
     

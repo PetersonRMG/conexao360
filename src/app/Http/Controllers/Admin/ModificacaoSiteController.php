@@ -9,6 +9,7 @@ use App\Models\Dra;
 use App\Models\Video;
 use App\Models\HeroSection; // Importando o novo Model da Sessão Principal
 use App\Models\Eventos;
+use App\Models\Usuarios;
 use Illuminate\Support\Str;
 
 class ModificacaoSiteController extends Controller
@@ -28,6 +29,9 @@ class ModificacaoSiteController extends Controller
 
         $video = Video::orderBy('status_video')               
         ->get();
+
+        
+
 
         $hero = HeroSection::orderBy('status_hero')
         ->get();    

@@ -31,17 +31,37 @@
 
 
 
-<section class="conexao">
+<section class="conexao-container">
+    <div class="conexao-carousel" id="conexaoCarousel">
+        
+        <div class="conexao-slide active-slide" style="background-image: url('{{ asset('conexao360/img/Mídia (1).jpg') }}');">
+            <div class="conexao-content">
+                <img src="{{ asset('conexao360/img/pint.svg') }}" alt="Logo" width="200px">
+                <h2>Conexão 360º</h2>
+                <h3>ADVOCACIA <br> E<span>X</span>PONENCIAL</h3>
+                <h4>3ª EDIÇÃO</h4>
+            </div>
+        </div>
 
+        <div class="conexao-slide" style="background-image: url('{{ asset('conexao360/img/captura.png')}}');">
+            <div class="conexao-content">
+                <img src="{{ asset('conexao360/img/pint.svg') }}" alt="Logo" width="200px">
+                <h2>Networking de Elite</h2>
+                <h3>CONEXÕES <br> E<span>X</span>CLUSIVAS</h3>
+                <h4>VAGAS LIMITADAS</h4>
+            </div>
+        </div>
 
-    <img src="{{ asset('conexao360/img/pint.svg') }}" alt="" width="200px">
-    <h2> Conexão 360º </h2>
+        <div class="conexao-slide" style="background-image: url('{{ asset('conexao360/img/Mídia (1).jpg') }}');">
+            <div class="conexao-content">
+                <img src="{{ asset('conexao360/img/pint.svg') }}" alt="Logo" width="200px">
+                <h2>Imersão Prática</h2>
+                <h3>MENTORIA <br> E<span>X</span>STRATÉGICA</h3>
+                <h4>PRÓXIMO EVENTO</h4>
+            </div>
+        </div>
 
-
-    <h3> ADVOCACIA <br> E<span>X</span>PONENCIAL</h3>
-    <h4>3º EDIÇÃO </h4>
-
-
+    </div>
 </section>
 
 <section id="palestra" class="palestra">
@@ -200,10 +220,10 @@
                     <h4> <br> {{ $item->usuario->area_atuacao_usuario }}</h4>
                     <div class="divisao"></div>
                     <p class="textetexto">
-                        <img src="img/aspas (1).svg" alt="" width="30   ">
-                        {{ $item->descricao_depoimento }}
+                        <img src="{{ asset('conexao360/img/aspas (1).svg') }}" alt="" width="30   ">
+                        "{{ $item->descricao_depoimento }}"
 
-                        <img class="ajst" src="img/aspas (3).svg" alt="" width="30px">
+                        <img class="ajst" src="{{ asset('conexao360/img/aspas (3).svg') }}" alt="" width="30px">
                     </p>
 
                 </div>
@@ -322,3 +342,161 @@
     </div>
 
 </section>
+
+<style>
+
+
+/* ==========================================================================
+   BANNER HERO - CARROSSEL DINÂMICO (CONEXÃO 360)
+   ========================================================================== */
+.conexao-container {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    line-height: 0; /* Remove espaços vazios causados por elementos inline/block inline */
+}
+
+/* Força o Slick a ocupar exatamente o tamanho do container sem deixar rebarbas */
+.conexao-container .slick-list,
+.conexao-container .slick-track {
+    height: 100% !important;
+}
+
+.conexao-carousel {
+    width: 100%;
+    display: flex;
+    margin-bottom: 0 !important; /* Garante que o carrossel não empurre a próxima seção */
+}
+
+.conexao-slide {
+    width: 100%;
+    height: 800px; 
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+
+
+.conexao-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 5% 20px;
+    width: 50%;
+    line-height: normal; /* Restaura o espaçamento de texto correto dentro do slide */
+    background-color: rgba(0, 0, 0, 0.548);;
+}
+
+/* AJUSTE DE CENTRALIZAÇÃO DO LOGO SVG */
+.conexao-content img {
+    display: block;
+    margin: 0 auto 20px auto; 
+    max-width: 100%;
+    height: auto;
+}
+
+.conexao-content h2 {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-top: 20px;
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 2px;
+}
+
+.conexao-content h3 {
+    font-size: 4rem;
+    color: #d6b26a; 
+    font-family: 'Playfair Display', serif;
+    line-height: 1.1;
+    margin: 15px 0;
+    font-weight: 700;
+}
+
+.conexao-content h3 span {
+    color: #fff;
+}
+
+.conexao-content h4 {
+    font-size: 1.5rem;
+    color: #9d9a9a;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+/* Customização dos pontos de navegação (Dots) do Carrossel */
+.conexao-container .slick-dots {
+    bottom: 30px;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    z-index: 5;
+}
+
+.conexao-container .slick-dots li {
+    display: inline-block;
+    margin: 0 6px;
+}
+
+.conexao-container .slick-dots li button {
+    width: 12px;
+    height: 12px;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    border-radius: 50%;
+    text-indent: -9999px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.conexao-container .slick-dots li.slick-active button {
+    background: #d6b26a;
+    transform: scale(1.2);
+}
+
+/* Remove folgas que possam existir na seção seguinte (#palestra) */
+#palestra {
+    margin-top: 0 !important;
+    padding-top: 60px; /* Ajuste o padding do topo caso queira mais ou menos respiro para o conteúdo da palestra */
+}
+
+@media (max-width: 768px) {
+    .conexao-content h2 { font-size: 1.8rem; }
+    .conexao-content h3 { font-size: 2.5rem; }
+    .conexao-content h4 { font-size: 1.1rem; }
+    .conexao-slide { height: 550px; } 
+}
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        // Carrossel do Banner Principal
+        $('#conexaoCarousel').slick({
+            dots: true,
+            infinite: true,
+            speed: 900,
+            fade: true,
+            cssEase: 'linear',
+            autoplay: true,
+            autoplaySpeed: 5000,
+            arrows: false,
+            pauseOnHover: false
+        });
+
+        // Seu carrossel de depoimentos existente
+        $('#carousel').slick({
+            // ... suas configurações antigas do depoimento
+        });
+    });
+</script>

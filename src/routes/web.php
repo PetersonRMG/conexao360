@@ -67,7 +67,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('/depoimentos/recusar{id}', [DepoimentosController::class, 'DepoRecusar'])->name('depoimentos.recusar');
         
         
-        Route::get('/palestrantes', [PalestrantesController::class, 'index'])->name('cadastro.palestrantes');
+        Route::get('/palestrantes', [PalestrantesController::class, 'index'])->name('palestrantes');
+        Route::get('/palestrantes', [PalestrantesController::class, 'palestrante'])->name('cadastro.palestrante');
+        Route::put('/palestrantes/create', [PalestrantesController::class, 'createPalestrante'])->name('palestrante.create');
+
         Route::get('/usuarios', [UsuariosController::class, 'index'])->name('cadastro.usuarios');        
         
         
