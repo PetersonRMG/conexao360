@@ -3,6 +3,7 @@
 
 @section('content')
 
-    @include('admin.dash.content')
+    @include('admin.modificarSite.content')
+    
 
 @endsection

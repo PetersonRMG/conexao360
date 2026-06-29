@@ -21,6 +21,7 @@
 
 
     <link rel="apple-touch-icon" sizes="57x57" href="{{asset('conexao360/icon/apple-icon-57x57.png')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="apple-touch-icon" sizes="60x60" href="{{asset('conexao360/icon/apple-icon-60x60.png')}}">
     <link rel="apple-touch-icon" sizes="72x72" href="{{asset('conexao360/icon/apple-icon-72x72.png')}}">
     <link rel="apple-touch-icon" sizes="76x76" href="{{asset('conexao360/icon/apple-icon-76x76.png')}}">
@@ -38,6 +39,7 @@
     <meta name="msapplication-TileImage" content="{{asset('conexao360/icon/ms-icon-144x144.png')}}">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="{{asset('conexao360/css/reset.css')}}">
+    <link href="https://jsdelivr.net" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{asset('conexao360/css/slick.css')}}" />
     <link rel="stylesheet" type="text/css" href="{{asset('conexao360/css/slick-theme.css')}}" />
     <link rel="stylesheet" href="{{asset('conexao360/css/lity.min.css')}}">

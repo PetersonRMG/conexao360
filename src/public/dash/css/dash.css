@@ -1,0 +1,217 @@
+    /* ==========================================================================
+       Estilização Geral do Painel (Fundo Escuro com Degradê Radial Dinâmico)
+       ========================================================================== */
+    .app-main {
+        background: radial-gradient(circle at top right, #1a1224, #0b090d 60%) !important;
+        color: #e3e1e6 !important;
+        font-family: 'Inter', 'Montserrat', sans-serif;
+        min-height: 100vh;
+    }
+    
+ 
+    /* ==========================================================================
+       Sanfonas Nativas e Efeito Vidro Opaco (Glassmorphism Sem JavaScript)
+       ========================================================================== */
+    .premium-accordion-wrapper {
+        margin-bottom: 1.5rem !important;
+        display: block;
+        width: 100%;
+    }
+    /* Cabeçalho da sanfona atuando como uma placa de vidro lapidado */
+    .premium-card-header {
+        background: rgba(26, 21, 31, 0.45) !important;
+        backdrop-filter: blur(14px) saturate(160%) !important;
+        -webkit-backdrop-filter: blur(14px) saturate(160%) !important;
+        border: 1px solid rgba(130, 105, 61, 0.25) !important;
+        border-radius: 14px !important;
+        padding: 1.4rem 1.7rem !important;
+        cursor: pointer;
+        list-style: none; /* Oculta a seta padrão do HTML */
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        user-select: none;
+    }
+    .premium-card-header::-webkit-details-marker { 
+        display: none; /* Oculta a seta padrão no Safari */
+    }
+    .premium-card-header:hover {
+        background: rgba(35, 28, 41, 0.6) !important;
+        border-color: rgba(197, 168, 128, 0.4) !important;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55) !important;
+        transform: translateY(-1px);
+    }
+ 
+    /* Comportamento visual de continuidade do vidro quando expandido */
+    .premium-accordion-wrapper[open] .premium-card-header {
+        border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+        background: rgba(21, 17, 26, 0.75) !important;
+        border-color: rgba(130, 105, 61, 0.35) !important;
+    }
+ 
+    /* Painel interno contendo os loops do Laravel */
+    .premium-card-body-content {
+        background: rgba(14, 11, 18, 0.4) !important;
+        backdrop-filter: blur(14px) !important;
+        -webkit-backdrop-filter: blur(14px) !important;
+        border: 1px solid rgba(130, 105, 61, 0.35) !important;
+        border-top: none !important;
+        border-bottom-left-radius: 14px;
+        border-bottom-right-radius: 14px;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+        animation: slideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+ 
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+ 
+    /* Rotação e controle do ícone de Seta por CSS puro */
+    .premium-accordion-wrapper .bi-chevron-down {
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s;
+        color: #7d7385 !important;
+    }
+    .premium-accordion-wrapper:hover .bi-chevron-down {
+        color: #c5a880 !important;
+    }
+    .premium-accordion-wrapper[open] .bi-chevron-down {
+        transform: rotate(180deg);
+        color: #c5a880 !important;
+    }
+ 
+    .premium-card-title {
+        color: #f1eef4 !important;
+        font-size: 1.15rem !important;
+        font-weight: 500 !important;
+        letter-spacing: -0.2px;
+        margin: 0 !important;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .premium-card-title i { 
+        color: #c5a880 !important; 
+    }
+ 
+    /* ==========================================================================
+       Botões de Ação (Estilo Ouro Minimalista Linear)
+       ========================================================================== */
+    .btn-premium-add {
+        background: rgba(197, 168, 128, 0.08) !important;
+        color: #c5a880 !important;
+        border: 1px solid rgba(197, 168, 128, 0.3) !important;
+        font-weight: 500;
+        font-size: 0.85rem;
+        padding: 0.55rem 1.2rem;
+        border-radius: 8px;
+        letter-spacing: 0.3px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .btn-premium-add:hover {
+        background: #82693d !important;
+        color: #0b090d !important;
+        border-color: #82693d !important;
+        box-shadow: 0 0 15px rgba(130, 105, 61, 0.3);
+    }
+    /* Subcards dos Itens Cadastrados (Dentro do @foreach) */
+    .premium-item-card {
+        background: rgba(21, 17, 26, 0.75) !important;
+        border: 1px solid rgba(255, 255, 255, 0.04) !important;
+        border-radius: 12px !important;
+        padding: 1.5rem !important;
+        height: 100%;
+        box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.02);
+        box-sizing: border-box;
+    }
+ 
+    /* ==========================================================================
+       Customização de Inputs e Caixas de Texto (Dark Minimalista)
+       ========================================================================== */
+    .premium-item-card .form-label, 
+    .premium-card-body-content .form-label {
+        color: #9d96a6 !important;
+        font-size: 0.75rem !important;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+    .premium-item-card .form-control, 
+    .premium-item-card .form-select,
+    .premium-card-body-content .form-control,
+    .premium-card-body-content .form-select {
+        background-color: rgba(9, 7, 10, 0.8) !important;
+        border: 1px solid rgba(255, 255, 255, 0.06) !important;
+        color: #ffffff !important;
+        border-radius: 8px !important;
+        font-size: 0.9rem;
+        padding: 0.6rem 0.8rem;
+        transition: all 0.2s ease;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .premium-item-card .form-control:focus, 
+    .premium-item-card .form-select:focus,
+    .premium-card-body-content .form-control:focus,
+    .premium-card-body-content .form-select:focus {
+        border-color: #82693d !important;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(130, 105, 61, 0.15) !important;
+        background-color: #0e0b12 !important;
+    }
+    .premium-item-card .form-text,
+    .premium-card-body-content .form-text {
+        color: #56505c !important;
+        font-size: 0.75rem !important;
+    }
+ 
+    /* Elementos de Mídia */
+    .media-preview-container {
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #09070a;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+    }
+    .media-preview-container img, 
+    .media-preview-container video, 
+    .media-preview-container iframe {
+        max-width: 100%;
+        height: auto;
+        border-radius: 6px;
+    }
+ 
+    /* Botão de Confirmação */
+    .btn-premium-confirm {
+        background: linear-gradient(135deg, #82693d, #634f2d) !important;
+        color: #ffffff !important;
+        border: 1px solid #967d4b !important;
+        font-weight: 500;
+        font-size: 0.85rem;
+        padding: 0.6rem 1.4rem;
+        border-radius: 8px;
+        letter-spacing: 0.2px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    .btn-premium-confirm:hover {
+        background: linear-gradient(135deg, #967d4b, #755e35) !important;
+        box-shadow: 0 4px 15px rgba(130, 105, 61, 0.4) !important;
+    }
+ 
+    .border-secondary {
+        border-color: rgba(255, 255, 255, 0.08) !important;
+    }

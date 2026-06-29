@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Eventos extends Model
 {
@@ -30,4 +31,27 @@ class Eventos extends Model
         'hora_termino_evento'  
         
     ];
+
+        public function getDataFormatadaAttribute()
+    {
+        Carbon::setLocale('pt_BR');
+            $inicio = Carbon::parse(
+                $this->data_inicial_evento . ' ' . $this->hora_inicial_evento
+            );
+
+            $fim = Carbon::parse(
+                $this->data_termino_evento . ' ' . $this->hora_termino_evento
+            );
+
+        return $inicio->format('d')
+            . ' e '
+            . $fim->format('d')
+            . ' de '
+            . ucfirst($inicio->translatedFormat('F'))
+            . ' de '
+            . $inicio->format('Y')
+            . ', às '
+            . $inicio->format('H\hi');
+            
+    }
 }

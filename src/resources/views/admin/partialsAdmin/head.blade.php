@@ -25,6 +25,8 @@
     <!--begin::Accessibility Features-->
     <!-- Skip links will be dynamically added by accessibility.js -->
     <meta name="supported-color-schemes" content="light dark" />
+
+       <link rel="stylesheet" type="text/css"  href="{{asset('dash/css/dash.css')}}" />
     <link rel="preload" href="{{asset('dash/css/adminlte.css')}}" as="style" />
     <!--end::Accessibility Features-->
 
@@ -66,4 +68,7 @@
       integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0="
       crossorigin="anonymous"
     />
+
+     
+       
   </head>

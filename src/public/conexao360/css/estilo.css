@@ -119,7 +119,10 @@ nav ul li a:hover {
     width: 100%;
     height: 900px;
     padding: 40px 10%;
-    background: url('../img/simone_imgprincipal.jpg') center/cover no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    
 }
 
 .logo-container {
@@ -1801,4 +1804,3 @@ header.scrolled {
     background-image: none !important;
     transition: .5s;
 }
-

@@ -9,29 +9,40 @@ use App\Models\Temas;
 use App\Models\Dra;
 use App\Models\Video;
 use App\Models\Eventos;
+use App\Models\HeroSection;
+use App\Models\Depoimentos;
+
 
 class HomeController extends Controller 
 {
     //
     public function index(){
-        $evento = Eventos::orderBy('id_evento')
-        ->get();
+  
 
-        $temas = Temas::with('eventos')
-        ->where('status_tema', 'ATIVO')        
+        $temas = Temas::where('status_tema', 'ATIVO')        
         ->inRandomOrder()        
         ->get();
 
-        $dra = Dra::with('eventos')
-        ->where('status_dra', 'ATIVO')                     
+        $dra = Dra::where('status_dra', 'ATIVO')                     
         ->get();
 
-        $video = Video::with('eventos')
-        ->where('status_video','ATIVO')                    
+        $video = Video::where('status_video','ATIVO')                    
+        ->get();
+
+        $hero = HeroSection::where('status_hero', 'ATIVO')
+        ->get();
+
+        $evento = Eventos::where('status_evento', 'ATIVO')
+        ->first();
+
+        $depoimentos = Depoimentos::where('status_depoimento', 'ATIVO')
         ->get();
 
 
-        //  dd($evento);
-        return view('site.home.home',compact('temas', 'dra', 'video','evento'));
+
+
+
+        // dd($hero);
+        return view('site.home.home',compact('temas', 'dra', 'video','evento','hero','depoimentos'));
     }
 }
