@@ -279,8 +279,8 @@
                                                 <div class="mb-3">
                                                     <label for="status_tema" class="form-label">Status</label>
                                                     <select class="form-select" required name="status_tema">
-                                                        <option value="ATIVO" {{ $item->status_hero == 'ATIVO' ? 'selected' : '' }}>Ativo</option>
-                                                        <option value="INATIVO" {{ $item->status_hero == 'INATIVO' ? 'selected' : '' }}>Inativo</option>
+                                                        <option value="ATIVO" {{ $item->status_tema == 'ATIVO' ? 'selected' : '' }}>Ativo</option>
+                                                        <option value="INATIVO" {{ $item->status_tema == 'INATIVO' ? 'selected' : '' }}>Inativo</option>
                                                     </select>
                                                     <div class="form-text">Informe o Status do Produto.</div>
                                                 </div>
@@ -298,6 +298,496 @@
                                 </div>
                             @endforeach
                         </div>
+                    </div>
+                </details>
+
+                {{-- EDITAR VÍDEOS --}}
+                <details class="premium-accordion-wrapper">
+                    <summary class="premium-card-header">
+                        <h3 class="premium-card-title">
+                            <i class="bi bi-play-btn"></i> Editar Vídeos
+                        </h3>
+                        <div class="d-flex align-items-center gap-3">
+                            <button type="button"
+                                class="btn-premium-add"
+                                data-bs-toggle="modal"
+                                data-bs-target="#criarVideo"
+                                onclick="event.stopPropagation();">
+                                <i class="bi bi-plus-circle"></i> Novo Vídeo
+                            </button>
+
+                            <i class="bi bi-chevron-down fs-5"></i>
+                        </div>
+                    </summary>
+
+                    <div class="premium-card-body-content p-4">
+                        <div class="row g-4 justify-content-center">
+                            @foreach ($video as $item)
+                                <div class="col-12">
+                                    <form method="POST"
+                                        action="{{ route('admin.video.update', $item->id_video) }}"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        @method('PUT')
+
+                                        <div class="premium-item-card">
+                                            <div class="row g-4 align-items-start">
+
+                                                {{-- FORMULÁRIO --}}
+                                                <div class="col-12 col-lg-8">
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Título do Vídeo</label>
+                                                        <input
+                                                            type="text"
+                                                            class="form-control"
+                                                            name="titulo_video"
+                                                            value="{{ $item->titulo_video }}">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Subtítulo</label>
+                                                        <textarea
+                                                            class="form-control"
+                                                            name="subtitulo_video"
+                                                            rows="3">{{ $item->subtitulo_video }}</textarea>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Breve Descrição</label>
+                                                        <textarea
+                                                            class="form-control"
+                                                            name="breve_descricao_video"
+                                                            rows="4">{{ $item->breve_descricao_video }}</textarea>
+                                                    </div>
+
+                                                    <div class="row">
+
+                                                        <div class="col-12 col-md-6 mb-3">
+                                                            <label class="form-label">Legenda</label>
+                                                            <input
+                                                                type="text"
+                                                                class="form-control"
+                                                                name="legenda_video"
+                                                                value="{{ $item->legenda_video }}">
+                                                        </div>
+
+                                                        <div class="col-12 col-md-6 mb-3">
+                                                            <label class="form-label">Status</label>
+
+                                                            <select
+                                                                class="form-select"
+                                                                name="status_video">
+
+                                                                <option value="ATIVO"
+                                                                    {{ $item->status_video == 'ATIVO' ? 'selected' : '' }}>
+                                                                    Ativo
+                                                                </option>
+
+                                                                <option value="INATIVO"
+                                                                    {{ $item->status_video == 'INATIVO' ? 'selected' : '' }}>
+                                                                    Inativo
+                                                                </option>
+
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                {{-- PREVIEW --}}
+                                                <div class="col-12 col-lg-4">
+
+                                                    <label class="form-label text-center d-block">
+                                                        Capa Atual
+                                                    </label>
+
+                                                    <div class="media-preview-container mb-3">
+                                                        <img
+                                                            src="{{ asset('conexao360/img/' . $item->capa_video) }}"
+                                                            alt="{{ $item->titulo_video }}">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label">
+                                                            Alterar Capa
+                                                        </label>
+
+                                                        <input
+                                                            type="file"
+                                                            class="form-control"
+                                                            name="capa_video"
+                                                            accept="image/png,image/jpeg,image/webp">
+                                                    </div>
+
+                                                    <label class="form-label text-center d-block">
+                                                        Vídeo Atual
+                                                    </label>
+
+                                                    <div class="media-preview-container mb-3">
+                                                        <video
+                                                            class="w-100 rounded"
+                                                            controls>
+
+                                                            <source
+                                                                src="{{ asset('conexao360/img/' . $item->url_video) }}"
+                                                                type="video/mp4">
+
+                                                        </video>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label">
+                                                            Alterar Vídeo
+                                                        </label>
+
+                                                        <input
+                                                            type="file"
+                                                            class="form-control"
+                                                            name="url_video"
+                                                            accept="video/mp4,video/webm,video/quicktime">
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="border-top border-secondary pt-3 mt-3 text-end">
+                                                <button
+                                                    type="submit"
+                                                    class="btn-premium-confirm">
+
+                                                    <i class="bi bi-check-circle me-1"></i>
+                                                    Salvar Vídeo
+
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </details>
+
+                {{-- EDITAR DRA --}}
+                <details class="premium-accordion-wrapper">
+                    <summary class="premium-card-header">
+                        <h3 class="premium-card-title">
+                            <i class="bi bi-person-badge"></i> Editar Dra
+                        </h3>
+
+                        <div class="d-flex align-items-center gap-3">
+                            <button
+                                type="button"
+                                class="btn-premium-add"
+                                data-bs-toggle="modal"
+                                data-bs-target="#criarDra"
+                                onclick="event.stopPropagation();">
+
+                                <i class="bi bi-plus-circle"></i>
+                                Nova Dra
+
+                            </button>
+
+                            <i class="bi bi-chevron-down fs-5"></i>
+                        </div>
+                    </summary>
+
+                    <div class="premium-card-body-content p-4">
+
+                        <div class="row g-4 justify-content-center">
+
+                            @foreach ($dra as $item)
+
+                                <div class="col-12">
+
+                                    <form
+                                        method="POST"
+                                        action="{{ route('admin.dra.update', $item->id_dra) }}"
+                                        enctype="multipart/form-data">
+
+                                        @csrf
+                                        @method('PUT')
+
+                                        <div class="premium-item-card">
+
+                                            <div class="row g-4 align-items-start">
+
+                                                {{-- FORMULÁRIO --}}
+                                                <div class="col-12 col-lg-8">
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label">
+                                                            Título
+                                                        </label>
+
+                                                        <input
+                                                            type="text"
+                                                            class="form-control"
+                                                            name="titulo_dra"
+                                                            value="{{ $item->titulo_dra }}">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label">
+                                                            Subtítulo
+                                                        </label>
+
+                                                        <input
+                                                            type="text"
+                                                            class="form-control"
+                                                            name="sub_titulo_dra"
+                                                            value="{{ $item->sub_titulo_dra }}">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label">
+                                                            Descrição
+                                                        </label>
+
+                                                        <textarea
+                                                            class="form-control"
+                                                            name="descricao_dra"
+                                                            rows="6">{{ $item->descricao_dra }}</textarea>
+                                                    </div>
+
+                                                    <div class="row">
+
+                                                        <div class="col-12 col-md-6 mb-3">
+
+                                                            <label class="form-label">
+                                                                Status
+                                                            </label>
+
+                                                            <select
+                                                                class="form-select"
+                                                                name="status_dra">
+
+                                                                <option
+                                                                    value="ATIVO"
+                                                                    {{ $item->status_dra == 'ATIVO' ? 'selected' : '' }}>
+                                                                    Ativo
+                                                                </option>
+
+                                                                <option
+                                                                    value="INATIVO"
+                                                                    {{ $item->status_dra == 'INATIVO' ? 'selected' : '' }}>
+                                                                    Inativo
+                                                                </option>
+
+                                                            </select>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                {{-- FOTO --}}
+                                                <div class="col-12 col-lg-4">
+
+                                                    <label class="form-label text-center d-block">
+                                                        Foto Atual
+                                                    </label>
+
+                                                    <div class="media-preview-container mb-3">
+                                                        <img
+                                                            src="{{ asset('conexao360/img/' . $item->foto_dra) }}"
+                                                            alt="{{ $item->titulo_dra }}">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label">
+                                                            Alterar Foto
+                                                        </label>
+
+                                                        <input
+                                                            type="file"
+                                                            class="form-control"
+                                                            name="foto_dra"
+                                                            accept="image/png,image/jpeg,image/webp">
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="border-top border-secondary pt-3 mt-3 text-end">
+
+                                                <button
+                                                    type="submit"
+                                                    class="btn-premium-confirm">
+
+                                                    <i class="bi bi-check-circle me-1"></i>
+                                                    Salvar Alterações
+
+                                                </button>
+
+                                            </div>
+
+                                        </div>
+
+                                    </form>
+
+                                </div>
+
+                            @endforeach
+
+                        </div>
+
+                    </div>
+                </details>
+
+                {{-- EDITAR TEMAS --}}
+                <details class="premium-accordion-wrapper">
+                    <summary class="premium-card-header">
+                        <h3 class="premium-card-title">
+                            <i class="bi bi-tags"></i> Editar Temas
+                        </h3>
+
+                        <div class="d-flex align-items-center gap-3">
+                            <button
+                                type="button"
+                                class="btn-premium-add"
+                                data-bs-toggle="modal"
+                                data-bs-target="#criarTemas"
+                                onclick="event.stopPropagation();">
+
+                                <i class="bi bi-plus-circle"></i>
+                                Novo Tema
+
+                            </button>
+
+                            <i class="bi bi-chevron-down fs-5"></i>
+                        </div>
+                    </summary>
+
+                    <div class="premium-card-body-content p-4">
+
+                        <div class="row g-4">
+
+                            @foreach ($temas as $item)
+
+                                <div class="col-12 col-md-6">
+
+                                    <form
+                                        method="POST"
+                                        action="{{ route('admin.tema.update', $item->id_tema) }}"
+                                        enctype="multipart/form-data">
+
+                                        @csrf
+                                        @method('PUT')
+
+                                        <div class="premium-item-card d-flex flex-column justify-content-between">
+
+                                            <div>
+
+                                                <label class="form-label text-center d-block">
+                                                    Foto do Tema
+                                                </label>
+
+                                                <div class="media-preview-container mb-3">
+                                                    <img
+                                                        src="{{ asset('conexao360/img/' . $item->foto_tema) }}"
+                                                        alt="{{ $item->titulo_tema }}">
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <input
+                                                        type="file"
+                                                        class="form-control"
+                                                        name="foto_tema"
+                                                        accept="image/png,image/jpeg,image/webp">
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="form-label">
+                                                        Título do Tema
+                                                    </label>
+
+                                                    <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        name="titulo_tema"
+                                                        value="{{ $item->titulo_tema }}">
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="form-label">
+                                                        Subtítulo
+                                                    </label>
+
+                                                    <textarea
+                                                        class="form-control"
+                                                        name="subtitulo_tema"
+                                                        rows="4">{{ $item->subtitulo_tema }}</textarea>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="form-label">
+                                                        Breve Descrição
+                                                    </label>
+
+                                                    <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        name="breve_descricao_tema"
+                                                        value="{{ $item->breve_descricao_tema }}">
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="form-label">
+                                                        Status
+                                                    </label>
+
+                                                    <select
+                                                        class="form-select"
+                                                        name="status_tema">
+
+                                                        <option
+                                                            value="ATIVO"
+                                                            {{ $item->status_tema == 'ATIVO' ? 'selected' : '' }}>
+                                                            Ativo
+                                                        </option>
+
+                                                        <option
+                                                            value="INATIVO"
+                                                            {{ $item->status_tema == 'INATIVO' ? 'selected' : '' }}>
+                                                            Inativo
+                                                        </option>
+
+                                                    </select>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="border-top border-secondary pt-3 mt-2 text-end">
+
+                                                <button
+                                                    type="submit"
+                                                    class="btn-premium-confirm w-100">
+
+                                                    <i class="bi bi-check-circle me-1"></i>
+                                                    Salvar Tema
+
+                                                </button>
+
+                                            </div>
+
+                                        </div>
+
+                                    </form>
+
+                                </div>
+
+                            @endforeach
+
+                        </div>
+
                     </div>
                 </details>
 

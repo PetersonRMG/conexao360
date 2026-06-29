@@ -1,18 +1,13 @@
 @extends('layout.admin')
-@section('title', 'Cadastro Palestrante')
-@section('pg-titulo', 'Cadastro Palestrante')
-@section('link-topo', 'Cadastro Palestrante')
+@section('title', 'Gerenciamento de Palestrantes')
+@section('pg-titulo', 'Gerenciamento de Palestrantes')
+@section('link-topo', 'Gerenciamento de Palestrantes')
 
 @section('content')
     <main class="app-main">
         {{-- Cabeçalho da Página --}}
         <div class="app-content-header pt-3">
-            <div class="container-fluid d-flex justify-content-between align-items-center">
-                <div>
-                    <h4 class="mb-0 text-white font-weight-bold">Gerenciamento de Palestrantes</h4>
-                    <p class="text-muted small mb-0">Pré-cadastre os palestrantes. Eles poderão completar o perfil (foto,
-                        bio, redes sociais) no primeiro acesso.</p>
-                </div>
+            <div class="container-fluid d-flex justify-content-between align-items-center"> 
                 <button type="button" class="btn btn-primary rounded-3 d-flex align-items-center px-3 py-2"
                     data-bs-toggle="modal" data-bs-target="#modalNovoPalestrante">
                     <i class="bi bi-plus-circle me-2"></i> Pré-Cadastrar Palestrante
@@ -42,13 +37,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                @foreach ($palestrante as $item)
                                     <tr>
                                         <td class="ps-4">
-                                            <div class="font-weight-bold text-white">palestrante@exemplo.com</div>
+                                            <div class="font-weight-bold text-white">{{ $item->email_usuario }}</div>
                                         </td>
                                         <td>
-                                            <span class="badge bg-secondary rounded-2">Esp. em Inteligência
-                                                Artificial</span>
+                                            <span class="badge bg-secondary rounded-2">{{ $item->area_atuacao_usuario }}</span>
                                         </td>
                                         <td>
                                             <span class="badge bg-warning text-dark rounded-pill px-2"
@@ -61,6 +56,8 @@
                                                 title="Excluir Acesso"><i class="bi bi-trash"></i></button>
                                         </td>
                                     </tr>
+                                
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -83,7 +80,7 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
-                <form action="{{ route('admin.palestrantes.create') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.palestrante.create') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="modal-body">
@@ -173,7 +170,7 @@
                     </div>
             <div class="modal-footer border-secondary">
                 <button type="button" class="btn btn-outline-light rounded-3" data-bs-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary rounded-3 px-4">Salvar Usuário</button>
+                <button type="submit" class="btn btn-primary rounded-3 px-4">Salvar Palestrante</button>
             </div>
             </div>
             </form>

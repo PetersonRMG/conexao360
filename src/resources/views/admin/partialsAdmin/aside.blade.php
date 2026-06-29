@@ -83,7 +83,7 @@
             {{-- Opção: Palestrantes --}}
             <li class="nav-item">
               <a 
-              href="{{ route('admin.cadastro.palestrantes') }}"
+              href="{{ route('admin.cadastro.palestrante') }}"
                 class="nav-link d-flex align-items-center rounded-3 px-3 py-2 sidebar-subitem-custom ">
                 <i class="bi bi-mic me-2" style="font-size: 0.95rem;"></i>
                 <p class="mb-0">Palestrantes</p>

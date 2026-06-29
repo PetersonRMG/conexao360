@@ -14,7 +14,11 @@ class PalestrantesController extends Controller
     }
 
     public function palestrante(){
-        return view('admin.cadastro.palestrante');
+
+        $palestrante = Usuarios::where('perfil_usuario', 'palestrante')
+        ->get();
+
+        return view('admin.cadastro.palestrante', compact('palestrante'));
     }
     public function createPalestrante(Request $request){
         //dd($request->all());

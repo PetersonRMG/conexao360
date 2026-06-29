@@ -1,5 +1,5 @@
         <!--begin::App Content Header-->
-        <div class="app-content-header mt-3">
+        <div class="app-content-header mt-3 header">
           <!--begin::Container-->
           <div class="container-fluid">
             <!--begin::Row-->
