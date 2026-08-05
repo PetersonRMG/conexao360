@@ -3,7 +3,6 @@ document.querySelector('.abrir-menu').onclick = function () {
     document.documentElement.classList.add('menu-ativo');
     console.log('deu certo')
 }
-
 document.querySelector('.fechar-menu').onclick = function () {
     document.documentElement.classList.remove('menu-ativo');
 }
@@ -53,4 +52,3 @@ $("#carousel").slick({
     ]
 
 });
-z

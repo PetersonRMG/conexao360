@@ -8,8 +8,6 @@ use Illuminate\Http\Request;
 
 class HeroController extends Controller
 {
-
-
     public function createHero(Request $request){
          $request->validate([
             'titulo_hero'       => 'required|string|max:255',
@@ -74,6 +72,15 @@ class HeroController extends Controller
         $hero->fill($request->only(['tagline', 'titulo', 'subtitulo', 'texto_botao', 'link_botao', 'status']));
         $hero->foto_banner = $caminhoBanner;
         $hero->save();
+
+        if ($request->status_hero === 'ATIVO') {
+
+            HeroSection::where('id_hero_section', '!=', $hero->id_hero_section)
+                ->update([
+                    'status_hero' => 'INATIVO'
+            ]);
+
+        }
 
 
         

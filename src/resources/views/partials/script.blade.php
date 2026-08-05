@@ -8,7 +8,7 @@
     $evento->data_inicial_evento . ' ' . $evento->hora_inicial_evento
 )->timestamp * 1000 }};
 
-        console.log(eventDate);
+       // console.log(eventDate);
         const timer = setInterval(() => {
             const now = new Date().getTime();
             const distance = eventDate - now;

@@ -5,8 +5,8 @@
 
 @section('content')
     <!-- Container Isolado e Customizado -->
-    <div
-        style="background-color: #0d0f14; min-height: 100vh; padding: 2rem 1.5rem; font-family: 'Source Sans 3', sans-serif;">
+    <div class="app-main"
+        style="  min-height: 100vh; padding: 2rem 1.5rem; font-family: 'Source Sans 3', sans-serif;">
 
         <!-- Título e Topo da Página -->
         <div

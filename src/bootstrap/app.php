@@ -14,7 +14,15 @@ return Application::configure(basePath: dirname(__DIR__))
         //
             $middleware->redirectGuestsTo(fn () => route('admin.login'));
         //
+         $middleware->alias([
+        'nocache' => \App\Http\Middleware\NoCache::class,
+        'perfil'  => \App\Http\Middleware\PerfilMiddleware::class,
+    ]);
+
+    $middleware->redirectGuestsTo(fn () => route('admin.login'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();
+
+    

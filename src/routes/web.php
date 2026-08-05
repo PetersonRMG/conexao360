@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\DepoimentosController;
 use App\Http\Controllers\Admin\ModificacaoSiteController;
 use App\Http\Controllers\Admin\PalestrantesController;
 use App\Http\Controllers\Admin\UsuariosController;
+use App\Http\Controllers\Admin\AdminController;
 
 
 
@@ -33,7 +34,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/logout',[AuthController::class , 'logout'])->name('logout');
     
     //ROTAS PROTEGIDAS
-    Route::middleware('auth:admin')->group(function(){   
+    Route::middleware('auth:admin','perfil:administrador')->group(function(){   
 
         // HOME DASH
         Route::get( '/',[DashController::class, 'index'] )->name('dash');
@@ -65,11 +66,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/depoimentos', [DepoimentosController::class, 'indexAdmin'])->name('depoimentos.index');
         Route::put('/depoimentos/aceitar{id}', [DepoimentosController::class, 'DepoAceitar'])->name('depoimentos.aceitar');
         Route::put('/depoimentos/recusar{id}', [DepoimentosController::class, 'DepoRecusar'])->name('depoimentos.recusar');
+
+        //ROTA EDITAR PERFIL
+        Route::get('/perfil', [AdminController::class, 'indexAdmin'])->name('perfil');
         
         
         Route::get('/palestrantes', [PalestrantesController::class, 'index'])->name('palestrantes');
-        Route::get('/palestrantes', [PalestrantesController::class, 'palestrante'])->name('cadastro.palestrante');
+        Route::get('/palestrantes/cadastro', [PalestrantesController::class, 'palestrante'])->name('cadastro.palestrante');
         Route::put('/palestrantes/create', [PalestrantesController::class, 'createPalestrante'])->name('palestrante.create');
+        Route::put('/palestrantes/update{id}', [PalestrantesController::class, 'updatePalestrante'])->name('palestrante.update');
+        Route::patch('/palestrantes/{id}/ativar', [PalestrantesController::class,'ativar'])->name('palestrante.ativar');
+        Route::patch('/palestrantes/{id}/desativar', [PalestrantesController::class,'desativar'])->name('palestrante.desativar');
 
         Route::get('/usuarios', [UsuariosController::class, 'index'])->name('cadastro.usuarios');        
         
@@ -78,7 +85,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('/conexao/update', [ConexaoController::class, 'update'])->name('admin.conexao.update');   
     });
 
-    Route::prefix('palestrante')->middleware(['auth:admin'])->group(function () {
+    Route::prefix('palestrante')->middleware(['auth:admin','perfil:palestrante'])->group(function () {
         //HOME PALESTRANTE
         Route::get('/', [PalestrantesController::class, 'index'])->name('palestrante.dash');
 

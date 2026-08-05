@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Usuarios;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class PalestrantesController extends Controller
 {
@@ -58,5 +59,74 @@ class PalestrantesController extends Controller
         return redirect()
         ->route('admin.cadastro.palestrante')
         ->with('success', 'Usuario criado com sucesso!');
+    }
+
+    public function updatePalestrante(Request $request , $id){
+        //dd($request->all());
+
+    $request->validate([
+        'nome_usuario'         => 'required|string|max:100',
+       
+       'email_usuario' => [
+            'required',
+            'email',
+            'max:80',
+            Rule::unique('tbl_usuarios', 'email_usuario')
+                ->ignore($id, 'id_usuario'),
+        ],
+
+         
+    ]);
+
+    $palestrante = Usuarios::findOrFail($id);
+
+            if ($request->hasFile('foto_usuario')) {
+            $imagem = $request->file('foto_usuario');
+            $nomeImagem = time() . '.' . $imagem->getClientOriginalExtension();
+            $imagem->move(public_path('dash/assets/img/usuario'), $nomeImagem);
+            $caminhoFoto = 'usuario/' . $nomeImagem;
+        } 
+
+
+
+    // Criação do Registro
+    $palestrante->update([
+        'nome_usuario'         => $request->nome_usuario,
+        
+        'email_usuario'        => $request->email_usuario,
+        
+
+    ]);
+        return redirect()
+        ->route('admin.cadastro.palestrante')
+        ->with('success', 'Palestrante editado com sucesso!');
+    }
+
+    public function desativar($id){
+        $palestrante = Usuarios::findOrFail($id);
+        //dd($categoria);
+
+        $palestrante->update([
+            'status_usuario' => 'INATIVO',
+
+        ]);
+
+        return redirect()
+        ->route('admin.cadastro.palestrante')
+        ->with('success','Palestrante desativada com sucesso!');
+    }
+
+    public function ativar($id){
+        $palestrante = Usuarios::findOrFail($id);
+        //dd($categoria);
+
+        $palestrante->update([
+            'status_usuario' => 'ATIVO',
+
+        ]);
+
+        return redirect()
+        ->route('admin.cadastro.palestrante')
+        ->with('success','Palestrante ativada com sucesso!');
     }
 }

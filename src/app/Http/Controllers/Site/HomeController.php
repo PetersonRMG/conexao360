@@ -16,8 +16,7 @@ use App\Models\Depoimentos;
 class HomeController extends Controller 
 {
     //
-    public function index(){
-  
+    public function index(){  
 
         $temas = Temas::where('status_tema', 'ATIVO')        
         ->inRandomOrder()        
@@ -36,10 +35,9 @@ class HomeController extends Controller
         ->first();
 
         $depoimentos = Depoimentos::where('status_depoimento', 'ATIVO')
-        ->get();
-
-
-
+        ->limit(6)
+        ->inRandomOrder()
+        ->get(); 
 
 
         // dd($hero);

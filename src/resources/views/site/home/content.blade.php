@@ -203,9 +203,9 @@
         <h2 class="titulo">
             A Voz de Quem Já Esteve Lá <span>O que profissionais da advocacia dizem sobre as palestras anteriores</span>
         </h2>
-        <a href="{{ route('admin.login') }}">
+        {{-- <a href="{{ route('admin.login') }}">
             <button type="submit" class="btn btn-primary"> Adicionar um Depoimento</button>
-        </a>
+        </a> --}}
     </div>
 
     <div class="caixa-car ">

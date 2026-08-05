@@ -7,9 +7,9 @@
     <main class="app-main">
         {{-- Cabeçalho da Página --}}
         <div class="app-content-header pt-3">
-            <div class="container-fluid d-flex justify-content-between align-items-center"> 
+            <div class="container-fluid d-flex justify-content-between align-items-center">
                 <button type="button" class="btn btn-primary rounded-3 d-flex align-items-center px-3 py-2"
-                    data-bs-toggle="modal" data-bs-target="#modalNovoPalestrante">
+                    data-bs-toggle="modal" data-bs-target="#modalNovoPalestrante"> 
                     <i class="bi bi-plus-circle me-2"></i> Pré-Cadastrar Palestrante
                 </button>
             </div>
@@ -33,31 +33,73 @@
                                         <th class="ps-4">E-mail de Acesso</th>
                                         <th>Cargo / Função</th>
                                         <th>Perfil do Usuário</th>
-                                        <th class="text-end pe-4" style="width: 150px;">Ações</th>
+                                        <th class="text-end pe-4" style="width: 150px;">Editar</th>
+                                        <th class=" " >Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($palestrante as $item)
-                                    <tr>
-                                        <td class="ps-4">
-                                            <div class="font-weight-bold text-white">{{ $item->email_usuario }}</div>
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-secondary rounded-2">{{ $item->area_atuacao_usuario }}</span>
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-warning text-dark rounded-pill px-2"
-                                                style="font-size: 0.7rem;">Pendente (Incompleto)</span>
-                                        </td>
-                                        <td class="text-end pe-4">
-                                            <button class="btn btn-sm btn-outline-light rounded-2 me-1"
-                                                title="Editar Cargo"><i class="bi bi-pencil"></i></button>
-                                            <button class="btn btn-sm btn-outline-danger rounded-2"
-                                                title="Excluir Acesso"><i class="bi bi-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                
-                                @endforeach
+                                    @foreach ($palestrante as $item)
+                                        <tr>
+                                            <td class="ps-4">
+                                                <div class="font-weight-bold text-white">{{ $item->email_usuario }}</div>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    class="badge bg-secondary rounded-2">{{ $item->area_atuacao_usuario }}</span>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-warning text-dark rounded-pill px-2"
+                                                    style="font-size: 0.7rem;">{{ $item->perfil_usuario }}</span>
+                                            </td>
+                                            <td class="text-end pe-4">
+
+                                                <button class="btn btn-sm btn-outline-light rounded-2 me-1" title="Editar Cargo"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#editarPalestrante{{ $item->id_usuario }}">
+
+
+                                                    <i class="bi bi-pencil"></i></button>
+                                                      @include('admin.modal.editar-palestrante',['palestrante' =>$item])
+
+                                            </td>
+
+                                            <td class="">
+
+                                                @if ($item->status_usuario === 'ATIVO')
+
+                                                    <form action="   {{ route('admin.palestrante.desativar', $item->id_usuario) }}   "
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('PATCH')
+
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" role="switch" checked
+                                                                onchange="this.form.submit()">
+                                                        </div>
+                                                    </form>
+
+                                                @else
+
+                                                    <form action="
+                                                         {{ route('admin.palestrante.ativar', $item->id_usuario) }} 
+                                                        "
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('PATCH')
+
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" role="switch"
+                                                                onchange="this.form.submit()">
+                                                        </div>
+                                                    </form>
+
+                                                @endif
+                                                {{-- BTN EDITAR --}}
+
+                                            </td>
+                                        </tr>
+
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -127,7 +169,8 @@
                             <div class="form-check">
                                 <input type="checkbox" name="termos_usuario" value="1"
                                     class="form-check-input bg-dark border-secondary" id="termos_usuario">
-                                <label class="form-check-label text-muted small" for="termos_usuario">Aceito os termos de                                    uso</label>
+                                <label class="form-check-label text-muted small" for="termos_usuario">Aceito os termos de
+                                    uso</label>
                             </div>
                         </div>
 
@@ -135,8 +178,8 @@
                         <div class="col-12">
                             <label class="form-label text-muted small">Perfil</label>
                             <input type="text" name="perfil_usuario"
-                                class="form-control bg-black text-white border-secondary rounded-3" 
-                                 value="palestrante"    required>
+                                class="form-control bg-black text-white border-secondary rounded-3" value="palestrante"
+                                required>
                         </div>
 
                         {{-- Estado --}}
@@ -154,27 +197,31 @@
                         </div>
 
                         {{-- Status --}}
-                            <div class="col-md-6 mb-3   ">
-                                <label for="status_usuario" class="form-label">Status Banner</label>
-                                <select class="form-select form-select" aria-label="Status" required name="status_usuario"
-                                    id="status_hero">
-                                    <option selected>Selecione Status do Palestrante</option>
+                        <div class="col-md-6 mb-3   ">
+                            <label for="status_usuario" class="form-label">Status Banner</label>
+                            <select class="form-select form-select" aria-label="Status" required name="status_usuario"
+                                id="status_hero">
+                                <option selected>Selecione Status do Palestrante</option>
 
-                                    <option value="ATIVO">
-                                        Ativo</option>
-                                    <option value="INATIVO">
-                                        Inativo</option>
-                                </select>
-                                <div id="emailHelp" class="form-text">Informe o Status do Banner.</div>
-                            </div>
+                                <option value="ATIVO">
+                                    Ativo</option>
+                                <option value="INATIVO">
+                                    Inativo</option>
+                            </select>
+                            <div id="emailHelp" class="form-text">Informe o Status do Banner.</div>
+                        </div>
                     </div>
-            <div class="modal-footer border-secondary">
-                <button type="button" class="btn btn-outline-light rounded-3" data-bs-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary rounded-3 px-4">Salvar Palestrante</button>
-            </div>
+                    <div class="modal-footer border-secondary">
+                        <button type="button" class="btn btn-outline-light rounded-3"
+                            data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary rounded-3 px-4">Salvar Palestrante</button>
+                    </div>
             </div>
             </form>
         </div>
     </div>
+
+
     </div>
+  
 @endsection

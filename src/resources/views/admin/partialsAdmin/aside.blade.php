@@ -69,16 +69,16 @@
           </a>
 
           {{-- SUBMENU: Opções de Cadastro --}}
-          <ul class="nav nav-treeview flex-column gap-1 mt-1 ps-2">
+           <ul class="nav nav-treeview flex-column gap-1 mt-1 ps-2">
             {{-- Opção: Usuários --}}
             <li class="nav-item">
               <a href="#"
                 class="nav-link d-flex align-items-center rounded-3 px-3 py-2 sidebar-subitem-custom ">
                 {{-- {{ Request::routeIs('admin.cadastro.usuarios') ? 'active' : '' }}" --}}
-                <i class="bi bi-people me-2" style="font-size: 0.95rem;"></i>
-                <p class="mb-0">Usuários</p>
+                {{-- <i class="bi bi-people me-2" style="font-size: 0.95rem;"></i>
+                <p class="mb-0">Usuários</p> --}}
               </a>
-            </li>
+            </li> 
 
             {{-- Opção: Palestrantes --}}
             <li class="nav-item">
@@ -99,7 +99,7 @@
         </li>
 
         <li class="nav-item">
-          <a href="#" class="nav-link d-flex align-items-center rounded-3 px-3 py-2 text-white sidebar-custom-hover">
+          <a href="route{{ '' }}" class="nav-link d-flex align-items-center rounded-3 px-3 py-2 text-white sidebar-custom-hover">
             <i class="nav-icon bi bi-gear-fill me-2" style="font-size: 1.1rem; color: #94a3b8;"></i>
             <p class="mb-0">Configurações da Rede</p>
           </a>

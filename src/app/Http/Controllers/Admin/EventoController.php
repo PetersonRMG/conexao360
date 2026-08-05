@@ -95,6 +95,17 @@ class EventoController extends Controller
         
         
         $caminhoBanner = $evento->banner_evento;
+
+
+        
+        if ($request->status_evento === 'ATIVO') {
+
+            Eventos::where('id_evento', '!=', $evento->id_evento)
+                ->update([
+                    'status_evento' => 'INATIVO'
+            ]);
+
+        }
         
         
         

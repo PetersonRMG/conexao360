@@ -8,7 +8,10 @@
   @endphp
 
 <!--begin::Header-->
-<nav class="app-header navbar navbar-expand bg-body">
+<nav class="app-header navbar navbar-expand ">
+  <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display:none;">
+        @csrf
+    </form>
     <!--begin::Container-->
     <div class="container-fluid">
         <!--begin::Start Navbar Links-->
@@ -19,7 +22,7 @@
                 </a>
             </li>
             <li class="nav-item d-none d-md-block">
-                <a href="{{ route('admin.dash') }}" class="nav-link">Home</a>
+                <a href="{{ route('admin.palestrante.dash') }}" class="nav-link">Home</a>
             </li>
             <li class="nav-item d-none d-md-block">
                 <a href="#" class="nav-link">Contact</a>
@@ -193,7 +196,7 @@
                     <!--begin::Menu Footer-->
                     <li class="user-footer">
                         <a href="#" class="btn btn-outline-secondary">Profile</a>
-                        <form method="POST" action="{{ route('admin.logout') }}">
+                        <form id="logout-form-btn" method="POST" action="{{ route('admin.logout') }}">
                             @csrf
                             <button type="submit" class="btn btn-outline-danger float-end">Sign out</button>
                         </form>

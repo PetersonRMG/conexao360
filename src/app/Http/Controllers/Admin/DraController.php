@@ -61,6 +61,18 @@ class DraController extends Controller
             $caminhoBanner = 'dra/' . $nomeImagem;
         }
 
+
+             
+        if ($request->status_dra === 'ATIVO') {
+
+            Dra::where('id_dra', '!=', $dra->id_dra)
+                ->update([
+                    'status_dra' => 'INATIVO'
+            ]);
+
+        }
+        
+
         $dra->update([
             'foto_dra' => $caminhoBanner,
             'titulo_dra' => $request->titulo_dra,

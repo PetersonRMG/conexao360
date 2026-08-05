@@ -39,7 +39,9 @@ class DepoimentosController extends Controller
 
         public function indexAdmin()
     {   
-        $depoimentos = Depoimentos::with(['usuario','evento'])->get();
+        $depoimentos = Depoimentos::with(['usuario','evento'])
+        
+        ->get();
 
         $depoimentosPend = Depoimentos::with(['usuario','evento'])
          ->where('status_depoimento', 'PENDENTE')

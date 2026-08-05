@@ -2,14 +2,20 @@
 @section('pg-titulo', 'Modificação do Site')
 @section('link-topo', 'Modificação do Site')
 
-<main class="app-main">
+<main class="app-main"  style="
+  background-image: url({{ asset('dash/assets/img/bg-dash.png') }});
+  background-repeat: no-repeat;
+  background-position: right 200px ;
+  background-size: 1000px;
+  
+">
     <div class="app-content-header">
         <div class="container-fluid"></div>
     </div>
 
-    <div class="app-content container-fluid px-4">
+    <div class="app-content container-fluid  mt-5 " >
         <div class="row g-4">
-            <div class="col-12 col-xl-10 mx-auto">
+            <div class="col-12 col-xl-10 ">
 
                 {{-- EDITAR BANNER PRINCIPAL --}}
                 <details class="premium-accordion-wrapper">
@@ -17,7 +23,7 @@
                         <h3 class="premium-card-title">
                             <i class="bi bi-image"></i> Editar Banner
                         </h3>
-                        <div class="d-flex align-items-center gap-3">
+                        <div class="d-flex align-items-center gap-2">
                             <button type="button" class="btn-premium-add" data-bs-toggle="modal"
                                 data-bs-target="#criarBanner" onclick="event.stopPropagation();">
                                 <i class="bi bi-plus-circle"></i> Novo Banner
@@ -111,7 +117,7 @@
                         <h3 class="premium-card-title">
                             <i class="bi bi-calendar-event"></i> Editar Eventos
                         </h3>
-                        <div class="d-flex align-items-center gap-3">
+                        <div class="d-flex align-items-center gap-2">
                             <button type="button" class="btn-premium-add" data-bs-toggle="modal"
                                 data-bs-target="#criarEvento" onclick="event.stopPropagation();">
                                 <i class="bi bi-plus-circle"></i> Novo Evento
@@ -132,9 +138,10 @@
                                         <div class="premium-item-card d-flex flex-column justify-content-between">
                                             <div>
                                                 <label class="form-label text-center d-block">Banner do Evento</label>
-                                                <div class="media-preview-container mb-3">
-                                                    <img src="{{ asset('conexao360/img/' . $item->banner_evento) }}"
-                                                        alt="{{ $item->titulo_evento }}">
+                                                <div class="media-preview-container mb-3">                                                  
+                                                   
+                                                    <iframe src="{{$item->url_evento    }}" width="600" height="50" style="border:0;"
+                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                                                 </div>
 
                                                 <div class="mb-3">
@@ -226,7 +233,7 @@
                         <h3 class="premium-card-title">
                             <i class="bi bi-palette"></i> Editar Temas
                         </h3>
-                        <div class="d-flex align-items-center gap-3">
+                        <div class="d-flex align-items-center gap-2">
                             <button type="button" class="btn-premium-add" data-bs-toggle="modal"
                                 data-bs-target="#criarTemas" onclick="event.stopPropagation();">
                                 <i class="bi bi-plus-circle"></i> Novo Tema
@@ -246,7 +253,7 @@
                                         <div class="premium-item-card d-flex flex-column justify-content-between">
                                             <div>
                                                 <label class="form-label d-block text-center">Foto do Tema</label>
-                                                <div class="media-preview-container mb-3" style="height: 180px;">
+                                                <div class="media-preview-container mb-3" style="height: 80px; width:80px">
                                                     <img src="{{ asset('conexao360/img/' . $item->foto_tema) }}"
                                                         alt="{{ $item->titulo_tema }}">
                                                 </div>
@@ -307,7 +314,7 @@
                         <h3 class="premium-card-title">
                             <i class="bi bi-play-btn"></i> Editar Vídeos
                         </h3>
-                        <div class="d-flex align-items-center gap-3">
+                        <div class="d-flex align-items-center gap-2">
                             <button type="button"
                                 class="btn-premium-add"
                                 data-bs-toggle="modal"
@@ -479,7 +486,7 @@
                             <i class="bi bi-person-badge"></i> Editar Dra
                         </h3>
 
-                        <div class="d-flex align-items-center gap-3">
+                        <div class="d-flex align-items-center gap-2 ">
                             <button
                                 type="button"
                                 class="btn-premium-add"
@@ -641,160 +648,18 @@
                     </div>
                 </details>
 
-                {{-- EDITAR TEMAS --}}
-                <details class="premium-accordion-wrapper">
-                    <summary class="premium-card-header">
-                        <h3 class="premium-card-title">
-                            <i class="bi bi-tags"></i> Editar Temas
-                        </h3>
 
-                        <div class="d-flex align-items-center gap-3">
-                            <button
-                                type="button"
-                                class="btn-premium-add"
-                                data-bs-toggle="modal"
-                                data-bs-target="#criarTemas"
-                                onclick="event.stopPropagation();">
-
-                                <i class="bi bi-plus-circle"></i>
-                                Novo Tema
-
-                            </button>
-
-                            <i class="bi bi-chevron-down fs-5"></i>
-                        </div>
-                    </summary>
-
-                    <div class="premium-card-body-content p-4">
-
-                        <div class="row g-4">
-
-                            @foreach ($temas as $item)
-
-                                <div class="col-12 col-md-6">
-
-                                    <form
-                                        method="POST"
-                                        action="{{ route('admin.tema.update', $item->id_tema) }}"
-                                        enctype="multipart/form-data">
-
-                                        @csrf
-                                        @method('PUT')
-
-                                        <div class="premium-item-card d-flex flex-column justify-content-between">
-
-                                            <div>
-
-                                                <label class="form-label text-center d-block">
-                                                    Foto do Tema
-                                                </label>
-
-                                                <div class="media-preview-container mb-3">
-                                                    <img
-                                                        src="{{ asset('conexao360/img/' . $item->foto_tema) }}"
-                                                        alt="{{ $item->titulo_tema }}">
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <input
-                                                        type="file"
-                                                        class="form-control"
-                                                        name="foto_tema"
-                                                        accept="image/png,image/jpeg,image/webp">
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label class="form-label">
-                                                        Título do Tema
-                                                    </label>
-
-                                                    <input
-                                                        type="text"
-                                                        class="form-control"
-                                                        name="titulo_tema"
-                                                        value="{{ $item->titulo_tema }}">
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label class="form-label">
-                                                        Subtítulo
-                                                    </label>
-
-                                                    <textarea
-                                                        class="form-control"
-                                                        name="subtitulo_tema"
-                                                        rows="4">{{ $item->subtitulo_tema }}</textarea>
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label class="form-label">
-                                                        Breve Descrição
-                                                    </label>
-
-                                                    <input
-                                                        type="text"
-                                                        class="form-control"
-                                                        name="breve_descricao_tema"
-                                                        value="{{ $item->breve_descricao_tema }}">
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label class="form-label">
-                                                        Status
-                                                    </label>
-
-                                                    <select
-                                                        class="form-select"
-                                                        name="status_tema">
-
-                                                        <option
-                                                            value="ATIVO"
-                                                            {{ $item->status_tema == 'ATIVO' ? 'selected' : '' }}>
-                                                            Ativo
-                                                        </option>
-
-                                                        <option
-                                                            value="INATIVO"
-                                                            {{ $item->status_tema == 'INATIVO' ? 'selected' : '' }}>
-                                                            Inativo
-                                                        </option>
-
-                                                    </select>
-
-                                                </div>
-
-                                            </div>
-
-                                            <div class="border-top border-secondary pt-3 mt-2 text-end">
-
-                                                <button
-                                                    type="submit"
-                                                    class="btn-premium-confirm w-100">
-
-                                                    <i class="bi bi-check-circle me-1"></i>
-                                                    Salvar Tema
-
-                                                </button>
-
-                                            </div>
-
-                                        </div>
-
-                                    </form>
-
-                                </div>
-
-                            @endforeach
-
-                        </div>
-
-                    </div>
-                </details>
 
             </div>
         </div>
     </div>
 </main>
+
+@include('admin.modal.criar-videos')
+@include('admin.modal.criar-banner')
+@include('admin.modal.criar-evento')
+@include('admin.modal.criar-temas')
+@include('admin.modal.criar-dra')
 
 {{-- Container global para Toasts fora das estruturas de repetição --}}
 @if (session('success'))

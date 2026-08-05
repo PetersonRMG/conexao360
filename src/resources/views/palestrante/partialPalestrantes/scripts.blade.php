@@ -281,3 +281,28 @@
         //-----------------
     </script>
     <!--end::Script-->
+
+        <script>
+    // Impede que o navegador simplesmente volte
+    history.pushState(null, null, location.href);
+
+    window.addEventListener('popstate', function () {
+
+        const sair = confirm('Deseja sair do sistema?');
+
+        if (sair) {
+            document.getElementById('logout-form').submit();
+        } else {
+            history.pushState(null, null, location.href);
+        }
+
+    });
+</script>
+
+<script>
+document.getElementById('logout-form-btn').addEventListener('submit', function (e) {
+    if (!confirm('Deseja realmente sair?')) {
+        e.preventDefault();
+    }
+});
+</script>

@@ -1,5 +1,5 @@
         <!--begin::App Content Header-->
-        <div class="app-content-header mt-3 header">
+        <div class="app-content-header pt-3 header m-2 card">
           <!--begin::Container-->
           <div class="container-fluid">
             <!--begin::Row-->
