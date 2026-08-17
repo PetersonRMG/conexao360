@@ -12,7 +12,7 @@
         @include('admin.partialsAdmin.nav')
         @include('admin.partialsAdmin.aside')
       
-        <main>
+        <main >
             @include('admin.partialsAdmin.content-header')
             @yield('content')
         </main>

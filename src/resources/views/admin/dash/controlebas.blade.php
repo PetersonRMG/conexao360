@@ -1,220 +1,401 @@
 @extends('layout.admin')
-@section('title', 'Home ')
+@section('title', 'Home')
 @section('pg-titulo', 'Home')
 @section('link-topo', 'Home')
 
 @section('content')
-    <div class="content-wrapper" style="background-color: #0d0f14; min-height: 100vh;">
+    <main class="app-main dash-page">
+        <div class="app-content container-fluid">
 
-        <div style="padding: 2rem 1.5rem 0.5rem 1.5rem; font-family: 'Source Sans 3', sans-serif;">
-            <div style="margin-bottom: 2rem;">
-                <h3
-                    style="font-family: 'Cinzel', serif; color: #dfcaa0; letter-spacing: 1px; font-weight: 600; margin: 0 0 0.25rem 0; font-size: 1.8rem;">
-                    Visão Geral do Ecossistema
-                </h3>
-                <p style="color: #94a3b8; margin: 0; font-size: 0.9rem;">Monitore as métricas, engajamento e solicitações
-                    pendentes da rede privada.</p>
-            </div>
+            <div class="dash-page">
 
-            <div
-                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem;">
+                {{-- =========================================================
+                     CABEÇALHO
+                ========================================================== --}}
+                <header class="dash-page-header">
+                    <div class="dash-page-heading">
+                        <span class="dash-eyebrow">
+                            <i class="bi bi-grid-1x2-fill"></i>
+                            Dashboard
+                        </span>
 
-                <div
-                    style="background-color: #11141a; border: 1px solid #1e2330; border-radius: 10px; padding: 1.5rem; display: flex; align-items: center; gap: 1.25rem; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
-                    <div
-                        style="background-color: rgba(223, 202, 160, 0.1); color: #dfcaa0; min-width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
-                        <i class="bi bi-people-fill"></i>
-                    </div>
-                    <div>
-                        <span
-                            style="color: #94a3b8; font-size: 0.85rem; display: block; margin-bottom: 0.15rem; font-weight: 500;">Membros
-                            Ativos</span>
-                        <h3 style="color: #ffffff; margin: 0; font-weight: 700; font-size: 1.6rem; letter-spacing: -0.5px;">
-                            {{ $usuario->count() }}</h3>
-                    </div>
-                </div>
+                        <h3 class="dash-title dash-title--sm">
+                            Visão Geral
+                        </h3>
 
-                <div
-                    style="background-color: #11141a; border: 1px solid #1e2330; border-radius: 10px; padding: 1.5rem; display: flex; align-items: center; gap: 1.25rem; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
-                    <div
-                        style="background-color: rgba(255, 193, 7, 0.1); color: #ffc107; min-width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
-                        <i class="bi bi-exclamation-triangle-fill"></i>
-                    </div>
-                    <div>
-                        <span
-                            style="color: #94a3b8; font-size: 0.85rem; display: block; margin-bottom: 0.15rem; font-weight: 500;">Aguardando
-                            Moderação</span>
-                        <h3 style="color: #ffffff; margin: 0; font-weight: 700; font-size: 1.6rem; letter-spacing: -0.5px;">
-                            7</h3>
-                    </div>
-                </div>
-
-                <div
-                    style="background-color: #11141a; border: 1px solid #1e2330; border-radius: 10px; padding: 1.5rem; display: flex; align-items: center; gap: 1.25rem; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
-                    <div
-                        style="background-color: rgba(34, 197, 94, 0.1); color: #22c55e; min-width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
-                        <i class="bi bi-graph-up-arrow"></i>
-                    </div>
-                    <div>
-                        <span
-                            style="color: #94a3b8; font-size: 0.85rem; display: block; margin-bottom: 0.15rem; font-weight: 500;">Novos
-                            este Mês</span>
-                        <h3 style="color: #ffffff; margin: 0; font-weight: 700; font-size: 1.6rem; letter-spacing: -0.5px;">
-                            +84</h3>
-                    </div>
-                </div>
-
-                <div
-                    style="background-color: #11141a; border: 1px solid #1e2330; border-radius: 10px; padding: 1.5rem; display: flex; align-items: center; gap: 1.25rem; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
-                    <div
-                        style="background-color: rgba(13, 148, 136, 0.1); color: #0d9488; min-width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
-                        <i class="bi bi-chat-quote-fill"></i>
-                    </div>
-                    <div>
-                        <span
-                            style="color: #94a3b8; font-size: 0.85rem; display: block; margin-bottom: 0.15rem; font-weight: 500;">Depoimentos
-                            no Site</span>
-                        <h3 style="color: #ffffff; margin: 0; font-weight: 700; font-size: 1.6rem; letter-spacing: -0.5px;">
-                            {{ $depoimentos->count() }}</h3>
-                    </div>
-                </div>
-
-            </div>
-
-            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; flex-wrap: wrap; align-items: start;">
-
-                <div
-                    style="background-color: #11141a; border: 1px solid #1e2330; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.25); overflow: hidden;">
-                    <div
-                        style="padding: 1.25rem 1.5rem; background-color: #0d0f14; border-bottom: 1px solid #1e2330; display: flex; justify-content: space-between; align-items: center;">
-                        <h5
-                            style="color: #dfcaa0; font-family: 'Cinzel', serif; margin: 0; font-size: 1.05rem; letter-spacing: 0.5px; font-weight: 600;">
-                            Publicações Recentes pendentes
-                        </h5>
-                        <span
-                            style="background-color: rgba(223, 202, 160, 0.15); color: #dfcaa0; font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 20px; font-weight: 600;">Feed
-                            de Atividade</span>
+                        <p class="dash-subtitle">
+                            Monitore as métricas, engajamento e atividades da sua plataforma.
+                        </p>
                     </div>
 
-                    <div style="padding: 1rem; overflow-x: auto;">
-                        <table
-                            style="width: 100%; border-collapse: collapse; text-align: left; color: #cbd5e1; font-size: 0.9rem;">
-                            <thead>
-                                <tr
-                                    style="border-bottom: 1px solid #1e2330; color: #64748b; font-size: 0.8rem; text-transform: uppercase;">
-                                    <th style="padding: 0.75rem 1rem;">Autor</th>
-                                    <th style="padding: 0.75rem 1rem;">Título / Tópico</th>
-                                    <th style="padding: 0.75rem 1rem;">Data</th>
-                                    <th style="padding: 0.75rem 1rem; text-align: right;">Ação</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="table-row-hover" style="border-bottom: 1px solid #161a23;">
-                                    <td style="padding: 1rem;">
-                                        <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                            <div
-                                                style="width: 32px; height: 32px; background-color: #dfcaa0; border-radius: 50%; color: #0d0f14; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.8rem;">
-                                                MC</div>
-                                            <div>
-                                                <span
-                                                    style="color: #ffffff; font-weight: 600; display: block; font-size: 0.85rem;">Dra.
-                                                    Maria Costa</span>
-                                                <small style="color: #64748b; font-size: 0.75rem;">Direito Digital</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td
-                                        style="padding: 1rem; max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500;">
-                                        Bastidores: Preparativos para a minha palestra de amanhã 👑
-                                    </td>
-                                    <td style="padding: 1rem; color: #64748b; font-size: 0.8rem;">Hoje às 10:32</td>
-                                    <td style="padding: 1rem; text-align: right;">
-                                        <a href="#"
-                                            style="background-color: rgba(223, 202, 160, 0.1); color: #dfcaa0; border: 1px solid rgba(223, 202, 160, 0.2); padding: 0.35rem 0.75rem; border-radius: 6px; font-size: 0.75rem; text-decoration: none; font-weight: 600; transition: all 0.2s;">Moderar</a>
-                                    </td>
-                                </tr>
-                                <tr class="table-row-hover" style="border-bottom: 1px solid #161a23;">
-                                    <td style="padding: 1rem;">
-                                        <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                            <div
-                                                style="width: 32px; height: 32px; background-color: #262d3d; border-radius: 50%; color: #94a3b8; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.8rem;">
-                                                AR</div>
-                                            <div>
-                                                <span
-                                                    style="color: #ffffff; font-weight: 600; display: block; font-size: 0.85rem;">Dra.
-                                                    Amanda Rodrigues</span>
-                                                <small style="color: #64748b; font-size: 0.75rem;">Trabalhista</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td
-                                        style="padding: 1rem; max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500;">
-                                        Estratégias de precificação com base em valor e autoridade
-                                    </td>
-                                    <td style="padding: 1rem; color: #64748b; font-size: 0.8rem;">Ontem às 18:15</td>
-                                    <td style="padding: 1rem; text-align: right;">
-                                        <a href="#"
-                                            style="background-color: rgba(223, 202, 160, 0.1); color: #dfcaa0; border: 1px solid rgba(223, 202, 160, 0.2); padding: 0.35rem 0.75rem; border-radius: 6px; font-size: 0.75rem; text-decoration: none; font-weight: 600; transition: all 0.2s;">Moderar</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="dash-date-pill">
+                        <i class="bi bi-calendar3"></i>
+                        <span>
+                            {{ \Carbon\Carbon::now()
+                                ->locale('pt_BR')
+                                ->isoFormat('dddd, D [de] MMMM [de] YYYY') }}
+                        </span>
                     </div>
-                </div>
+                </header>
 
-                <div
-                    style="background-color: #11141a; border: 1px solid #1e2330; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.25); overflow: hidden;">
-                    <div style="padding: 1.25rem 1.5rem; background-color: #0d0f14; border-bottom: 1px solid #1e2330;">
-                        <h5
-                            style="color: #dfcaa0; font-family: 'Cinzel', serif; margin: 0; font-size: 1.05rem; letter-spacing: 0.5px; font-weight: 600;">
-                            Novos Membros
-                        </h5>
-                    </div>
 
-                    <div style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem;">
-                        @foreach ($usuarioNovos as $item)
-                            @php
-                                // Divide o nome por espaços e pega as partes
-                                $partesNome = explode(' ', $item->nome_usuario);
+                {{-- =========================================================
+                     CARDS DE ESTATÍSTICAS
+                ========================================================== --}}
+                <section class="dash-stats-grid" aria-label="Resumo das métricas">
 
-                                // Pega a primeira letra da primeira parte
-                                $inicial1 = mb_substr($partesNome[0], 0, 1);
+                    <article class="dash-stat-card dash-stat-card--success">
+                        <div class="dash-stat-icon">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
 
-                                // Se houver mais de um nome, pega a inicial do segundo; senão, pega a segunda letra do primeiro
-                                $inicial2 = isset($partesNome[1]) ? mb_substr($partesNome[1], 0, 1) : mb_substr($partesNome[0], 1, 1);
+                        <div class="dash-stat-body">
+                            <span class="dash-stat-label">Membros Ativos</span>
 
-                                $iniciais = strtoupper($inicial1 . $inicial2);
-                            @endphp
+                            <strong class="dash-stat-value">
+                                {{ $usuario->count() }}
+                            </strong>
 
-                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                                <div
-                                    style="width: 40px; height: 40px; border-radius: 50%; background-color: #1e2330; border: 1px solid #dfcaa0; display: flex; align-items: center; justify-content: center; color: #dfcaa0; font-weight: bold; font-size: 0.85rem;">
+                            <span class="dash-stat-description">
+                                <i class="bi bi-arrow-up"></i>
+                                Usuários cadastrados
+                            </span>
+                        </div>
+                    </article>
+
+
+                    <article class="dash-stat-card dash-stat-card--warning">
+                        <div class="dash-stat-icon">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                        </div>
+
+                        <div class="dash-stat-body">
+                            <span class="dash-stat-label">Aguardando Moderação</span>
+
+                            <strong class="dash-stat-value">
+                                {{ 7 }}
+                            </strong>
+
+                            <span class="dash-stat-description">
+                                <i class="bi bi-clock"></i>
+                                Requer atenção
+                            </span>
+                        </div>
+                    </article>
+
+
+                    <article class="dash-stat-card dash-stat-card--info">
+                        <div class="dash-stat-icon">
+                            <i class="bi bi-person-plus-fill"></i>
+                        </div>
+
+                        <div class="dash-stat-body">
+                            <span class="dash-stat-label">Novos este Mês</span>
+
+                            <strong class="dash-stat-value">
+                                +84
+                            </strong>
+
+                            <span class="dash-stat-description">
+                                <i class="bi bi-graph-up-arrow"></i>
+                                Crescimento mensal
+                            </span>
+                        </div>
+                    </article>
+
+
+                        <a href="{{ route ('admin.depoimentos.index')}}">
+                    <article class="dash-stat-card dash-stat-card--primary">
+                            <div class="dash-stat-icon">
+                                <i class="bi bi-chat-quote-fill"></i>
+                            </div>
+                            <div class="dash-stat-body">
+                                <span class="dash-stat-label">Depoimentos no Site</span>
+                                <strong class="dash-stat-value">
+                                    {{ $depoimentos->count() }}
+                                </strong>
+                                <span class="dash-stat-description">
+                                    <i class="bi bi-chat-quote"></i>
+                                    Publicados
+                                </span>
+                            </div>
+                    </article>
+                        </a>
+
+                </section>
+
+
+                {{-- =========================================================
+                     PAINÉIS PRINCIPAIS
+                ========================================================== --}}
+                <section class="dash-panels-grid">
+
+                    {{-- =====================================================
+                         PUBLICAÇÕES RECENTES
+                    ====================================================== --}}
+                    <section class="dash-panel">
+
+                        <header class="dash-panel-header">
+                            <div class="dash-panel-heading">
+<h5 class="dash-panel-title">
+    Usuários Recentes
+</h5>
+
+<small class="dash-panel-subtitle">
+    Usuários cadastrados recentemente
+</small>
+                            </div>
+
+                            <div class="dash-panel-tools">
+<span class="dash-badge">
+    {{ $usuario->count() }} usuários
+</span>
+
+<a href="#" class="dash-panel-link">
+    Ver todos
+    <i class="bi bi-arrow-right"></i>
+</a>
+                            </div>
+                        </header>
+
+<div class="dash-table-wrap">
+    <table class="dash-table">
+        <thead>
+            <tr>
+                <th>Usuário</th>
+                <th>Área de Atuação</th>
+                <th>Cadastro</th>
+                <th>Status</th>
+                <th class="text-end">Ação</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @forelse ($usuario->sortByDesc('criado_em_usuario')->take(5) as $item)
+
+                @php
+                    $nomeCompleto = trim($item->nome_usuario ?? 'Usuário');
+
+                    $partesNome = preg_split('/\s+/', $nomeCompleto);
+
+                    $inicial1 = mb_substr($partesNome[0] ?? '', 0, 1);
+
+                    $inicial2 = isset($partesNome[1])
+                        ? mb_substr($partesNome[1], 0, 1)
+                        : mb_substr($partesNome[0] ?? '', 1, 1);
+
+                    $iniciais = strtoupper($inicial1 . $inicial2);
+
+                    $status = strtolower(trim($item->status_usuario ?? ''));
+
+                    $statusClasse = match ($status) {
+                        'ativo', '1', 'active' => 'dash-status--approved',
+                        'inativo', '0', 'inactive' => 'dash-status--rejected',
+                        default => 'dash-status--pending',
+                    };
+
+                    $statusIcone = match ($status) {
+                        'ativo', '1', 'active' => 'bi-check-circle ',
+                        'inativo', '0', 'inactive' => 'bi-x-circle',
+                        default => 'bi-clock-history',
+                    };
+
+                    $statusTexto = match ($status) {
+                        'ativo', '1', 'active' => 'Ativo',
+                        'inativo', '0', 'inactive' => 'Inativo',
+                        default => $item->status_usuario ?: 'Pendente',
+                    };
+                @endphp
+
+                <tr class="dash-table-row">
+
+                    {{-- USUÁRIO --}}
+                    <td>
+                        <div class="dash-author">
+
+                            @if (!empty($item->foto_usuario))
+                                <img
+                                    src="{{ asset($item->foto_usuario) }}"
+                                    alt="{{ $item->nome_usuario }}"
+                                    class="dash-avatar dash-avatar--image"
+                                >
+                            @else
+                                <div class="dash-avatar dash-avatar--primary">
                                     {{ $iniciais }}
                                 </div>
-                                <div>
-                                    <h6 style="color: #ffffff; margin: 0 0 0.15rem 0; font-size: 0.88rem; font-weight: 600;">
-                                        {{ $item->nome_usuario }}</h6>
-                                    <small style="color: #94a3b8; font-size: 0.75rem;">Membro VIP •
-                                        {{ $item->estado_usuario }}</small>
-                                </div>
-                            </div>
-                        @endforeach
+                            @endif
 
-                    </div>
-                </div>
+                            <div>
+                                <span class="dash-author-name">
+                                    {{ $item->nome_usuario }}
+                                </span>
+
+                                <small class="dash-author-meta">
+                                    {{ $item->email_usuario }}
+                                </small>
+                            </div>
+
+                        </div>
+                    </td>
+
+
+                    {{-- ÁREA DE ATUAÇÃO --}}
+                    <td class="dash-cell-truncate">
+                        {{ $item->area_atuacao_usuario ?: 'Não informado' }}
+                    </td>
+
+
+                    {{-- DATA DE CADASTRO --}}
+                    <td class="dash-cell-muted">
+                        @if ($item->criado_em_usuario)
+                            {{ \Carbon\Carbon::parse($item->criado_em_usuario)->locale('pt_BR')->diffForHumans() }}
+                        @else
+                            Não informado
+                        @endif
+                    </td>
+
+
+                    {{-- STATUS --}}
+                    <td >
+                        <span class="dash-status {{ $statusClasse }}  ">
+                            <i class="bi {{ $statusIcone }}"></i>
+                            {{ $statusTexto }}
+                        </span>
+                    </td>
+
+
+                    {{-- AÇÃO --}}
+                    <td class="text-end">
+                        <a href="#" class="dash-action-btn">
+                            <i class="bi bi-eye"></i>
+                            Visualizar
+                        </a>
+                    </td>
+
+                </tr>
+
+            @empty
+
+                <tr>
+                    <td colspan="5">
+                        <div class="dash-empty-state">
+                            <div class="dash-empty-icon">
+                                <i class="bi bi-people"></i>
+                            </div>
+
+                            <h5>Nenhum usuário encontrado.</h5>
+
+                            <p class="dash-empty-text">
+                                Ainda não existem usuários cadastrados.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+
+            @endforelse
+        </tbody>
+    </table>
+</div>
+
+                    </section>
+
+
+                    {{-- =====================================================
+                         NOVOS MEMBROS
+                    ====================================================== --}}
+                    <section class="dash-panel">
+
+                        <header class="dash-panel-header">
+                            <div class="dash-panel-heading">
+                                <h5 class="dash-panel-title">
+                                    Novos Membros
+                                </h5>
+
+                                <small class="dash-panel-subtitle">
+                                    Usuários cadastrados recentemente
+                                </small>
+                            </div>
+
+                            <span class="dash-badge">
+                                {{ $usuarioNovos->count() }}
+                            </span>
+                        </header>
+
+
+                        <div class="dash-member-list">
+                            @forelse ($usuarioNovos as $item)
+
+                                @php
+                                    $partesNome = explode(' ', trim($item->nome_usuario));
+
+                                    $inicial1 = mb_substr(
+                                        $partesNome[0],
+                                        0,
+                                        1
+                                    );
+
+                                    $inicial2 = isset($partesNome[1])
+                                        ? mb_substr($partesNome[1], 0, 1)
+                                        : mb_substr($partesNome[0], 1, 1);
+
+                                    $iniciais = strtoupper($inicial1 . $inicial2);
+                                @endphp
+
+                                <div class="dash-member-item">
+                                    <div class="dash-member-avatar">
+                                        {{ $iniciais }}
+                                    </div>
+
+                                    <div class="dash-member-info">
+                                        <h6 class="dash-member-name">
+                                            {{ $item->nome_usuario }}
+                                        </h6>
+
+                                        <small class="dash-member-meta">
+                                            Membro VIP
+
+                                            @if($item->estado_usuario)
+                                                <span class="dash-member-separator">•</span>
+                                                {{ $item->estado_usuario }}
+                                            @endif
+                                        </small>
+                                    </div>
+
+                                    <i class="bi bi-chevron-right dash-chevron"></i>
+                                </div>
+
+                            @empty
+
+                                <div class="dash-empty-state">
+                                    <div class="dash-empty-icon">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+
+                                    <h5>Nenhum membro recente.</h5>
+
+                                    <p class="dash-empty-text">
+                                        Novos usuários aparecerão aqui.
+                                    </p>
+                                </div>
+
+                            @endforelse
+                        </div>
+
+
+                        @if($usuarioNovos->count() > 0)
+                            <footer class="dash-panel-footer">
+                                <a href="#" class="dash-panel-link">
+                                    Ver todos os membros
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </footer>
+                        @endif
+
+                    </section>
+
+                </section>
 
             </div>
         </div>
-    </div>
-
-    <style>
-        .table-row-hover:hover {
-            background-color: rgba(223, 202, 160, 0.02) !important;
-        }
-
-        .table-row-hover a:hover {
-            background-color: #dfcaa0 !important;
-            color: #0d0f14 !important;
-        }
-    </style>
+    </main>
 @endsection

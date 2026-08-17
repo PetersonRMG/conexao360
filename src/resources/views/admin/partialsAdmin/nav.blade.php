@@ -8,7 +8,7 @@
   @endphp
 
 <!--begin::Header-->
-<nav class="app-header navbar navbar-expand ">
+<nav class="app-header navbar navbar-expand    ">
     <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display:none;">
         @csrf
     </form>
@@ -105,7 +105,7 @@
                 </ul>
             </li>
             <!--end::User Menu Dropdown-->
-            {{-- <li class="nav-item dropdown">
+            <li class="nav-item dropdown">
                 <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center"
                     id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown"
                     data-bs-display="static">
@@ -141,7 +141,7 @@
                         </button>
                     </li>
                 </ul>
-            </li> --}}
+            </li> -
         </ul>
         <!--end::End Navbar links-->
     </div>

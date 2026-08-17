@@ -7,11 +7,11 @@
     style="border-bottom: 1px solid #1e2330; background-color: #0d0f14; padding: 1.5rem 1rem; height: auto;">
     <a href="{{ route('home') }}" target="_blank" target="_blank" rel="noopener noreferrer"
       class="brand-link d-flex flex-column align-items-center text-decoration-none gap-3">
-
+{{-- 
       <span class="brand-text text-center"
         style="font-family: 'Cinzel', serif; font-weight: 500; font-size: 1.1rem; letter-spacing: 2px; color: #dfcaa0; text-shadow: 1px 1px 3px rgba(0,0,0,0.6); text-transform: uppercase; white-space: normal; line-height: 1.4;">
         Dashboard<br>Conexão 360
-      </span>
+      </span> --}}
       <img src="{{ asset('conexao360/img/pint.svg') }}" alt="Logo" class="brand-image m-0"
         style="max-height: 48px; width: auto; filter: drop-shadow(0px 0px 8px rgba(223, 202, 160, 0.4)) brightness(1.3) contrast(1.1);" />
     </a>
@@ -33,7 +33,7 @@
           <a href="{{ route('admin.modificar.site') }}"
             class="nav-link d-flex align-items-center rounded-3 px-3 py-2 text-white {{ Request::routeIs('admin.content') ? 'active' : '' }} sidebar-custom-hover">
             <i class="nav-icon bi bi-pencil-square me-2" style="font-size: 1.1rem; color: #94a3b8;"></i>
-            <p class="mb-0">Modificações do Site</p>
+            <p class="mb-0">Modificações do Sites</p>
           </a>
         </li>
 
