@@ -3,7 +3,8 @@
 
         <div class="brand">
             <a href="{{ route('admin.dash') }}" class="brand-link">
-                <img src="{{ asset('conexao360/img/pint.svg') }}" alt="Logo" class="brand-logo">
+                <img src="{{ asset('conexao360/img/pint.svg') }}" alt="Logo" class="brand-logo" width="46" height="46"
+                    decoding="async">
 
                 <h5 class="brand-name">
                     ADVOCACIA <br>
@@ -53,30 +54,3 @@
 
     </div>
 </header>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const header = document.querySelector('.site-header');
-
-        if (!header) {
-            return;
-        }
-
-        function atualizarHeader() {
-            const rolouPagina = window.scrollY > 35;
-
-            header.classList.toggle(
-                'site-header--scrolled',
-                rolouPagina
-            );
-        }
-
-        atualizarHeader();
-
-        window.addEventListener(
-            'scroll',
-            atualizarHeader,
-            { passive: true }
-        );
-    });
-</script>

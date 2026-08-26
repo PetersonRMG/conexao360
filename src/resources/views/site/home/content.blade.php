@@ -57,7 +57,7 @@
 
                             <div class="experience-hero-brand-slide">
                                 <div class="experience-hero-brand-logo">
-                                    <img src="{{ asset('conexao360/img/pint.svg') }}" alt="Logo">
+                                    <img src="{{ asset('conexao360/img/pint.svg') }}" alt="Logo" decoding="async">
                                 </div>
 
                                 <div class="experience-hero-brand-copy">
@@ -72,7 +72,7 @@
 
                             <div class="experience-hero-brand-slide">
                                 <div class="experience-hero-brand-logo">
-                                    <img src="{{ asset('conexao360/img/pint.svg') }}" alt="Logo">
+                                    <img src="{{ asset('conexao360/img/pint.svg') }}" alt="Logo" decoding="async">
                                 </div>
 
                                 <div class="experience-hero-brand-copy">
@@ -87,7 +87,7 @@
 
                             <div class="experience-hero-brand-slide">
                                 <div class="experience-hero-brand-logo">
-                                    <img src="{{ asset('conexao360/img/pint.svg') }}" alt="Logo">
+                                    <img src="{{ asset('conexao360/img/pint.svg') }}" alt="Logo" decoding="async">
                                 </div>
 
                                 <div class="experience-hero-brand-copy">
@@ -134,7 +134,8 @@
                     <div class="imagem experience-video-card">
                         <a class="data-lity experience-video-link" href="{{ asset('conexao360/img/' . $item->url_video) }}"
                             data-lity>
-                            <img src="{{ asset('conexao360/img/' . $item->capa_video) }}" alt="Palestra advocacia">
+                            <img src="{{ asset('conexao360/img/' . $item->capa_video) }}" alt="Palestra advocacia"
+                                loading="lazy" decoding="async">
 
                             <span class="play-btn" aria-hidden="true">
                                 <span class="play-icon"></span>
@@ -167,7 +168,8 @@
                 @foreach ($temas as $item)
                     <article class="experience-topic-card" id="tema-{{ $item->id_tema }}">
                         <div class="experience-topic-image">
-                            <img src="{{ asset('conexao360/img/' . $item->foto_tema) }}" alt="{{ $item->titulo_tema }}">
+                            <img src="{{ asset('conexao360/img/' . $item->foto_tema) }}" alt="{{ $item->titulo_tema }}"
+                                loading="lazy" decoding="async">
                         </div>
 
                         <div class="experience-topic-content">
@@ -201,7 +203,8 @@
                 @foreach ($dra as $item)
                     <article class="sobre-tds experience-speaker-card">
                         <div class="ajst-img experience-speaker-image">
-                            <img src="{{ asset('conexao360/img/' . $item->foto_dra) }}" alt="Dra. Simone Baptista">
+                            <img src="{{ asset('conexao360/img/' . $item->foto_dra) }}" alt="Dra. Simone Baptista"
+                                loading="lazy" decoding="async">
                         </div>
 
                         <div class="sobre-info experience-speaker-info">
@@ -241,9 +244,26 @@
                         <div class="cards experience-testimonial-slide">
                             <article class="texto-depoimentos experience-testimonial-card">
                                 <div class="experience-testimonial-person">
-                                    <img class="img-advo"
-                                        src="{{ asset('dash/assets/img/' . $item->usuario->foto_usuario) }}"
-                                        alt="{{ $item->usuario->nome_usuario }}">
+                                    @php
+                                        $fotoDepoimento = !empty($item->usuario->foto_usuario)
+                                            ? 'dash/assets/img/' . $item->usuario->foto_usuario
+                                            : null;
+
+                                        $fotoDepoimentoExiste = $fotoDepoimento
+                                            && file_exists(public_path($fotoDepoimento));
+                                    @endphp
+
+                                    @if ($fotoDepoimentoExiste)
+                                        <img class="img-advo" src="{{ asset($fotoDepoimento) }}"
+                                            alt="{{ $item->usuario->nome_usuario }}" width="54" height="54" loading="lazy"
+                                            decoding="async">
+                                    @else
+                                        <div class="img-advo experience-testimonial-avatar-fallback"
+                                            aria-label="{{ $item->usuario->nome_usuario }}"
+                                            title="{{ $item->usuario->nome_usuario }}">
+                                            {{ mb_strtoupper(mb_substr(trim($item->usuario->nome_usuario), 0, 1)) }}
+                                        </div>
+                                    @endif
 
                                     <div>
                                         <h3>{{ $item->usuario->nome_usuario }}</h3>
@@ -362,56 +382,8 @@
 
 </main>
 
+{{-- Scripts no final da página: não bloqueiam a primeira renderização. --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-
-<script>
-    $(document).ready(function () {
-        if ($.fn.slick && !$('#conexaoCarousel').hasClass('slick-initialized')) {
-            $('#conexaoCarousel').slick({
-                dots: true,
-                infinite: true,
-                speed: 700,
-                fade: true,
-                cssEase: 'linear',
-                autoplay: true,
-                autoplaySpeed: 5000,
-                arrows: false,
-                pauseOnHover: false
-            });
-        }
-
-        if ($.fn.slick && !$('#carousel').hasClass('slick-initialized')) {
-            $('#carousel').slick({
-                dots: true,
-                infinite: true,
-                speed: 500,
-                slidesToShow: 3,
-                slidesToScroll: 1,
-                autoplay: true,
-                autoplaySpeed: 5000,
-                arrows: false,
-                responsive: [
-                    {
-                        breakpoint: 1100,
-                        settings: {
-                            slidesToShow: 2
-                        }
-                    },
-                    {
-                        breakpoint: 820,
-                        settings: {
-                            slidesToShow: 1
-                        }
-                    },
-                    {
-                        breakpoint: 560,
-                        settings: {
-                            slidesToShow: 1
-                        }
-                    }
-                ]
-            });
-        }
-    });
-</script>
+<script src="{{ asset('conexao360/js/slick.js') }}"></script>
+<script src="{{ asset('conexao360/js/lity.min.js') }}"></script>
+<script src="{{ asset('conexao360/js/script.js') }}"></script>

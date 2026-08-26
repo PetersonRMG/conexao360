@@ -1,6 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap');
-
-@layer reset, tokens;
+﻿@layer reset, tokens;
 
 @layer reset {
 * {
@@ -4748,5 +4746,29 @@ header.site-header .btn-rede-exclusiva:hover {
         border-left: 0;
         border-top: 1px solid rgba(214, 178, 106, 0.24);
     }
+}
+
+
+/* ==========================================================================
+   PERFORMANCE / RESILIÊNCIA — AVATAR DE DEPOIMENTO
+   ========================================================================== */
+.experience-main .experience-testimonial-avatar-fallback.img-advo {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+
+    width: 54px;
+    height: 54px;
+
+    border: 1px solid rgba(214, 178, 106, 0.35);
+    border-radius: 50%;
+
+    background: rgba(214, 178, 106, 0.08);
+    color: var(--exp-gold, #d6b26a);
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
 }
 
