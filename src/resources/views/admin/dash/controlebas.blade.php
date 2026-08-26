@@ -4,7 +4,7 @@
 @section('link-topo', 'Home')
 
 @section('content')
-    <main class="app-main dash-page">
+    <main class="app-main dash-home-main">
         <div class="app-content container-fluid">
 
             <div class="dash-page">

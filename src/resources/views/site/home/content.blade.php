@@ -1,502 +1,417 @@
-@foreach($hero as $item)
-    @if($item->status_hero === 'ATIVO')
-        <section class="header-advocacia" style=" background-image: url('{{ asset('conexao360/img/' . $item->foto_banner) }}')">
-            <div class="container">
-                <div class="logo-container">
+<main class="experience-main">
+
+    {{-- ================================================================
+    HERO DINÂMICO
+    Mantém os dados cadastrados no dashboard.
+    O conteúdo institucional foi integrado ao final do próprio hero.
+    ================================================================= --}}
+    @foreach ($hero as $item)
+        @if ($item->status_hero === 'ATIVO')
+            <section class="header-advocacia experience-hero"
+                style="background-image: url('{{ asset('conexao360/img/' . $item->foto_banner) }}')">
+                <div class="experience-hero-overlay"></div>
+
+                <div class="experience-shell experience-hero-shell">
+                    <div class="tds-header experience-hero-content">
+                        <p class="tit-header experience-eyebrow">
+                            {{ $item->tagline_hero }}
+                        </p>
+
+                        <h1 class="sub-tit experience-hero-title">
+                            {{ $item->titulo_hero }}
+                        </h1>
+
+                        <p class="descricao-header experience-hero-description">
+                            {{ $item->subtitulo_hero }}
+                        </p>
+
+                        <div class="experience-event-meta">
+                            <div class="experience-meta-item">
+                                <img src="{{ asset('conexao360/img/icones_adv (8).svg') }}" alt="Calendário">
+                                <div>
+                                    <span>Data e Horário</span>
+                                    <strong>{{ $evento->data_formatada }}</strong>
+                                </div>
+                            </div>
+
+                            <div class="experience-meta-item">
+                                <img src="{{ asset('conexao360/img/icones_adv (9).svg') }}" alt="Localização">
+                                <div>
+                                    <span>Localização Evento</span>
+                                    <strong>{{ $evento->endereco_evento }}</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a href="{{ $item->link_botao_hero }}" class="cta-header experience-primary-button" target="_blank"
+                            rel="noopener noreferrer">
+                            {{ $item->texto_botao_hero }}
+                        </a>
+                    </div>
                 </div>
 
-                <div class="tds-header">
+                {{-- Conteúdo institucional integrado ao hero --}}
+                <div class="experience-hero-brand">
+                    <div class="experience-shell experience-hero-brand-shell">
+                        <div class="conexao-carousel experience-hero-brand-carousel" id="conexaoCarousel">
 
-                    <p class="tit-header">{{ $item->tagline_hero }}</p>
+                            <div class="experience-hero-brand-slide">
+                                <div class="experience-hero-brand-logo">
+                                    <img src="{{ asset('conexao360/img/pint.svg') }}" alt="Logo">
+                                </div>
+
+                                <div class="experience-hero-brand-copy">
+                                    <span>Conexão 360º</span>
+                                    <strong>ADVOCACIA <br> E<span>X</span>PONENCIAL</strong>
+                                    <small>3ª EDIÇÃO</small>
+                                </div>
+
+                                <div class="experience-hero-brand-thumb"
+                                    style="background-image: url('{{ asset('conexao360/img/Mídia (1).jpg') }}');"></div>
+                            </div>
+
+                            <div class="experience-hero-brand-slide">
+                                <div class="experience-hero-brand-logo">
+                                    <img src="{{ asset('conexao360/img/pint.svg') }}" alt="Logo">
+                                </div>
+
+                                <div class="experience-hero-brand-copy">
+                                    <span>Networking de Elite</span>
+                                    <strong>CONEXÕES <br> E<span>X</span>CLUSIVAS</strong>
+                                    <small>VAGAS LIMITADAS</small>
+                                </div>
+
+                                <div class="experience-hero-brand-thumb"
+                                    style="background-image: url('{{ asset('conexao360/img/captura.png') }}');"></div>
+                            </div>
+
+                            <div class="experience-hero-brand-slide">
+                                <div class="experience-hero-brand-logo">
+                                    <img src="{{ asset('conexao360/img/pint.svg') }}" alt="Logo">
+                                </div>
+
+                                <div class="experience-hero-brand-copy">
+                                    <span>Imersão Prática</span>
+                                    <strong>MENTORIA <br> E<span>X</span>STRATÉGICA</strong>
+                                    <small>PRÓXIMO EVENTO</small>
+                                </div>
+
+                                <div class="experience-hero-brand-thumb"
+                                    style="background-image: url('{{ asset('conexao360/img/Mídia (1).jpg') }}');"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+        @endif
+    @endforeach
 
 
-                    <h1 class="sub-tit">
-                        {{$item->titulo_hero }}
-                    </h1>
+    {{-- ================================================================
+    PALESTRA / CONTEÚDO EM VÍDEO
+    Dados dinâmicos: $video
+    ================================================================= --}}
+    <section id="palestra" class="palestra experience-about">
+        <div class="experience-shell experience-about-shell">
+            @foreach ($video as $item)
+                <article class="teste experience-about-grid">
+                    <div class="conteudo experience-about-copy">
+                        <p class="experience-eyebrow">Sobre o Evento</p>
+                        <span class="tag experience-outline-tag">Palestra Exclusiva</span>
 
-                    <p class="descricao-header">
-                        {{ $item->subtitulo_hero }}
-                    </p>
+                        <h2>{{ $item->titulo_video }}</h2>
+
+                        <p>{{ $item->subtitulo_video }}</p>
+
+                        <ul class="experience-check-list">
+                            <li>Com método, clareza e direção estratégica</li>
+                            <li>Sem promessas vazias</li>
+                            <li>Sem atalhos irreais</li>
+                        </ul>
+                    </div>
+
+                    <div class="imagem experience-video-card">
+                        <a class="data-lity experience-video-link" href="{{ asset('conexao360/img/' . $item->url_video) }}"
+                            data-lity>
+                            <img src="{{ asset('conexao360/img/' . $item->capa_video) }}" alt="Palestra advocacia">
+
+                            <span class="play-btn" aria-hidden="true">
+                                <span class="play-icon"></span>
+                            </span>
+                        </a>
+
+                        <p class="tit-video experience-video-caption">
+                            — {{ $item->legenda_video }} —
+                        </p>
+                    </div>
+                </article>
+            @endforeach
+        </div>
+    </section>
 
 
-                    <a href="{{ $item->link_botao_hero  }}" class="cta-header" target="_blank">
-                        {{ $item->texto_botao_hero  }}
-                    </a>
+    {{-- ================================================================
+    TEMAS / O QUE SERÁ ATIVADO
+    Dados dinâmicos: $temas
+    ================================================================= --}}
+    <section class="abordagem experience-topics">
+        <div class="experience-shell">
+            <div class="experience-section-heading experience-section-heading--light">
+                <p class="experience-eyebrow">Conexão 360º</p>
+                <h2 class="title">O que você vai ativar no conexão 360°</h2>
+                <h3 class="sub-title">( Não é conteúdo. É virada de chave )</h3>
+            </div>
+
+            <div class="experience-topic-grid">
+                @foreach ($temas as $item)
+                    <article class="experience-topic-card" id="tema-{{ $item->id_tema }}">
+                        <div class="experience-topic-image">
+                            <img src="{{ asset('conexao360/img/' . $item->foto_tema) }}" alt="{{ $item->titulo_tema }}">
+                        </div>
+
+                        <div class="experience-topic-content">
+                            <span class="experience-topic-number">
+                                {{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}
+                            </span>
+
+                            <h3>{{ $item->titulo_tema }}</h3>
+                            <h4>{{ $item->subtitulo_tema }}</h4>
+                            <p>{{ $item->breve_descricao_tema }}.</p>
+                        </div>
+                    </article>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+
+    {{-- ================================================================
+    DRA. / PALESTRANTE
+    Dados dinâmicos: $dra
+    ================================================================= --}}
+    <section class="sobre experience-speakers">
+        <div class="experience-shell">
+            <div class="experience-section-heading experience-section-heading--dark">
+                <p class="experience-eyebrow">Uma Referência na Advocacia</p>
+                <h2 class="titulo">A Mente que Provoca Mudança</h2>
+            </div>
+
+            <div class="experience-speaker-grid">
+                @foreach ($dra as $item)
+                    <article class="sobre-tds experience-speaker-card">
+                        <div class="ajst-img experience-speaker-image">
+                            <img src="{{ asset('conexao360/img/' . $item->foto_dra) }}" alt="Dra. Simone Baptista">
+                        </div>
+
+                        <div class="sobre-info experience-speaker-info">
+                            <p class="experience-eyebrow">Palestrante</p>
+                            <h3>{{ $item->titulo_dra }}</h3>
+                            <h4>{{ $item->sub_titulo_dra }}</h4>
+                            <p>{{ $item->descricao_dra }}</p>
+                        </div>
+                    </article>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+
+    {{-- ================================================================
+    DEPOIMENTOS
+    Dados dinâmicos: $depoimentos e relacionamento usuario
+    ================================================================= --}}
+    <section id="depoimento" class="depoimentos experience-testimonials">
+        <div class="experience-shell">
+            <div
+                class="experience-section-heading experience-section-heading--light experience-section-heading--compact">
+                <div>
+                    <p class="experience-eyebrow">Depoimentos</p>
+                    <h2 class="titulo">A Voz de Quem Já Esteve Lá</h2>
+                </div>
+
+                <p class="experience-heading-support">
+                    O que profissionais da advocacia dizem sobre as palestras anteriores
+                </p>
+            </div>
+
+            <div class="caixa-car experience-testimonial-window">
+                <div class="carousel experience-testimonial-carousel" id="carousel">
+                    @foreach ($depoimentos as $item)
+                        <div class="cards experience-testimonial-slide">
+                            <article class="texto-depoimentos experience-testimonial-card">
+                                <div class="experience-testimonial-person">
+                                    <img class="img-advo"
+                                        src="{{ asset('dash/assets/img/' . $item->usuario->foto_usuario) }}"
+                                        alt="{{ $item->usuario->nome_usuario }}">
+
+                                    <div>
+                                        <h3>{{ $item->usuario->nome_usuario }}</h3>
+                                        <h4>{{ $item->usuario->area_atuacao_usuario }}</h4>
+                                    </div>
+                                </div>
+
+                                <p class="textetexto experience-testimonial-text">
+                                    “{{ $item->descricao_depoimento }}”
+                                </p>
+                            </article>
+                        </div>
+                    @endforeach
                 </div>
             </div>
-        </section>
-    @endif
-
-@endforeach
+        </div>
+    </section>
 
 
+    {{-- ================================================================
+    LOCAL DO EVENTO
+    Opção aprovada: dados + Google Maps, sem inventar fotografia.
+    Dados dinâmicos: $evento
+    ================================================================= --}}
+    <section class="local_sessao experience-location">
+        <div class="experience-shell">
+            <div
+                class="experience-section-heading experience-section-heading--light experience-section-heading--compact">
+                <div>
+                    <p class="experience-eyebrow">Local do Evento</p>
+                    <h2 class="tit_local">Sua transformação tem hora e lugar marcados</h2>
+                </div>
+            </div>
 
-<section class="conexao-container">
-    <div class="conexao-carousel" id="conexaoCarousel">
-        
-        <div class="conexao-slide active-slide" style="background-image: url('{{ asset('conexao360/img/Mídia (1).jpg') }}');">
-            <div class="conexao-content">
-                <img src="{{ asset('conexao360/img/pint.svg') }}" alt="Logo" width="200px">
-                <h2>Conexão 360º</h2>
-                <h3>ADVOCACIA <br> E<span>X</span>PONENCIAL</h3>
-                <h4>3ª EDIÇÃO</h4>
+            <div class="local-cont experience-location-grid">
+                <div class="event-info experience-location-info">
+                    <div class="experience-location-intro">
+                        <span class="experience-location-kicker">Conexão 360º</span>
+                        <h3>O evento acontece aqui</h3>
+                    </div>
+
+                    <div class="info-item experience-location-item">
+                        <div class="info-icon">
+                            <img src="{{ asset('conexao360/img/icones_adv (8).svg') }}" alt="Calendário">
+                        </div>
+
+                        <div class="info-text">
+                            <strong>Data e Horário</strong>
+                            <p>{{ $evento->data_formatada }}.</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item experience-location-item">
+                        <div class="info-icon">
+                            <img src="{{ asset('conexao360/img/icones_adv (9).svg') }}" alt="Localização">
+                        </div>
+
+                        <div class="info-text">
+                            <strong>Localização Evento</strong>
+                            <p>{{ $evento->endereco_evento }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mapa experience-map-card">
+                    <iframe src="{{ $evento->url_evento }}" title="Local do evento" allowfullscreen loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
             </div>
         </div>
+    </section>
 
-        <div class="conexao-slide" style="background-image: url('{{ asset('conexao360/img/captura.png')}}');">
-            <div class="conexao-content">
-                <img src="{{ asset('conexao360/img/pint.svg') }}" alt="Logo" width="200px">
-                <h2>Networking de Elite</h2>
-                <h3>CONEXÕES <br> E<span>X</span>CLUSIVAS</h3>
-                <h4>VAGAS LIMITADAS</h4>
-            </div>
-        </div>
 
-        <div class="conexao-slide" style="background-image: url('{{ asset('conexao360/img/Mídia (1).jpg') }}');">
-            <div class="conexao-content">
-                <img src="{{ asset('conexao360/img/pint.svg') }}" alt="Logo" width="200px">
-                <h2>Imersão Prática</h2>
-                <h3>MENTORIA <br> E<span>X</span>STRATÉGICA</h3>
-                <h4>PRÓXIMO EVENTO</h4>
-            </div>
-        </div>
+    {{-- ================================================================
+    CTA FINAL / INGRESSOS
+    Versão compacta: sem contador e sem card interno.
+    Mantém o CTA existente e reaproveita os dados dinâmicos do evento.
+    ================================================================= --}}
+    <section id="ingressos" class="cta-sessao experience-final-cta">
+        <div class="experience-final-cta-overlay"></div>
 
-    </div>
-</section>
+        <div class="experience-shell experience-final-cta-shell">
+            <div class="experience-final-cta-content">
+                <p class="experience-eyebrow experience-final-cta-eyebrow">Ingressos</p>
 
-<section id="palestra" class="palestra">
+                <h2>O próximo nível da sua carreira jurídica é uma decisão estratégica.</h2>
 
-    <div class="teste">
-        @foreach  ($video as $item)
-            <div class="conteudo">
-                <h2>{{ $item->titulo_video }}</h2>
-
-                <span class="tag">Palestra Exclusiva</span>
-
-                <p>
-                    {{ $item->subtitulo_video }}
+                <p class="experience-final-cta-description">
+                    Saia do operacional exaustivo e assuma o controle da sua advocacia com o método de quem vive a
+                    prática
+                    real todos os dias.
                 </p>
 
-                <ul>
-                    <li>Com método, clareza e direção estratégica</li>
-                    <li>Sem promessas vazias</li>
-                    <li>Sem atalhos irreais</li>
-                </ul>
-            </div>
+                <div class="experience-final-cta-meta">
+                    <div class="experience-final-cta-meta-item">
+                        <span>Data e horário</span>
+                        <strong>{{ $evento->data_formatada }}</strong>
+                    </div>
 
-            <div class="imagem">
-                <a class="data-lity" href="{{ asset('conexao360/img/' . $item->url_video) }}" data-lity>
-                    <img src="{{ asset('conexao360/img/' . $item->capa_video) }}" alt="Palestra advocacia">
-                    <span class="play-btn">
-                        <span class="play-icon"></span>
+                    <div class="experience-final-cta-separator" aria-hidden="true"></div>
 
-                    </span>
-                </a>
-                <div>
-                    <p class="tit-video"> — {{ $item->legenda_video }} — </p>
-                </div>
-
-            </div>
-        @endforeach
-    </div>
-
-</section>
-
-<!-- telas grande -->
-<section class="abordagem">
-
-    <div class="tds-abordagem">
-
-        <div class="coluna-esquerda">
-
-            <h2 class="title">O que você vai ativar<br> no conexão 360° </h2>
-            <h3 class="sub-title">( Não é conteúdo. É virada de chave )</h3>
-            @foreach ($temas as $item)
-                <div class="card">
-
-                    <span class="card-text">{{ $item->titulo_tema }}</span>
-                    <h3>{{ $item->subtitulo_tema }} <br> <br> - {{ $item->breve_descricao_tema }}.</h3>
-                </div>
-            @endforeach
-
-
-        </div>
-
-        <div class="coluna-direita">
-
-            <div class="circulo-tds">
-                <div class="center-circle">
-                    <div class="inner-text">
-
-
-                        Conexão<br><span>360º</span>
+                    <div class="experience-final-cta-meta-item experience-final-cta-meta-item--location">
+                        <span>Local</span>
+                        <strong>{{ $evento->endereco_evento }}</strong>
                     </div>
                 </div>
 
-                <a href="#item1">
-                    <div class="orbit-item t1"><span>Mentalidade</span></div>
-                </a>
-                <div class="orbit-item t2"><span>Posicionamento</span></div>
-                <div class="orbit-item t3"><span>Ambiência & Performance</span></div>
-                <div class="orbit-item t4"><span>Atendimento Consultivo</span></div>
-                <div class="orbit-item t5"><span>Postura Profissional</span></div>
-                <div class="orbit-item t6"><span>Conversão com Segurança</span></div>
-            </div>
-        </div>
-
-
-    </div>
-</section>
-
-<!-- mobile -->
-<section class="abordagem-mobile">
-
-    <div class="tds-abordagem">
-
-        <div class="coluna-esquerda">
-            <h2 class="title">O que você vai ativar<br> no conexão 360° </h2>
-            <h3 class="sub-title">( Não é conteúdo. É virada de chave )</h3>
-            @foreach ($temas as $item)
-                <div class="card" href="#{{ $item->id_tema }}" data-lity>
-
-                    <span class=" card-text">
-                        {{ $item->titulo_tema }}</span>
-                    <h3 class=" card-text-lity" id="{{ $item->id_tema }}"> <img
-                            src="{{ asset('conexao360/img/' . $item->foto_tema) }}" alt="`{{ $item->titulo_tema }}">
-                        <br> <br>{{ $item->titulo_tema }} <br> <br> - {{ $item->breve_descricao_tema }}.
-                    </h3>
-
-                </div>
-            @endforeach
-
-        </div>
-
-    </div>
-</section>
-
-<section class="sobre">
-    <div class="container">
-        <h2 class="titulo">Uma Referência na Advocacia</h2>
-        <h4>A Mente que Provoca Mudança</h4>
-
-        <div class="sobre-tds">
-            @foreach ($dra as $item)
-                <div class="ajst-img">
-                    <img src="{{ asset('conexao360/img/' . $item->foto_dra) }}" alt="Dra. Simone Baptista">
-                </div>
-
-                <div class="sobre-info">
-
-                    <h3>{{ $item->titulo_dra }}</h3>
-                    <h4>{{ $item->sub_titulo_dra }}</h4>
-
-                    <p>{{ $item->descricao_dra }}</p>
-            @endforeach
-
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="depoimento" class="depoimentos ">
-    <div>
-        <h2 class="titulo">
-            A Voz de Quem Já Esteve Lá <span>O que profissionais da advocacia dizem sobre as palestras anteriores</span>
-        </h2>
-        {{-- <a href="{{ route('admin.login') }}">
-            <button type="submit" class="btn btn-primary"> Adicionar um Depoimento</button>
-        </a> --}}
-    </div>
-
-    <div class="caixa-car ">
-
-        <div class="carousel " id="carousel"  >
-            @foreach ( $depoimentos as $item)
-            <div class="cards  ">
-                <div class="texto-depoimentos ">
-                    <img class="img-advo" src="{{ asset('dash/assets/img/' . $item->usuario->foto_usuario) }}" alt={{ $item->usuario->nome_usuario }} width="120px">
-                    <div class="divisao"></div>
-                    <h3> {{ $item->usuario->nome_usuario }} <br> </h3>
-                    <h4> <br> {{ $item->usuario->area_atuacao_usuario }}</h4>
-                    <div class="divisao"></div>
-                    <p class="textetexto">
-                        <img src="{{ asset('conexao360/img/aspas (1).svg') }}" alt="" width="30   ">
-                        "{{ $item->descricao_depoimento }}"
-
-                        <img class="ajst" src="{{ asset('conexao360/img/aspas (3).svg') }}" alt="" width="30px">
-                    </p>
-
-                </div>
-            </div>
-            
-            @endforeach
-
-
-
-        </div>
-    </div>
-
-
-
-</section>
-
-<section class="local_sessao">
-
-
-    <div class="container">
-        <h2 class="tit_local">Sua transformação tem hora e lugar marcados</h2>
-
-
-        <div class="local-cont">
-            <div class="mapa">
-                <a href="" target="_blank" rel="">
-
-                    <div class="mapa-botao">Ver no Google Maps</div>
-                    <iframe src="{{$evento->url_evento    }}" width="600" height="450" style="border:0;"
-                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <a href="https://sun.eduzz.com/Q9N56RAK01"
+                    class="cta-botao experience-primary-button experience-final-cta-button" target="_blank"
+                    rel="noopener noreferrer">
+                    Garantir meu ingresso <span>›</span>
                 </a>
             </div>
-
-
-
-            <div class="event-info">
-                <div class="info-item">
-
-
-                    <div class="info-icon">
-                        <img src="{{ asset('conexao360/img/icones_adv (8).svg') }}" alt="Calendário">
-                    </div>
-                    <div class="info-text">
-                        <strong>Data e Horário:</strong>
-                        <p> {{ $evento->data_formatada }}.</p>
-                    </div>
-                </div>
-
-                <div class="info-item">
-                    <div class="info-icon">
-                        <img src="{{ asset('conexao360/img/icones_adv (9).svg') }}" alt="Localização" height="400px">
-                    </div>
-                    <div class="info-text">
-                        <strong>Localização Evento:</strong>
-                        <p>{{ $evento->endereco_evento }}</p>
-                    </div>
-                </div>
-            </div>
         </div>
-    </div>
+    </section>
 
+</main>
 
-</section>
-
-<section id="ingressos" class="cta-sessao">
-
-
-
-    <div class="plano"></div>
-    <div class="container cta-container">
-        <h2>O próximo nível da sua carreira jurídica é uma decisão estratégica.</h2>
-
-        <div class="divisao-short"></div>
-
-        <div class="countdown-container">
-
-            <div class="countdown-item">
-                <span id="days">00</span>
-                <p>Dias</p>
-            </div>
-
-
-            <div class="countdown-divider">:</div>
-
-            <div class="countdown-item">
-                <span id="hours">00</span>
-                <p>Horas</p>
-            </div>
-
-            <div class="countdown-divider">:</div>
-
-            <div class="countdown-item">
-                <span id="minutes">00</span>
-                <p>Minutos</p>
-            </div>
-
-            <div class="countdown-divider">:</div>
-
-            <div class="countdown-item">
-                <span id="seconds">00</span>
-                <p>Segundos</p>
-            </div>
-
-        </div>
-
-        <p>
-            Saia do operacional exaustivo e assuma o controle da sua advocacia com o método de quem vive a prática
-            real todos os dias.
-        </p>
-
-
-
-        <a href="https://sun.eduzz.com/Q9N56RAK01" class="cta-botao">
-            Garantir meu ingresso <span>›</span>
-        </a>
-    </div>
-
-</section>
-
-<style>
-
-
-/* ==========================================================================
-   BANNER HERO - CARROSSEL DINÂMICO (CONEXÃO 360)
-   ========================================================================== */
-.conexao-container {
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-    line-height: 0; /* Remove espaços vazios causados por elementos inline/block inline */
-}
-
-/* Força o Slick a ocupar exatamente o tamanho do container sem deixar rebarbas */
-.conexao-container .slick-list,
-.conexao-container .slick-track {
-    height: 100% !important;
-}
-
-.conexao-carousel {
-    width: 100%;
-    display: flex;
-    margin-bottom: 0 !important; /* Garante que o carrossel não empurre a próxima seção */
-}
-
-.conexao-slide {
-    width: 100%;
-    height: 800px; 
-    background-size: cover; 
-    background-position: center;
-    background-repeat: no-repeat;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-
-
-.conexao-content {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-    padding: 5% 20px;
-    width: 50%;
-    line-height: normal; /* Restaura o espaçamento de texto correto dentro do slide */
-    background-color: rgba(0, 0, 0, 0.548);;
-}
-
-/* AJUSTE DE CENTRALIZAÇÃO DO LOGO SVG */
-.conexao-content img {
-    display: block;
-    margin: 0 auto 20px auto; 
-    max-width: 100%;
-    height: auto;
-}
-
-.conexao-content h2 {
-    font-size: 2.5rem;
-    color: #fff;
-    margin-top: 20px;
-    font-family: 'Playfair Display', serif;
-    letter-spacing: 2px;
-}
-
-.conexao-content h3 {
-    font-size: 4rem;
-    color: #d6b26a; 
-    font-family: 'Playfair Display', serif;
-    line-height: 1.1;
-    margin: 15px 0;
-    font-weight: 700;
-}
-
-.conexao-content h3 span {
-    color: #fff;
-}
-
-.conexao-content h4 {
-    font-size: 1.5rem;
-    color: #9d9a9a;
-    font-family: 'Montserrat', sans-serif;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-}
-
-/* Customização dos pontos de navegação (Dots) do Carrossel */
-.conexao-container .slick-dots {
-    bottom: 30px;
-    position: absolute;
-    width: 100%;
-    text-align: center;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    z-index: 5;
-}
-
-.conexao-container .slick-dots li {
-    display: inline-block;
-    margin: 0 6px;
-}
-
-.conexao-container .slick-dots li button {
-    width: 12px;
-    height: 12px;
-    padding: 0;
-    background: rgba(255, 255, 255, 0.3);
-    border: none;
-    border-radius: 50%;
-    text-indent: -9999px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.conexao-container .slick-dots li.slick-active button {
-    background: #d6b26a;
-    transform: scale(1.2);
-}
-
-/* Remove folgas que possam existir na seção seguinte (#palestra) */
-#palestra {
-    margin-top: 0 !important;
-    padding-top: 60px; /* Ajuste o padding do topo caso queira mais ou menos respiro para o conteúdo da palestra */
-}
-
-@media (max-width: 768px) {
-    .conexao-content h2 { font-size: 1.8rem; }
-    .conexao-content h3 { font-size: 2.5rem; }
-    .conexao-content h4 { font-size: 1.1rem; }
-    .conexao-slide { height: 550px; } 
-}
-</style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 
 <script>
-    $(document).ready(function(){
-        // Carrossel do Banner Principal
-        $('#conexaoCarousel').slick({
-            dots: true,
-            infinite: true,
-            speed: 900,
-            fade: true,
-            cssEase: 'linear',
-            autoplay: true,
-            autoplaySpeed: 5000,
-            arrows: false,
-            pauseOnHover: false
-        });
+    $(document).ready(function () {
+        if ($.fn.slick && !$('#conexaoCarousel').hasClass('slick-initialized')) {
+            $('#conexaoCarousel').slick({
+                dots: true,
+                infinite: true,
+                speed: 700,
+                fade: true,
+                cssEase: 'linear',
+                autoplay: true,
+                autoplaySpeed: 5000,
+                arrows: false,
+                pauseOnHover: false
+            });
+        }
 
-        // Seu carrossel de depoimentos existente
-        $('#carousel').slick({
-            // ... suas configurações antigas do depoimento
-        });
+        if ($.fn.slick && !$('#carousel').hasClass('slick-initialized')) {
+            $('#carousel').slick({
+                dots: true,
+                infinite: true,
+                speed: 500,
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 5000,
+                arrows: false,
+                responsive: [
+                    {
+                        breakpoint: 1100,
+                        settings: {
+                            slidesToShow: 2
+                        }
+                    },
+                    {
+                        breakpoint: 820,
+                        settings: {
+                            slidesToShow: 1
+                        }
+                    },
+                    {
+                        breakpoint: 560,
+                        settings: {
+                            slidesToShow: 1
+                        }
+                    }
+                ]
+            });
+        }
     });
 </script>

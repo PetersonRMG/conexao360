@@ -25,8 +25,9 @@ class HomeController extends Controller
         $dra = Dra::where('status_dra', 'ATIVO')                     
         ->get();
 
-        $video = Video::where('status_video','ATIVO')                    
+        $video = Video::where('status_video','ATIVO')       
         ->get();
+              
 
         $hero = HeroSection::where('status_hero', 'ATIVO')
         ->get();
