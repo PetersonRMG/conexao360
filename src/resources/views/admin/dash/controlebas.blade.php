@@ -10,7 +10,7 @@
             <div class="dash-page">
 
                 {{-- =========================================================
-                     CABEÇALHO
+                CABEÇALHO
                 ========================================================== --}}
                 <header class="dash-page-header">
                     <div class="dash-page-heading">
@@ -32,15 +32,15 @@
                         <i class="bi bi-calendar3"></i>
                         <span>
                             {{ \Carbon\Carbon::now()
-                                ->locale('pt_BR')
-                                ->isoFormat('dddd, D [de] MMMM [de] YYYY') }}
+        ->locale('pt_BR')
+        ->isoFormat('dddd, D [de] MMMM [de] YYYY') }}
                         </span>
                     </div>
                 </header>
 
 
                 {{-- =========================================================
-                     CARDS DE ESTATÍSTICAS
+                CARDS DE ESTATÍSTICAS
                 ========================================================== --}}
                 <section class="dash-stats-grid" aria-label="Resumo das métricas">
 
@@ -104,8 +104,8 @@
                     </article>
 
 
-                        <a href="{{ route ('admin.depoimentos.index')}}">
-                    <article class="dash-stat-card dash-stat-card--primary">
+                    <a href="{{ route('admin.depoimentos.index')}}">
+                        <article class="dash-stat-card dash-stat-card--primary">
                             <div class="dash-stat-icon">
                                 <i class="bi bi-chat-quote-fill"></i>
                             </div>
@@ -119,189 +119,190 @@
                                     Publicados
                                 </span>
                             </div>
-                    </article>
-                        </a>
+                        </article>
+                    </a>
 
                 </section>
 
 
                 {{-- =========================================================
-                     PAINÉIS PRINCIPAIS
+                PAINÉIS PRINCIPAIS
                 ========================================================== --}}
                 <section class="dash-panels-grid">
 
                     {{-- =====================================================
-                         PUBLICAÇÕES RECENTES
+                    PUBLICAÇÕES RECENTES
                     ====================================================== --}}
                     <section class="dash-panel">
 
                         <header class="dash-panel-header">
                             <div class="dash-panel-heading">
-<h5 class="dash-panel-title">
-    Usuários Recentes
-</h5>
+                                <h5 class="dash-panel-title">
+                                    Usuários Recentes
+                                </h5>
 
-<small class="dash-panel-subtitle">
-    Usuários cadastrados recentemente
-</small>
-                            </div>
-
-                            <div class="dash-panel-tools">
-<span class="dash-badge">
-    {{ $usuario->count() }} usuários
-</span>
-
-<a href="#" class="dash-panel-link">
-    Ver todos
-    <i class="bi bi-arrow-right"></i>
-</a>
-                            </div>
-                        </header>
-
-<div class="dash-table-wrap">
-    <table class="dash-table">
-        <thead>
-            <tr>
-                <th>Usuário</th>
-                <th>Área de Atuação</th>
-                <th>Cadastro</th>
-                <th>Status</th>
-                <th class="text-end">Ação</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @forelse ($usuario->sortByDesc('criado_em_usuario')->take(5) as $item)
-
-                @php
-                    $nomeCompleto = trim($item->nome_usuario ?? 'Usuário');
-
-                    $partesNome = preg_split('/\s+/', $nomeCompleto);
-
-                    $inicial1 = mb_substr($partesNome[0] ?? '', 0, 1);
-
-                    $inicial2 = isset($partesNome[1])
-                        ? mb_substr($partesNome[1], 0, 1)
-                        : mb_substr($partesNome[0] ?? '', 1, 1);
-
-                    $iniciais = strtoupper($inicial1 . $inicial2);
-
-                    $status = strtolower(trim($item->status_usuario ?? ''));
-
-                    $statusClasse = match ($status) {
-                        'ativo', '1', 'active' => 'dash-status--approved',
-                        'inativo', '0', 'inactive' => 'dash-status--rejected',
-                        default => 'dash-status--pending',
-                    };
-
-                    $statusIcone = match ($status) {
-                        'ativo', '1', 'active' => 'bi-check-circle ',
-                        'inativo', '0', 'inactive' => 'bi-x-circle',
-                        default => 'bi-clock-history',
-                    };
-
-                    $statusTexto = match ($status) {
-                        'ativo', '1', 'active' => 'Ativo',
-                        'inativo', '0', 'inactive' => 'Inativo',
-                        default => $item->status_usuario ?: 'Pendente',
-                    };
-                @endphp
-
-                <tr class="dash-table-row">
-
-                    {{-- USUÁRIO --}}
-                    <td>
-                        <div class="dash-author">
-
-                            @if (!empty($item->foto_usuario))
-                                <img
-                                    src="{{ asset($item->foto_usuario) }}"
-                                    alt="{{ $item->nome_usuario }}"
-                                    class="dash-avatar dash-avatar--image"
-                                >
-                            @else
-                                <div class="dash-avatar dash-avatar--primary">
-                                    {{ $iniciais }}
-                                </div>
-                            @endif
-
-                            <div>
-                                <span class="dash-author-name">
-                                    {{ $item->nome_usuario }}
-                                </span>
-
-                                <small class="dash-author-meta">
-                                    {{ $item->email_usuario }}
+                                <small class="dash-panel-subtitle">
+                                    Usuários cadastrados recentemente
                                 </small>
                             </div>
 
-                        </div>
-                    </td>
+                            <div class="dash-panel-tools">
+                                <span class="dash-badge">
+                                    {{ $usuario->count() }} usuários
+                                </span>
 
-
-                    {{-- ÁREA DE ATUAÇÃO --}}
-                    <td class="dash-cell-truncate">
-                        {{ $item->area_atuacao_usuario ?: 'Não informado' }}
-                    </td>
-
-
-                    {{-- DATA DE CADASTRO --}}
-                    <td class="dash-cell-muted">
-                        @if ($item->criado_em_usuario)
-                            {{ \Carbon\Carbon::parse($item->criado_em_usuario)->locale('pt_BR')->diffForHumans() }}
-                        @else
-                            Não informado
-                        @endif
-                    </td>
-
-
-                    {{-- STATUS --}}
-                    <td >
-                        <span class="dash-status {{ $statusClasse }}  ">
-                            <i class="bi {{ $statusIcone }}"></i>
-                            {{ $statusTexto }}
-                        </span>
-                    </td>
-
-
-                    {{-- AÇÃO --}}
-                    <td class="text-end">
-                        <a href="#" class="dash-action-btn">
-                            <i class="bi bi-eye"></i>
-                            Visualizar
-                        </a>
-                    </td>
-
-                </tr>
-
-            @empty
-
-                <tr>
-                    <td colspan="5">
-                        <div class="dash-empty-state">
-                            <div class="dash-empty-icon">
-                                <i class="bi bi-people"></i>
+                                <a href="#" class="dash-panel-link">
+                                    Ver todos
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
                             </div>
+                        </header>
 
-                            <h5>Nenhum usuário encontrado.</h5>
+                        <div class="dash-table-wrap">
+                            <table class="dash-table">
+                                <thead>
+                                    <tr>
+                                        <th>Usuário</th>
+                                        <th>Área de Atuação</th>
+                                        <th>Cadastro</th>
+                                        <th>Status</th>
+                                        <th class="text-end">Ação</th>
+                                    </tr>
+                                </thead>
 
-                            <p class="dash-empty-text">
-                                Ainda não existem usuários cadastrados.
-                            </p>
+                                <tbody>
+                                    @forelse ($usuario->sortByDesc('criado_em_usuario')->take(5) as $item)
+
+                                        @php
+                                            $nomeCompleto = trim($item->nome_usuario ?? 'Usuário');
+
+                                            $partesNome = preg_split('/\s+/', $nomeCompleto);
+
+                                            $inicial1 = mb_substr($partesNome[0] ?? '', 0, 1);
+
+                                            $inicial2 = isset($partesNome[1])
+                                                ? mb_substr($partesNome[1], 0, 1)
+                                                : mb_substr($partesNome[0] ?? '', 1, 1);
+
+                                            $iniciais = strtoupper($inicial1 . $inicial2);
+
+                                            $status = strtolower(trim($item->status_usuario ?? ''));
+
+                                            $statusClasse = match ($status) {
+                                                'ativo', '1', 'active' => 'dash-status--approved',
+                                                'inativo', '0', 'inactive' => 'dash-status--rejected',
+                                                default => 'dash-status--pending',
+                                            };
+
+                                            $statusIcone = match ($status) {
+                                                'ativo', '1', 'active' => 'bi-check-circle ',
+                                                'inativo', '0', 'inactive' => 'bi-x-circle',
+                                                default => 'bi-clock-history',
+                                            };
+
+                                            $statusTexto = match ($status) {
+                                                'ativo', '1', 'active' => 'Ativo',
+                                                'inativo', '0', 'inactive' => 'Inativo',
+                                                default => $item->status_usuario ?: 'Pendente',
+                                            };
+                                        @endphp
+
+                                        <tr class="dash-table-row">
+
+                                            {{-- USUÁRIO --}}
+                                            <td>
+                                                <div class="dash-author">
+
+                                                    @if (
+                                                            !empty($item->foto_usuario) &&
+                                                            file_exists(public_path('dash/assets/img/' . $item->foto_usuario))
+                                                        )
+                                                        <img src="{{ asset('dash/assets/img/' . $item->foto_usuario) }}"
+                                                            alt="{{ $item->nome_usuario }}" class="dash-avatar dash-avatar--image"
+                                                            loading="lazy" decoding="async">
+                                                    @else
+                                                        <div class="dash-avatar dash-avatar--primary">
+                                                            {{ $iniciais }}
+                                                        </div>
+                                                    @endif
+
+                                                    <div>
+                                                        <span class="dash-author-name">
+                                                            {{ $item->nome_usuario }}
+                                                        </span>
+
+                                                        <small class="dash-author-meta">
+                                                            {{ $item->email_usuario }}
+                                                        </small>
+                                                    </div>
+
+                                                </div>
+                                            </td>
+
+
+                                            {{-- ÁREA DE ATUAÇÃO --}}
+                                            <td class="dash-cell-truncate">
+                                                {{ $item->area_atuacao_usuario ?: 'Não informado' }}
+                                            </td>
+
+
+                                            {{-- DATA DE CADASTRO --}}
+                                            <td class="dash-cell-muted">
+                                                @if ($item->criado_em_usuario)
+                                                    {{ \Carbon\Carbon::parse($item->criado_em_usuario)->locale('pt_BR')->diffForHumans() }}
+                                                @else
+                                                    Não informado
+                                                @endif
+                                            </td>
+
+
+                                            {{-- STATUS --}}
+                                            <td>
+                                                <span class="dash-status {{ $statusClasse }}  ">
+                                                    <i class="bi {{ $statusIcone }}"></i>
+                                                    {{ $statusTexto }}
+                                                </span>
+                                            </td>
+
+
+                                            {{-- AÇÃO --}}
+                                            <td class="text-end">
+                                                <a href="#" class="dash-action-btn">
+                                                    <i class="bi bi-eye"></i>
+                                                    Visualizar
+                                                </a>
+                                            </td>
+
+                                        </tr>
+
+                                    @empty
+
+                                        <tr>
+                                            <td colspan="5">
+                                                <div class="dash-empty-state">
+                                                    <div class="dash-empty-icon">
+                                                        <i class="bi bi-people"></i>
+                                                    </div>
+
+                                                    <h5>Nenhum usuário encontrado.</h5>
+
+                                                    <p class="dash-empty-text">
+                                                        Ainda não existem usuários cadastrados.
+                                                    </p>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    @endforelse
+                                </tbody>
+                            </table>
                         </div>
-                    </td>
-                </tr>
-
-            @endforelse
-        </tbody>
-    </table>
-</div>
 
                     </section>
 
 
                     {{-- =====================================================
-                         NOVOS MEMBROS
+                    NOVOS MEMBROS
                     ====================================================== --}}
                     <section class="dash-panel">
 

@@ -26,7 +26,7 @@
     <!-- Skip links will be dynamically added by accessibility.js -->
     <meta name="supported-color-schemes" content="light dark" />
 
-      <link rel="stylesheet" href="{{asset('dash/css/dash.css')}}" /> 
+    <link rel="stylesheet" href="{{asset('dash/css/dash.css')}}" /> 
     <link rel="preload" href="{{asset('dash/css/adminlte.css')}}" as="style" />
     <link rel="apple-touch-icon" sizes="57x57" href="{{asset('conexao360/icon/apple-icon-57x57.png')}}">
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> --}}
