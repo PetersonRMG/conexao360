@@ -1,235 +1,289 @@
-    <!--begin::Script-->
-    <!--begin::Third Party Plugin(OverlayScrollbars)-->
-    <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js"
-        crossorigin="anonymous"></script>
-    <!--end::Third Party Plugin(OverlayScrollbars)--><!--begin::Required Plugin(popperjs for Bootstrap 5)-->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous">
-    </script>
-    <!--end::Required Plugin(popperjs for Bootstrap 5)--><!--begin::Required Plugin(Bootstrap 5)-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
-    <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
-    <script src="{{asset('dash/js/adminlte.js')}}"></script>
-    <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
-    <script>
-        const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
-        const Default = {
-            scrollbarTheme: 'os-theme-light',
-            scrollbarAutoHide: 'leave',
-            scrollbarClickScroll: true,
-        };
-        document.addEventListener('DOMContentLoaded', function() {
-            const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
+{{-- ============================================================
+SCRIPTS — PAINEL DO PALESTRANTE
+============================================================= --}}
 
-            // Disable OverlayScrollbars on mobile devices to prevent touch interference
-            const isMobile = window.innerWidth <= 992;
+{{-- OVERLAY SCROLLBARS --}}
+<script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js"
+    crossorigin="anonymous"></script>
+
+
+{{-- BOOTSTRAP --}}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
+
+
+{{-- ADMINLTE --}}
+<script src="{{ asset('dash/js/adminlte.js') }}"></script>
+
+
+<script>
+    (() => {
+        "use strict";
+
+        /*
+        |--------------------------------------------------------------------------
+        | OVERLAY SCROLLBARS
+        |--------------------------------------------------------------------------
+        */
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const sidebarWrapper =
+                document.querySelector(".sidebar-wrapper");
+
+            const overlayScrollbars =
+                window.OverlayScrollbarsGlobal?.OverlayScrollbars;
+
+            const isMobile =
+                window.innerWidth <= 992;
 
             if (
                 sidebarWrapper &&
-                OverlayScrollbarsGlobal?.OverlayScrollbars !== undefined &&
+                overlayScrollbars &&
                 !isMobile
             ) {
-                OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
-                    scrollbars: {
-                        theme: Default.scrollbarTheme,
-                        autoHide: Default.scrollbarAutoHide,
-                        clickScroll: Default.scrollbarClickScroll,
-                    },
-                });
-            }
-        });
-    </script>
-    <!--end::OverlayScrollbars Configure-->
 
-    <!-- OPTIONAL SCRIPTS -->
-
-    <!-- apexcharts -->
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js"
-        integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8=" crossorigin="anonymous">
-    </script>
-
-    <script>
-        // Color Mode Toggler
-        (() => {
-            "use strict";
-
-            const storedTheme = localStorage.getItem("theme");
-
-            const getPreferredTheme = () => {
-                if (storedTheme) {
-                    return storedTheme;
-                }
-
-                return window.matchMedia("(prefers-color-scheme: dark)").matches ?
-                    "dark" :
-                    "light";
-            };
-
-            const setTheme = function(theme) {
-                if (
-                    theme === "auto" &&
-                    window.matchMedia("(prefers-color-scheme: dark)").matches
-                ) {
-                    document.documentElement.setAttribute("data-bs-theme", "dark");
-                } else {
-                    document.documentElement.setAttribute("data-bs-theme", theme);
-                }
-            };
-
-            setTheme(getPreferredTheme());
-
-            const showActiveTheme = (theme, focus = false) => {
-                const themeSwitcher = document.querySelector("#bd-theme");
-
-                if (!themeSwitcher) {
-                    return;
-                }
-
-                const themeSwitcherText = document.querySelector("#bd-theme-text");
-                const activeThemeIcon = document.querySelector(".theme-icon-active i");
-                const btnToActive = document.querySelector(
-                    `[data-bs-theme-value="${theme}"]`
-                );
-                const svgOfActiveBtn = btnToActive.querySelector("i").getAttribute("class");
-
-                for (const element of document.querySelectorAll("[data-bs-theme-value]")) {
-                    element.classList.remove("active");
-                    element.setAttribute("aria-pressed", "false");
-                }
-
-                btnToActive.classList.add("active");
-                btnToActive.setAttribute("aria-pressed", "true");
-                activeThemeIcon.setAttribute("class", svgOfActiveBtn);
-                const themeSwitcherLabel = `${themeSwitcherText.textContent} (${btnToActive.dataset.bsThemeValue})`;
-                themeSwitcher.setAttribute("aria-label", themeSwitcherLabel);
-
-                if (focus) {
-                    themeSwitcher.focus();
-                }
-            };
-
-            window
-                .matchMedia("(prefers-color-scheme: dark)")
-                .addEventListener("change", () => {
-                    if (storedTheme !== "light" || storedTheme !== "dark") {
-                        setTheme(getPreferredTheme());
+                overlayScrollbars(
+                    sidebarWrapper,
+                    {
+                        scrollbars: {
+                            theme: "os-theme-light",
+                            autoHide: "leave",
+                            clickScroll: true,
+                        },
                     }
-                });
+                );
 
-            window.addEventListener("DOMContentLoaded", () => {
-                showActiveTheme(getPreferredTheme());
+            }
 
-                for (const toggle of document.querySelectorAll("[data-bs-theme-value]")) {
-                    toggle.addEventListener("click", () => {
-                        const theme = toggle.getAttribute("data-bs-theme-value");
-                        localStorage.setItem("theme", theme);
-                        setTheme(theme);
-                        showActiveTheme(theme, true);
-                    });
-                }
-            });
-        })();
-    </script>
+        });
 
-    <script>
-        // NOTICE!! DO NOT USE ANY OF THIS JAVASCRIPT
-        // IT'S ALL JUST JUNK FOR DEMO
-        // ++++++++++++++++++++++++++++++++++++++++++
 
-        /* apexcharts
-         * -------
-         * Here we will create a few charts using apexcharts
-         */
+        /*
+        |--------------------------------------------------------------------------
+        | TEMA
+        |--------------------------------------------------------------------------
+        */
 
-        //-----------------------
-        // - MONTHLY SALES CHART -
-        //-----------------------
+        const getStoredTheme = () =>
+            localStorage.getItem("theme");
 
-        const sales_chart_options = {
-            series: [{
-                    name: 'Digital Goods',
-                    data: [28, 48, 40, 19, 86, 27, 90],
-                },
-                {
-                    name: 'Electronics',
-                    data: [65, 59, 80, 81, 56, 55, 40],
-                },
-            ],
-            chart: {
-                height: 180,
-                type: 'area',
-                toolbar: {
-                    show: false,
-                },
-            },
-            legend: {
-                show: false,
-            },
-            colors: ['#0d6efd', '#20c997'],
-            dataLabels: {
-                enabled: false,
-            },
-            stroke: {
-                curve: 'smooth',
-            },
-            xaxis: {
-                type: 'datetime',
-                categories: [
-                    '2023-01-01',
-                    '2023-02-01',
-                    '2023-03-01',
-                    '2023-04-01',
-                    '2023-05-01',
-                    '2023-06-01',
-                    '2023-07-01',
-                ],
-            },
-            tooltip: {
-                x: {
-                    format: 'MMMM yyyy',
-                },
-            },
+        const getPreferredTheme = () => {
+
+            const storedTheme =
+                getStoredTheme();
+
+            if (
+                storedTheme === "light" ||
+                storedTheme === "dark"
+            ) {
+                return storedTheme;
+            }
+
+            return window.matchMedia(
+                "(prefers-color-scheme: dark)"
+            ).matches
+                ? "dark"
+                : "light";
+
         };
 
- 
 
-        //---------------------------
-        // - END MONTHLY SALES CHART -
-        //---------------------------
+        const setTheme = (theme) => {
 
-       
-        //-------------
-        // - PIE CHART -
-        //-------------
+            const resolvedTheme =
+                theme === "auto"
+                    ? (
+                        window.matchMedia(
+                            "(prefers-color-scheme: dark)"
+                        ).matches
+                            ? "dark"
+                            : "light"
+                    )
+                    : theme;
 
- 
+            document.documentElement.setAttribute(
+                "data-bs-theme",
+                resolvedTheme
+            );
 
-        //-----------------
-        // - END PIE CHART -
-        //-----------------
-    </script>
-    <!--end::Script-->
+        };
 
-        <script>
-    // Impede que o navegador simplesmente volte
-    history.pushState(null, null, location.href);
 
-    window.addEventListener('popstate', function () {
+        const showActiveTheme = (
+            theme,
+            focus = false
+        ) => {
 
-        const sair = confirm('Deseja sair do sistema?');
+            const themeSwitcher =
+                document.querySelector("#bd-theme");
 
-        if (sair) {
-            document.getElementById('logout-form').submit();
-        } else {
-            history.pushState(null, null, location.href);
-        }
+            if (!themeSwitcher) {
+                return;
+            }
 
-    });
-</script>
+            const selectedTheme =
+                theme || "auto";
 
-<script>
-document.getElementById('logout-form-btn').addEventListener('submit', function (e) {
-    if (!confirm('Deseja realmente sair?')) {
-        e.preventDefault();
-    }
-});
+            const activeIcon =
+                document.querySelector(
+                    ".theme-icon-active i"
+                );
+
+            const buttons =
+                document.querySelectorAll(
+                    "[data-bs-theme-value]"
+                );
+
+            const activeButton =
+                document.querySelector(
+                    `[data-bs-theme-value="${selectedTheme}"]`
+                );
+
+            buttons.forEach((button) => {
+                button.classList.remove("active");
+                button.setAttribute(
+                    "aria-pressed",
+                    "false"
+                );
+
+                button
+                    .querySelector(".bi-check-lg")
+                    ?.classList.add("d-none");
+            });
+
+            if (!activeButton) {
+                return;
+            }
+
+            activeButton.classList.add("active");
+            activeButton.setAttribute(
+                "aria-pressed",
+                "true"
+            );
+
+            activeButton
+                .querySelector(".bi-check-lg")
+                ?.classList.remove("d-none");
+
+            const sourceIcon =
+                activeButton.querySelector(
+                    "i:not(.bi-check-lg)"
+                );
+
+            if (
+                activeIcon &&
+                sourceIcon
+            ) {
+                activeIcon.className =
+                    sourceIcon.className
+                        .replace("me-2", "")
+                        .trim();
+            }
+
+            if (focus) {
+                themeSwitcher.focus();
+            }
+
+        };
+
+
+        const storedTheme =
+            getStoredTheme() || "auto";
+
+        setTheme(storedTheme);
+
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            () => {
+
+                showActiveTheme(storedTheme);
+
+                document
+                    .querySelectorAll(
+                        "[data-bs-theme-value]"
+                    )
+                    .forEach((toggle) => {
+
+                        toggle.addEventListener(
+                            "click",
+                            () => {
+
+                                const theme =
+                                    toggle.getAttribute(
+                                        "data-bs-theme-value"
+                                    );
+
+                                localStorage.setItem(
+                                    "theme",
+                                    theme
+                                );
+
+                                setTheme(theme);
+                                showActiveTheme(
+                                    theme,
+                                    true
+                                );
+
+                            }
+                        );
+
+                    });
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | CONFIRMAÇÃO DE LOGOUT
+                |--------------------------------------------------------------------------
+                */
+
+                const logoutButtonForm =
+                    document.getElementById(
+                        "logout-form-btn"
+                    );
+
+                if (logoutButtonForm) {
+
+                    logoutButtonForm.addEventListener(
+                        "submit",
+                        (event) => {
+
+                            const confirmar =
+                                window.confirm(
+                                    "Deseja realmente sair?"
+                                );
+
+                            if (!confirmar) {
+                                event.preventDefault();
+                            }
+
+                        }
+                    );
+
+                }
+
+            }
+        );
+
+
+        window
+            .matchMedia(
+                "(prefers-color-scheme: dark)"
+            )
+            .addEventListener(
+                "change",
+                () => {
+
+                    if (
+                        getStoredTheme() === "auto" ||
+                        !getStoredTheme()
+                    ) {
+                        setTheme("auto");
+                    }
+
+                }
+            );
+
+    })();
 </script>

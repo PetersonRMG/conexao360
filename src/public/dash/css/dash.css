@@ -886,11 +886,13 @@ body.theme-light {
 }
 
 
-/* Esconde totalmente links de acessibilidade/skip e o header padrão nesta tela */
-a[href*="skip"],
-.skip-link,
-[class*="skip"],
-header {
+/* Esconde links/headers SOMENTE na tela de login.
+   Antes esta regra atingia todo o painel e escondia elementos <header>
+   de páginas internas, como o cabeçalho com o botão de novo palestrante. */
+body.login-page a[href*="skip"],
+body.login-page .skip-link,
+body.login-page [class*="skip"],
+body.login-page header {
     display: none !important;
 }
 
@@ -1329,12 +1331,12 @@ header {
    fixo aqui, evitando repetir um style="" gigante em cada view.
    Uso: <main class="app-main dash-main--bg" style="--dash-main-bg-image: url('...')">
    ========================================================================== */
-.dash-main--bg {
+/* .dash-main--bg {
     background-image: var(--dash-main-bg-image);
     background-repeat: no-repeat;
     background-position: right 200px;
     background-size: 1000px;
-}
+} */
 
 .dash-accordion-stack {
     display: flex;
@@ -7093,8 +7095,7 @@ body.theme-light {
     margin: 0 !important;
     padding: 0 !important;
 
-       background: var(--login-black) !important;
-    color: var(--login-text);
+    background: var(--admin-shell-bg);
 
     border: 0 !important;
 }
@@ -7192,8 +7193,14 @@ body.theme-light {
 
     color: var(--admin-shell-text);
 
+    font-family:
+        'Cinzel',
+        'Playfair Display',
+        Georgia,
+        serif;
+
     font-size: clamp(1.9rem, 2.2vw, 2.35rem);
-  
+    font-weight: 600;
 
     line-height: 1.15;
 
@@ -7406,4 +7413,1892 @@ body.theme-light {
         font-size: 27px;
     }
 
+}
+/* ==========================================================================
+   AJUSTES V4 — DEPOIMENTOS + SIDEBAR RECOLHIDA + MARCA D'ÁGUA
+   --------------------------------------------------------------------------
+   1. Indicador ativo dos depoimentos igual ao padrão "Modificar Site".
+   2. Sidebar recolhida sem vazamento de textos.
+   3. Marca do evento como watermark sutil no fundo do painel.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. DEPOIMENTOS — LINHA ATIVA NO MESMO PADRÃO DO MODIFICAR SITE
+   ========================================================================== */
+
+.dep-tab.active::after {
+    content: "";
+
+    position: absolute;
+
+    left: 14px;
+    right: 14px;
+    bottom: 0;
+
+    height: 2px;
+
+    border-radius: 2px 2px 0 0;
+
+    background: var(--dep-accent);
+}
+
+
+/* Evita que regras responsivas antigas empurrem novamente o indicador
+   para fora do botão. */
+@media (max-width: 767.98px) {
+    .dep-tab.active::after {
+        left: 14px;
+        right: 14px;
+        bottom: 0;
+
+        height: 2px;
+    }
+}
+
+
+/* ==========================================================================
+   2. SIDEBAR RECOLHIDA — ESCONDE 100% DOS TEXTOS
+   ========================================================================== */
+
+/* Garante que nenhum pedaço de texto atravesse os limites durante a animação. */
+.app-sidebar.admin-sidebar,
+.admin-sidebar-wrapper,
+.admin-sidebar .sidebar-menu,
+.admin-sidebar-link,
+.admin-sidebar-tree-label,
+.admin-sidebar-brand-link {
+    overflow: hidden;
+}
+
+
+/*
+ * AdminLTE aplica .sidebar-collapse no shell/body quando o menu é fechado.
+ * Os seletores abaixo também cobrem o caso em que a classe esteja no próprio
+ * sidebar, mantendo o CSS mais resistente a pequenas mudanças no layout.
+ */
+.sidebar-collapse .admin-sidebar-brand-copy,
+.sidebar-collapse .admin-sidebar-section,
+.sidebar-collapse .admin-sidebar-link p,
+.sidebar-collapse .admin-sidebar-tree-label p,
+.sidebar-collapse .admin-sidebar .nav-arrow,
+.sidebar-collapse .admin-sidebar-submenu,
+.admin-sidebar.sidebar-collapse .admin-sidebar-brand-copy,
+.admin-sidebar.sidebar-collapse .admin-sidebar-section,
+.admin-sidebar.sidebar-collapse .admin-sidebar-link p,
+.admin-sidebar.sidebar-collapse .admin-sidebar-tree-label p,
+.admin-sidebar.sidebar-collapse .nav-arrow,
+.admin-sidebar.sidebar-collapse .admin-sidebar-submenu {
+    width: 0 !important;
+    min-width: 0 !important;
+    max-width: 0 !important;
+
+    height: 0 !important;
+    min-height: 0 !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    overflow: hidden !important;
+
+    opacity: 0 !important;
+    visibility: hidden !important;
+
+    border: 0 !important;
+
+    white-space: nowrap !important;
+
+    pointer-events: none !important;
+
+    transform: translateX(-6px);
+
+    transition:
+        opacity .12s ease,
+        visibility .12s ease,
+        max-width .12s ease;
+}
+
+
+/* Centraliza somente o ícone quando a sidebar estiver recolhida. */
+.sidebar-collapse .admin-sidebar-brand-link,
+.sidebar-collapse .admin-sidebar-link,
+.sidebar-collapse .admin-sidebar-tree-label,
+.admin-sidebar.sidebar-collapse .admin-sidebar-brand-link,
+.admin-sidebar.sidebar-collapse .admin-sidebar-link,
+.admin-sidebar.sidebar-collapse .admin-sidebar-tree-label {
+    justify-content: center !important;
+
+    gap: 0 !important;
+}
+
+
+/* Remove padding horizontal que poderia deixar o ícone visualmente deslocado. */
+.sidebar-collapse .admin-sidebar-link,
+.admin-sidebar.sidebar-collapse .admin-sidebar-link {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+
+/* O item que possui submenu também deve ficar centralizado. */
+.sidebar-collapse .admin-sidebar-tree-link,
+.admin-sidebar.sidebar-collapse .admin-sidebar-tree-link {
+    justify-content: center !important;
+}
+
+
+/* Logo centralizada no estado recolhido. */
+.sidebar-collapse .admin-sidebar-brand,
+.admin-sidebar.sidebar-collapse .admin-sidebar-brand {
+    justify-content: center !important;
+
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.sidebar-collapse .admin-sidebar-logo,
+.admin-sidebar.sidebar-collapse .admin-sidebar-logo {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+
+/* Seção "GERENCIAR SITE / REDE PRIVADA" não deve reservar espaço vazando texto. */
+.sidebar-collapse .admin-sidebar-section,
+.admin-sidebar.sidebar-collapse .admin-sidebar-section {
+    display: none !important;
+}
+
+
+/* Submenus ficam totalmente fora do fluxo enquanto recolhidos. */
+.sidebar-collapse .admin-sidebar-submenu,
+.admin-sidebar.sidebar-collapse .admin-sidebar-submenu {
+    display: none !important;
+}
+
+
+/* ==========================================================================
+   3. FUNDO — LOGO DO EVENTO COMO MARCA D'ÁGUA
+   --------------------------------------------------------------------------
+   Mantém a iluminação dourada atual e adiciona o símbolo usado no projeto
+   (pint.svg) de forma sutil, sem interferir nos cliques ou na leitura.
+   ========================================================================== */
+
+:root {
+    --admin-watermark-size: clamp(340px, 38vw, 680px);
+    --admin-watermark-opacity: 0.045;
+    --admin-watermark-right: clamp(20px, 4vw, 84px);
+}
+
+[data-bs-theme="light"] {
+    --admin-watermark-opacity: 0.026;
+}
+
+
+/* Cria um contexto próprio sem alterar o layout das páginas. */
+.app-main {
+    position: relative;
+
+    isolation: isolate;
+}
+
+
+/* Todo o conteúdo real continua acima da marca d'água. */
+.app-main > * {
+    position: relative;
+
+    z-index: 1;
+}
+
+
+/* Logo grande, apagada e com um halo dourado muito suave. */
+.app-main::after {
+    content: "";
+
+    position: fixed;
+
+    top: 54%;
+    right: var(--admin-watermark-right);
+
+    width: var(--admin-watermark-size);
+    aspect-ratio: 1 / 1;
+
+    transform: translateY(-50%);
+
+    background-image: url("/conexao360/img/pint.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+
+    opacity: var(--admin-watermark-opacity);
+
+    filter:
+        sepia(0.28)
+        saturate(0.85)
+        brightness(1.08)
+        drop-shadow(0 0 42px rgba(214, 178, 106, 0.18))
+        drop-shadow(0 0 100px rgba(214, 178, 106, 0.08));
+
+    pointer-events: none;
+    user-select: none;
+
+    z-index: 0;
+}
+
+
+/* No tema claro a marca fica ainda mais suave e sem brilho excessivo. */
+[data-bs-theme="light"] .app-main::after {
+    filter:
+        sepia(0.18)
+        saturate(0.62)
+        brightness(0.84)
+        drop-shadow(0 0 46px rgba(169, 130, 63, 0.10));
+}
+
+
+/* Em telas menores a marca acompanha o layout sem disputar espaço visual. */
+@media (max-width: 991.98px) {
+    :root {
+        --admin-watermark-size: clamp(280px, 48vw, 480px);
+        --admin-watermark-opacity: 0.035;
+        --admin-watermark-right: -70px;
+    }
+
+    [data-bs-theme="light"] {
+        --admin-watermark-opacity: 0.020;
+    }
+}
+
+
+@media (max-width: 767.98px) {
+    :root {
+        --admin-watermark-size: 340px;
+        --admin-watermark-opacity: 0.025;
+        --admin-watermark-right: -150px;
+    }
+
+    [data-bs-theme="light"] {
+        --admin-watermark-opacity: 0.015;
+    }
+
+    .app-main::after {
+        top: 48%;
+    }
+}
+
+
+/* Usuários que preferem reduzir efeitos visuais continuam com uma tela limpa. */
+@media (prefers-reduced-motion: reduce) {
+    .sidebar-collapse .admin-sidebar-brand-copy,
+    .sidebar-collapse .admin-sidebar-link p,
+    .sidebar-collapse .admin-sidebar-tree-label p {
+        transition: none !important;
+    }
+}
+/* ==========================================================================
+   ADMIN V5 — PADRÃO ÚNICO DE CONTEÚDO + PALESTRANTES + PERFIL
+   --------------------------------------------------------------------------
+   Objetivos:
+   1. Modificar Site e Depoimentos ocupam exatamente a mesma largura/posição.
+   2. Cria um container padrão reutilizável para todas as páginas internas.
+   3. Padroniza Gerenciamento de Palestrantes.
+   4. Padroniza Perfil.
+   5. Preserva Light/Dark e a marca d'água já existente.
+   ========================================================================== */
+
+:root {
+    --admin-content-max: 1580px;
+    --admin-content-padding-x: 28px;
+    --admin-content-padding-top: 38px;
+    --admin-content-padding-bottom: 64px;
+
+    --admin-standard-surface: var(--admin-shell-surface);
+    --admin-standard-surface-2: var(--admin-shell-surface-2);
+    --admin-standard-border: var(--admin-shell-border);
+    --admin-standard-text: var(--admin-shell-text);
+    --admin-standard-text-soft: var(--admin-shell-text-soft);
+    --admin-standard-muted: var(--admin-shell-muted);
+    --admin-standard-gold: var(--admin-shell-gold);
+    --admin-standard-gold-light: var(--admin-shell-gold-light);
+    --admin-standard-gold-soft: var(--admin-shell-gold-soft);
+
+    --admin-standard-success: #4fbf82;
+    --admin-standard-success-soft: rgba(79, 191, 130, 0.10);
+
+    --admin-standard-danger: #db6d73;
+    --admin-standard-danger-soft: rgba(219, 109, 115, 0.10);
+
+    --admin-standard-radius: 14px;
+    --admin-standard-radius-sm: 9px;
+    --admin-standard-shadow: 0 14px 40px rgba(0, 0, 0, 0.16);
+}
+
+[data-bs-theme="light"] {
+    --admin-standard-success: #26895a;
+    --admin-standard-success-soft: rgba(38, 137, 90, 0.08);
+
+    --admin-standard-danger: #b64b53;
+    --admin-standard-danger-soft: rgba(182, 75, 83, 0.08);
+
+    --admin-standard-shadow: 0 12px 34px rgba(76, 61, 40, 0.08);
+}
+
+
+/* ==========================================================================
+   1. CONTAINER PADRÃO DE TODAS AS PÁGINAS
+   ========================================================================== */
+
+.admin-standard-main {
+    min-height: 100vh;
+
+    color: var(--admin-standard-text);
+
+    background:
+        radial-gradient(
+            circle at 88% 8%,
+            var(--admin-standard-gold-soft),
+            transparent 24%
+        ),
+        var(--admin-shell-bg) !important;
+}
+
+[data-bs-theme="light"] .admin-standard-main {
+    background:
+        radial-gradient(
+            circle at 88% 8%,
+            var(--admin-standard-gold-soft),
+            transparent 24%
+        ),
+        var(--admin-shell-bg) !important;
+}
+
+.admin-standard-main > .app-content,
+.admin-standard-content {
+    padding: 0 !important;
+}
+
+.admin-standard-page,
+.site-editor-page,
+.dash-page--depoimentos {
+    width: 100%;
+    max-width: var(--admin-content-max) !important;
+
+    margin: 0 auto !important;
+
+    padding:
+        var(--admin-content-padding-top)
+        var(--admin-content-padding-x)
+        var(--admin-content-padding-bottom) !important;
+}
+
+
+/*
+ * Corrige a diferença observada no vídeo:
+ * Depoimentos estava limitado a 1500px enquanto Modificar Site usa 1580px.
+ * Agora os dois painéis partem e terminam no mesmo eixo.
+ */
+.dash-page--depoimentos {
+    max-width: var(--admin-content-max) !important;
+}
+
+
+/* Os dois cards principais ficam alinhados no mesmo topo do container. */
+.site-editor-tabs-header,
+.dep-panel,
+.admin-standard-panel {
+    margin-top: 0 !important;
+}
+
+
+/* ==========================================================================
+   2. PAINEL PADRÃO
+   ========================================================================== */
+
+.admin-standard-panel {
+    width: 100%;
+
+    overflow: hidden;
+
+    border: 1px solid var(--admin-standard-border);
+    border-radius: var(--admin-standard-radius);
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--admin-standard-surface) 0%,
+            var(--admin-standard-surface) 78%,
+            var(--admin-standard-surface-2) 100%
+        );
+
+    box-shadow: var(--admin-standard-shadow);
+}
+
+.admin-standard-panel-header {
+    position: relative;
+
+    min-height: 78px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 24px;
+
+    padding: 18px 20px;
+
+    border-bottom: 1px solid var(--admin-standard-border);
+}
+
+.admin-standard-panel-header::before {
+    content: "";
+
+    position: absolute;
+
+    top: 18px;
+    bottom: 18px;
+    left: 0;
+
+    width: 2px;
+
+    border-radius: 0 2px 2px 0;
+
+    background: var(--admin-standard-gold);
+}
+
+.admin-standard-heading {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+}
+
+.admin-standard-heading-icon {
+    width: 42px;
+    height: 42px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 42px;
+
+    border: 1px solid rgba(214, 178, 106, 0.24);
+    border-radius: 9px;
+
+    background: var(--admin-standard-gold-soft);
+    color: var(--admin-standard-gold);
+
+    font-size: 17px;
+}
+
+.admin-standard-heading-copy {
+    min-width: 0;
+}
+
+.admin-standard-title {
+    margin: 0;
+
+    color: var(--admin-standard-text);
+
+    font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
+    font-size: 17px;
+    font-weight: 600;
+
+    line-height: 1.2;
+}
+
+.admin-standard-description {
+    margin: 5px 0 0;
+
+    color: var(--admin-standard-muted);
+
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+
+/* ==========================================================================
+   3. BOTÕES DO PADRÃO
+   ========================================================================== */
+
+.admin-primary-action,
+.admin-secondary-action,
+.admin-icon-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    border-radius: 7px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    text-decoration: none;
+
+    transition:
+        transform .2s ease,
+        border-color .2s ease,
+        background-color .2s ease,
+        color .2s ease,
+        box-shadow .2s ease;
+}
+
+.admin-primary-action {
+    min-height: 40px;
+
+    padding: 0 15px;
+
+    border: 1px solid rgba(214, 178, 106, 0.32);
+
+    background: var(--admin-standard-gold-soft);
+    color: var(--admin-standard-gold) !important;
+}
+
+.admin-primary-action:hover {
+    transform: translateY(-1px);
+
+    border-color: var(--admin-standard-gold);
+
+    background: var(--admin-standard-gold);
+    color: #0c0c0c !important;
+
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+}
+
+.admin-secondary-action {
+    min-height: 40px;
+
+    padding: 0 15px;
+
+    border: 1px solid var(--admin-standard-border);
+
+    background: var(--admin-standard-surface-2);
+    color: var(--admin-standard-text-soft) !important;
+}
+
+.admin-secondary-action:hover {
+    border-color: rgba(214, 178, 106, 0.28);
+
+    background: var(--admin-standard-gold-soft);
+    color: var(--admin-standard-gold) !important;
+}
+
+.admin-icon-action {
+    width: 36px;
+    height: 36px;
+
+    padding: 0;
+
+    border: 1px solid var(--admin-standard-border);
+
+    background: transparent;
+    color: var(--admin-standard-text-soft);
+}
+
+.admin-icon-action:hover {
+    border-color: rgba(214, 178, 106, 0.34);
+
+    background: var(--admin-standard-gold-soft);
+    color: var(--admin-standard-gold);
+}
+
+
+/* ==========================================================================
+   4. PALESTRANTES — TABELA
+   ========================================================================== */
+
+.speaker-panel-body {
+    width: 100%;
+}
+
+.speaker-table-wrap {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+.speaker-table {
+    width: 100%;
+    min-width: 820px;
+
+    margin: 0;
+
+    border-collapse: collapse;
+}
+
+.speaker-table thead th {
+    padding: 13px 18px;
+
+    border-bottom: 1px solid var(--admin-standard-border);
+
+    background: var(--admin-standard-surface-2);
+    color: var(--admin-standard-muted);
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: .45px;
+    text-transform: uppercase;
+
+    white-space: nowrap;
+}
+
+.speaker-table tbody td {
+    padding: 15px 18px;
+
+    border-bottom: 1px solid var(--admin-standard-border);
+
+    color: var(--admin-standard-text-soft);
+
+    font-size: 13px;
+
+    vertical-align: middle;
+}
+
+.speaker-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.speaker-table tbody tr {
+    transition: background-color .2s ease;
+}
+
+.speaker-table tbody tr:hover {
+    background: rgba(214, 178, 106, 0.035);
+}
+
+.speaker-email {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    color: var(--admin-standard-text);
+
+    font-weight: 600;
+}
+
+.speaker-email-icon {
+    width: 30px;
+    height: 30px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 30px;
+
+    border: 1px solid var(--admin-standard-border);
+    border-radius: 7px;
+
+    background: var(--admin-standard-surface-2);
+    color: var(--admin-standard-gold);
+
+    font-size: 13px;
+}
+
+.speaker-badge {
+    display: inline-flex;
+    align-items: center;
+
+    min-height: 27px;
+
+    padding: 0 9px;
+
+    border: 1px solid var(--admin-standard-border);
+    border-radius: 999px;
+
+    background: var(--admin-standard-surface-2);
+    color: var(--admin-standard-text-soft);
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.speaker-badge--profile {
+    border-color: rgba(214, 178, 106, 0.24);
+
+    background: var(--admin-standard-gold-soft);
+    color: var(--admin-standard-gold);
+}
+
+.speaker-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 8px;
+}
+
+.speaker-status-cell {
+    width: 120px;
+}
+
+.speaker-status-form {
+    margin: 0;
+}
+
+.speaker-status-wrap {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+}
+
+.speaker-status-label {
+    min-width: 42px;
+
+    color: var(--admin-standard-muted);
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.speaker-status-label.is-active {
+    color: var(--admin-standard-success);
+}
+
+.speaker-status-switch.form-check-input {
+    width: 34px !important;
+    height: 18px !important;
+
+    margin: 0 !important;
+
+    border-color: var(--admin-standard-border) !important;
+
+    background-color: var(--admin-standard-surface-2) !important;
+
+    box-shadow: none !important;
+}
+
+.speaker-status-switch.form-check-input:checked {
+    border-color: var(--admin-standard-gold) !important;
+
+    background-color: var(--admin-standard-gold) !important;
+}
+
+
+/* Estado vazio */
+.speaker-empty {
+    padding: 56px 24px !important;
+
+    text-align: center;
+}
+
+.speaker-empty-icon {
+    width: 52px;
+    height: 52px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 13px;
+
+    border: 1px solid rgba(214, 178, 106, 0.22);
+    border-radius: 50%;
+
+    background: var(--admin-standard-gold-soft);
+    color: var(--admin-standard-gold);
+
+    font-size: 20px;
+}
+
+.speaker-empty strong {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: var(--admin-standard-text);
+
+    font-size: 14px;
+}
+
+.speaker-empty span {
+    color: var(--admin-standard-muted);
+
+    font-size: 12px;
+}
+
+
+/* ==========================================================================
+   5. MODAL PADRÃO DO ADMIN
+   ========================================================================== */
+
+.admin-modal {
+    overflow: hidden;
+
+    border: 1px solid var(--admin-standard-border) !important;
+    border-radius: 12px !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--admin-standard-surface),
+            var(--admin-standard-surface-2)
+        ) !important;
+
+    color: var(--admin-standard-text) !important;
+
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34) !important;
+}
+
+.admin-modal .modal-header,
+.admin-modal .modal-footer {
+    border-color: var(--admin-standard-border) !important;
+}
+
+.admin-modal .modal-header {
+    padding: 18px 20px;
+}
+
+.admin-modal .modal-body {
+    padding: 20px;
+}
+
+.admin-modal .modal-footer {
+    padding: 14px 20px;
+}
+
+.admin-modal-title {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    margin: 0;
+
+    color: var(--admin-standard-text);
+
+    font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.admin-modal-title i {
+    color: var(--admin-standard-gold);
+}
+
+.admin-modal .btn-close {
+    filter: none;
+    opacity: .65;
+}
+
+[data-bs-theme="dark"] .admin-modal .btn-close {
+    filter: invert(1) grayscale(100%);
+}
+
+.admin-modal .form-label {
+    margin-bottom: 7px;
+
+    color: var(--admin-standard-text-soft) !important;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.admin-modal .form-control,
+.admin-modal .form-select {
+    min-height: 44px;
+
+    border: 1px solid var(--admin-standard-border) !important;
+    border-radius: 7px !important;
+
+    background: var(--admin-standard-surface-2) !important;
+    color: var(--admin-standard-text) !important;
+
+    box-shadow: none !important;
+}
+
+.admin-modal textarea.form-control {
+    min-height: 110px;
+
+    resize: vertical;
+}
+
+.admin-modal .form-control:focus,
+.admin-modal .form-select:focus {
+    border-color: var(--admin-standard-gold) !important;
+
+    box-shadow: 0 0 0 3px var(--admin-standard-gold-soft) !important;
+}
+
+.admin-modal .form-text {
+    color: var(--admin-standard-muted) !important;
+
+    font-size: 11px;
+}
+
+
+/* ==========================================================================
+   6. PERFIL
+   ========================================================================== */
+
+.profile-panel-body {
+    padding: 24px;
+}
+
+.profile-layout {
+    display: grid;
+
+    grid-template-columns: minmax(250px, 320px) minmax(0, 1fr);
+
+    gap: 26px;
+}
+
+.profile-identity-card {
+    min-width: 0;
+
+    padding: 22px;
+
+    border: 1px solid var(--admin-standard-border);
+    border-radius: 12px;
+
+    background: var(--admin-standard-surface-2);
+}
+
+.profile-avatar-wrap {
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+
+    margin-bottom: 20px;
+}
+
+.profile-avatar,
+.profile-avatar-fallback {
+    width: 82px;
+    height: 82px;
+
+    flex: 0 0 82px;
+
+    border: 2px solid rgba(214, 178, 106, 0.26);
+    border-radius: 50%;
+
+    background: var(--admin-standard-surface);
+
+    object-fit: cover;
+}
+
+.profile-avatar-fallback {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--admin-standard-gold);
+
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.profile-identity-copy {
+    min-width: 0;
+}
+
+.profile-identity-copy strong {
+    display: block;
+
+    overflow: hidden;
+
+    color: var(--admin-standard-text);
+
+    font-size: 15px;
+    font-weight: 700;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.profile-identity-copy span {
+    display: block;
+
+    margin-top: 4px;
+
+    overflow: hidden;
+
+    color: var(--admin-standard-muted);
+
+    font-size: 11.5px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.profile-meta-list {
+    display: grid;
+
+    gap: 9px;
+
+    padding-top: 17px;
+
+    border-top: 1px solid var(--admin-standard-border);
+}
+
+.profile-meta-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    color: var(--admin-standard-muted);
+
+    font-size: 11.5px;
+}
+
+.profile-meta-item strong {
+    max-width: 150px;
+
+    overflow: hidden;
+
+    color: var(--admin-standard-text-soft);
+
+    font-size: 11.5px;
+    font-weight: 600;
+
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.profile-status {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 6px;
+
+    color: var(--admin-standard-muted);
+}
+
+.profile-status::before {
+    content: "";
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: var(--admin-standard-muted);
+}
+
+.profile-status.is-active {
+    color: var(--admin-standard-success);
+}
+
+.profile-status.is-active::before {
+    background: var(--admin-standard-success);
+}
+
+.profile-photo-field {
+    margin-top: 18px;
+}
+
+.profile-photo-field .form-control {
+    min-height: 42px;
+}
+
+
+/* Formulário */
+.profile-form-card {
+    min-width: 0;
+
+    padding: 22px;
+
+    border: 1px solid var(--admin-standard-border);
+    border-radius: 12px;
+
+    background: var(--admin-standard-surface);
+}
+
+.profile-form-heading {
+    margin-bottom: 21px;
+    padding-bottom: 16px;
+
+    border-bottom: 1px solid var(--admin-standard-border);
+}
+
+.profile-form-heading strong {
+    display: block;
+
+    color: var(--admin-standard-text);
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.profile-form-heading span {
+    display: block;
+
+    margin-top: 4px;
+
+    color: var(--admin-standard-muted);
+
+    font-size: 11.5px;
+}
+
+.profile-form-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+.profile-field--full {
+    grid-column: 1 / -1;
+}
+
+.profile-form-card .form-label,
+.profile-photo-field .form-label {
+    margin-bottom: 7px;
+
+    color: var(--admin-standard-text-soft) !important;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.profile-form-card .form-control,
+.profile-photo-field .form-control {
+    border: 1px solid var(--admin-standard-border) !important;
+    border-radius: 7px !important;
+
+    background: var(--admin-standard-surface-2) !important;
+    color: var(--admin-standard-text) !important;
+
+    box-shadow: none !important;
+}
+
+.profile-form-card .form-control {
+    min-height: 45px;
+}
+
+.profile-form-card .form-control:focus,
+.profile-photo-field .form-control:focus {
+    border-color: var(--admin-standard-gold) !important;
+
+    box-shadow: 0 0 0 3px var(--admin-standard-gold-soft) !important;
+}
+
+.profile-form-actions {
+    grid-column: 1 / -1;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    padding-top: 4px;
+}
+
+
+/* Alertas do Perfil */
+.profile-alert {
+    grid-column: 1 / -1;
+
+    margin: 0 !important;
+
+    border-radius: 8px !important;
+
+    font-size: 12px;
+}
+
+.profile-alert--success {
+    border: 1px solid rgba(79, 191, 130, 0.22) !important;
+
+    background: var(--admin-standard-success-soft) !important;
+    color: var(--admin-standard-success) !important;
+}
+
+
+/* ==========================================================================
+   7. AJUSTES DE CONSISTÊNCIA — DEPOIMENTOS / MODIFICAR SITE
+   ========================================================================== */
+
+/*
+ * Mantém o indicador ativo de Depoimentos igual ao Modificar Site,
+ * mesmo que uma regra antiga apareça antes no arquivo.
+ */
+.dep-tab.active::after {
+    left: 14px !important;
+    right: 14px !important;
+    bottom: 0 !important;
+
+    height: 2px !important;
+
+    border-radius: 2px 2px 0 0 !important;
+
+    background: var(--dep-accent) !important;
+}
+
+
+/* ==========================================================================
+   8. RESPONSIVIDADE PADRÃO
+   ========================================================================== */
+
+@media (max-width: 991.98px) {
+
+    :root {
+        --admin-content-padding-x: 18px;
+        --admin-content-padding-top: 28px;
+        --admin-content-padding-bottom: 50px;
+    }
+
+    .profile-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-identity-card {
+        display: grid;
+
+        grid-template-columns: minmax(0, 1fr) minmax(220px, .8fr);
+
+        gap: 20px;
+    }
+
+    .profile-avatar-wrap {
+        margin-bottom: 0;
+    }
+
+    .profile-meta-list {
+        padding-top: 0;
+        padding-left: 20px;
+
+        border-top: 0;
+        border-left: 1px solid var(--admin-standard-border);
+    }
+
+    .profile-photo-field {
+        grid-column: 1 / -1;
+
+        margin-top: 0;
+    }
+}
+
+
+@media (max-width: 767.98px) {
+
+    .admin-standard-panel-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .admin-standard-panel-header .admin-primary-action {
+        width: 100%;
+    }
+
+    .profile-layout {
+        gap: 16px;
+    }
+
+    .profile-identity-card {
+        display: block;
+    }
+
+    .profile-avatar-wrap {
+        margin-bottom: 18px;
+    }
+
+    .profile-meta-list {
+        padding-top: 16px;
+        padding-left: 0;
+
+        border-top: 1px solid var(--admin-standard-border);
+        border-left: 0;
+    }
+
+    .profile-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-field--full,
+    .profile-form-actions {
+        grid-column: auto;
+    }
+
+    .profile-form-actions {
+        align-items: stretch;
+        flex-direction: column-reverse;
+    }
+
+    .profile-form-actions .admin-primary-action,
+    .profile-form-actions .admin-secondary-action {
+        width: 100%;
+    }
+}
+
+
+@media (max-width: 575.98px) {
+
+    :root {
+        --admin-content-padding-x: 12px;
+        --admin-content-padding-top: 22px;
+        --admin-content-padding-bottom: 42px;
+    }
+
+    .admin-standard-panel-header {
+        padding: 16px;
+    }
+
+    .admin-standard-heading {
+        align-items: flex-start;
+    }
+
+    .admin-standard-title {
+        font-size: 15px;
+    }
+
+    .profile-panel-body {
+        padding: 14px;
+    }
+
+    .profile-identity-card,
+    .profile-form-card {
+        padding: 16px;
+    }
+
+    .profile-avatar,
+    .profile-avatar-fallback {
+        width: 70px;
+        height: 70px;
+
+        flex-basis: 70px;
+    }
+}
+/* ==========================================================================
+   ADMIN V6 — PADRÃO ÚNICO DOS MODAIS
+   --------------------------------------------------------------------------
+   Padrão visual único para:
+   - Pré-cadastro de palestrante
+   - Edição de palestrante
+   - Banner
+   - Evento
+   - Tema
+   - Vídeo
+   - Dra.
+   ========================================================================== */
+
+.admin-modal-shell {
+    --admin-modal-width: 860px;
+}
+
+.admin-modal-shell .modal-dialog {
+    width: calc(100% - 28px);
+    max-width: var(--admin-modal-width);
+
+    margin-inline: auto;
+}
+
+.admin-modal-shell .modal-content.admin-modal {
+    overflow: hidden;
+
+    border: 1px solid var(--admin-standard-border, var(--admin-shell-border)) !important;
+    border-radius: 14px !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--admin-standard-surface, var(--admin-shell-surface)) 0%,
+            var(--admin-standard-surface, var(--admin-shell-surface)) 72%,
+            var(--admin-standard-surface-2, var(--admin-shell-surface-2)) 100%
+        ) !important;
+
+    color: var(--admin-standard-text, var(--admin-shell-text)) !important;
+
+    box-shadow:
+        0 28px 90px rgba(0, 0, 0, 0.42),
+        0 0 0 1px rgba(214, 178, 106, 0.03) !important;
+}
+
+[data-bs-theme="light"] .admin-modal-shell .modal-content.admin-modal {
+    box-shadow:
+        0 24px 65px rgba(76, 61, 40, 0.18),
+        0 0 0 1px rgba(169, 130, 63, 0.03) !important;
+}
+
+
+/* ==========================================================================
+   CABEÇALHO
+   ========================================================================== */
+
+.admin-modal-shell .admin-modal-header {
+    position: relative;
+
+    min-height: 82px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 18px;
+
+    padding: 18px 20px !important;
+
+    border-bottom: 1px solid var(--admin-standard-border, var(--admin-shell-border)) !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(214, 178, 106, 0.035),
+            transparent 46%
+        );
+}
+
+.admin-modal-shell .admin-modal-header::before {
+    content: "";
+
+    position: absolute;
+
+    top: 18px;
+    bottom: 18px;
+    left: 0;
+
+    width: 2px;
+
+    border-radius: 0 2px 2px 0;
+
+    background: var(--admin-standard-gold, var(--admin-shell-gold));
+}
+
+.admin-modal-heading {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+}
+
+.admin-modal-title-icon {
+    width: 42px;
+    height: 42px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 42px;
+
+    border: 1px solid rgba(214, 178, 106, 0.24);
+    border-radius: 9px;
+
+    background: var(--admin-standard-gold-soft, var(--admin-shell-gold-soft));
+    color: var(--admin-standard-gold, var(--admin-shell-gold));
+
+    font-size: 17px;
+}
+
+.admin-modal-title-copy {
+    min-width: 0;
+}
+
+.admin-modal-shell .admin-modal-title {
+    margin: 0 !important;
+
+    color: var(--admin-standard-text, var(--admin-shell-text)) !important;
+
+    font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
+    font-size: 17px;
+    font-weight: 600;
+
+    line-height: 1.2;
+}
+
+.admin-modal-subtitle {
+    margin: 4px 0 0;
+
+    color: var(--admin-standard-muted, var(--admin-shell-muted));
+
+    font-size: 11.5px;
+    line-height: 1.45;
+}
+
+.admin-modal-shell .btn-close {
+    flex: 0 0 auto;
+
+    width: 34px;
+    height: 34px;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    border: 1px solid var(--admin-standard-border, var(--admin-shell-border));
+    border-radius: 8px;
+
+    background-color: var(--admin-standard-surface-2, var(--admin-shell-surface-2));
+
+    opacity: .78;
+
+    transition:
+        opacity .2s ease,
+        border-color .2s ease,
+        background-color .2s ease;
+}
+
+[data-bs-theme="dark"] .admin-modal-shell .btn-close {
+    filter: invert(1) grayscale(100%);
+}
+
+.admin-modal-shell .btn-close:hover {
+    opacity: 1;
+
+    border-color: rgba(214, 178, 106, 0.32);
+
+    background-color: var(--admin-standard-gold-soft, var(--admin-shell-gold-soft));
+}
+
+
+/* ==========================================================================
+   CORPO
+   ========================================================================== */
+
+.admin-modal-shell .modal-body {
+    padding: 22px !important;
+}
+
+.admin-modal-shell .admin-modal-section {
+    position: relative;
+
+    padding: 18px;
+
+    border: 1px solid var(--admin-standard-border, var(--admin-shell-border));
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, 0.012);
+}
+
+[data-bs-theme="light"] .admin-modal-shell .admin-modal-section {
+    background: rgba(255, 255, 255, 0.38);
+}
+
+.admin-modal-section-title {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    margin: 0 0 15px;
+
+    color: var(--admin-standard-text, var(--admin-shell-text));
+
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: .15px;
+}
+
+.admin-modal-section-title i {
+    color: var(--admin-standard-gold, var(--admin-shell-gold));
+}
+
+
+/* ==========================================================================
+   CAMPOS
+   ========================================================================== */
+
+.admin-modal-shell .form-label {
+    margin-bottom: 7px !important;
+
+    color: var(--admin-standard-text-soft, var(--admin-shell-text-soft)) !important;
+
+    font-size: 12px !important;
+    font-weight: 700 !important;
+
+    letter-spacing: .15px;
+}
+
+.admin-modal-shell .form-control,
+.admin-modal-shell .form-select {
+    min-height: 45px;
+
+    padding: .66rem .82rem;
+
+    border: 1px solid var(--admin-standard-border, var(--admin-shell-border)) !important;
+    border-radius: 7px !important;
+
+    background-color: var(--admin-standard-surface-2, var(--admin-shell-surface-2)) !important;
+    color: var(--admin-standard-text, var(--admin-shell-text)) !important;
+
+    font-size: 13px;
+
+    box-shadow: none !important;
+
+    transition:
+        border-color .2s ease,
+        background-color .2s ease,
+        box-shadow .2s ease;
+}
+
+.admin-modal-shell textarea.form-control {
+    min-height: 112px;
+
+    line-height: 1.6;
+
+    resize: vertical;
+}
+
+.admin-modal-shell .form-control:hover,
+.admin-modal-shell .form-select:hover {
+    border-color: rgba(214, 178, 106, 0.28) !important;
+}
+
+.admin-modal-shell .form-control:focus,
+.admin-modal-shell .form-select:focus {
+    border-color: var(--admin-standard-gold, var(--admin-shell-gold)) !important;
+
+    background-color: var(--admin-standard-surface, var(--admin-shell-surface)) !important;
+
+    box-shadow:
+        0 0 0 3px var(--admin-standard-gold-soft, var(--admin-shell-gold-soft)) !important;
+}
+
+.admin-modal-shell .form-control::placeholder {
+    color: var(--admin-standard-muted, var(--admin-shell-muted));
+
+    opacity: .68;
+}
+
+.admin-modal-shell .form-text {
+    margin-top: 6px;
+
+    color: var(--admin-standard-muted, var(--admin-shell-muted)) !important;
+
+    font-size: 10.8px;
+    line-height: 1.45;
+}
+
+
+/* SELECT */
+
+.admin-modal-shell .form-select {
+    cursor: pointer;
+}
+
+
+/* FILE INPUT */
+
+.admin-modal-shell input[type="file"].form-control {
+    padding: 5px 6px;
+}
+
+.admin-modal-shell input[type="file"].form-control::file-selector-button {
+    height: 33px;
+
+    margin: -1px 10px -1px -1px;
+    padding: 0 12px;
+
+    border: 0;
+    border-right: 1px solid var(--admin-standard-border, var(--admin-shell-border));
+
+    background: var(--admin-standard-surface, var(--admin-shell-surface));
+    color: var(--admin-standard-text-soft, var(--admin-shell-text-soft));
+
+    font-size: 11px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background-color .2s ease,
+        color .2s ease;
+}
+
+.admin-modal-shell input[type="file"].form-control:hover::file-selector-button {
+    background: var(--admin-standard-gold-soft, var(--admin-shell-gold-soft));
+    color: var(--admin-standard-gold, var(--admin-shell-gold));
+}
+
+
+/* CHECKBOX */
+
+.admin-modal-shell .form-check {
+    min-height: 44px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+}
+
+.admin-modal-shell .form-check-input {
+    width: 17px;
+    height: 17px;
+
+    margin: 0;
+
+    border-color: var(--admin-standard-border, var(--admin-shell-border));
+
+    background-color: var(--admin-standard-surface-2, var(--admin-shell-surface-2));
+
+    box-shadow: none !important;
+}
+
+.admin-modal-shell .form-check-input:checked {
+    border-color: var(--admin-standard-gold, var(--admin-shell-gold));
+
+    background-color: var(--admin-standard-gold, var(--admin-shell-gold));
+}
+
+.admin-modal-shell .form-check-label {
+    color: var(--admin-standard-text-soft, var(--admin-shell-text-soft));
+
+    font-size: 12px;
+}
+
+
+/* ==========================================================================
+   RODAPÉ
+   ========================================================================== */
+
+.admin-modal-shell .modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    padding: 14px 20px !important;
+
+    border-top: 1px solid var(--admin-standard-border, var(--admin-shell-border)) !important;
+
+    background: rgba(0, 0, 0, 0.035);
+}
+
+[data-bs-theme="light"] .admin-modal-shell .modal-footer {
+    background: rgba(76, 61, 40, 0.025);
+}
+
+.admin-modal-shell .modal-footer > * {
+    margin: 0 !important;
+}
+
+
+/* ==========================================================================
+   FOTO / PRÉVIA
+   ========================================================================== */
+
+.admin-modal-photo-preview {
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 14px;
+
+    border: 1px solid var(--admin-standard-border, var(--admin-shell-border));
+    border-radius: 10px;
+
+    background: var(--admin-standard-surface-2, var(--admin-shell-surface-2));
+}
+
+.admin-modal-photo-preview img,
+.admin-modal-photo-fallback {
+    width: 78px;
+    height: 78px;
+
+    flex: 0 0 78px;
+
+    border: 1px solid rgba(214, 178, 106, 0.25);
+    border-radius: 50%;
+
+    background: var(--admin-standard-surface, var(--admin-shell-surface));
+
+    object-fit: cover;
+}
+
+.admin-modal-photo-fallback {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--admin-standard-gold, var(--admin-shell-gold));
+
+    font-size: 24px;
+}
+
+.admin-modal-photo-copy strong {
+    display: block;
+
+    color: var(--admin-standard-text, var(--admin-shell-text));
+
+    font-size: 13px;
+}
+
+.admin-modal-photo-copy span {
+    display: block;
+
+    margin-top: 4px;
+
+    color: var(--admin-standard-muted, var(--admin-shell-muted));
+
+    font-size: 11px;
+}
+
+
+/* ==========================================================================
+   BACKDROP
+   ========================================================================== */
+
+.modal-backdrop.show {
+    opacity: .72;
+}
+
+
+/* ==========================================================================
+   RESPONSIVIDADE
+   ========================================================================== */
+
+@media (max-width: 767.98px) {
+
+    .admin-modal-shell .modal-dialog {
+        width: calc(100% - 18px);
+    }
+
+    .admin-modal-shell .admin-modal-header {
+        min-height: 74px;
+
+        padding: 15px 16px !important;
+    }
+
+    .admin-modal-title-icon {
+        width: 38px;
+        height: 38px;
+
+        flex-basis: 38px;
+    }
+
+    .admin-modal-shell .admin-modal-title {
+        font-size: 15px;
+    }
+
+    .admin-modal-subtitle {
+        display: none;
+    }
+
+    .admin-modal-shell .modal-body {
+        padding: 16px !important;
+    }
+
+    .admin-modal-shell .modal-footer {
+        align-items: stretch;
+        flex-direction: column-reverse;
+
+        padding: 13px 16px !important;
+    }
+
+    .admin-modal-shell .modal-footer .admin-primary-action,
+    .admin-modal-shell .modal-footer .admin-secondary-action {
+        width: 100%;
+    }
+
+    .admin-modal-shell .admin-modal-section {
+        padding: 15px;
+    }
 }

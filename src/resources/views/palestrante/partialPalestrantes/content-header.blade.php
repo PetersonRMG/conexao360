@@ -1,43 +1,38 @@
 {{-- ============================================================
-     CABEÇALHO INTERNO DA PÁGINA
+CABEÇALHO INTERNO — PALESTRANTE
 ============================================================= --}}
-<div class="app-content-header admin-page-header ">
+<div class="app-content-header admin-page-header">
 
     <div class="container-fluid">
 
         <div class="admin-page-header-inner">
 
-            {{-- TÍTULO --}}
             <div class="admin-page-heading">
 
                 <span class="admin-page-eyebrow">
-                    <i class="bi bi-grid-1x2-fill"></i>
-                    Painel Administrativo
+                    <i class="bi bi-mic-fill"></i>
+                    Área do Palestrante
                 </span>
 
                 <h1 class="admin-page-title">
-                    @yield('pg-titulo', 'Dashboard Conexão 360')
+                    @yield('pg-titulo', 'Visão Geral')
                 </h1>
 
             </div>
 
 
-            {{-- BREADCRUMB --}}
-            <nav
-                class="admin-page-breadcrumb-nav"
-                aria-label="breadcrumb"
-            >
+            <nav class="admin-page-breadcrumb-nav" aria-label="breadcrumb">
 
                 <ol class="breadcrumb admin-page-breadcrumb">
 
                     <li class="breadcrumb-item">
 
-                        <a href="{{ route('admin.dash') }}">
+                        <a href="{{ route('admin.palestrante.dash') }}">
 
                             <i class="bi bi-house-door"></i>
 
                             <span>
-                                Home
+                                Início
                             </span>
 
                         </a>
@@ -45,15 +40,10 @@
                     </li>
 
 
-                    <li
-                        class="breadcrumb-item active"
-                        aria-current="page"
-                    >
-
+                    <li class="breadcrumb-item active" aria-current="page">
                         <span>
-                            @yield('link-topo', 'Dashboard')
+                            @yield('link-topo', 'Visão Geral')
                         </span>
-
                     </li>
 
                 </ol>

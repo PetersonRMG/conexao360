@@ -5,7 +5,7 @@
 
 @section('content')
     <main class="app-main dash-main--bg site-editor-main"
-        style="--dash-main-bg-image: url('{{ asset('dash/assets/img/bg-dash.png') }}');">
+         >
 
         <div class="app-content-header">
             <div class="container-fluid"></div>

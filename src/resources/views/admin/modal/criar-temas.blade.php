@@ -1,71 +1,144 @@
-<div class="modal modal-lg fade" id="criarTemas" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content ">
-            <div class="modal-header  ">
-                <h1 class="modal-title fs-5 " id="exampleModalLabel">Criar novo Tema</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div class="modal modal-lg fade admin-modal-shell" id="criarTemas" tabindex="-1" aria-labelledby="criarTemasLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+
+        <div class="modal-content admin-modal">
+
+            <div class="modal-header admin-modal-header">
+
+                <div class="admin-modal-heading">
+
+                    <span class="admin-modal-title-icon">
+                        <i class="bi bi-palette"></i>
+                    </span>
+
+                    <div class="admin-modal-title-copy">
+                        <h5 class="modal-title admin-modal-title" id="criarTemasLabel">
+                            Criar Novo Tema
+                        </h5>
+
+                        <p class="admin-modal-subtitle">
+                            Cadastre um novo tema que será apresentado no site.
+                        </p>
+                    </div>
+
+                </div>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+
             </div>
-            <div class="modal-body">
-
-                <form method="POST" action="{{ route('admin.tema.create') }}" enctype="multipart/form-data">
-                    {{-- O @csrf cria uma proteção para o form --}}
-
-                    @csrf
-                    @method('PUT')
 
 
-                    {{-- TEMAS --}}
+            <form method="POST" action="{{ route('admin.tema.create') }}" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
 
-                    <div class="mb-3 col-md-12">
 
-                        <div class="mb-3">
-                            <label for="foto_tema{{ $item->id_tema }}" class="form-label">Foto Tema</label>
-                            <input class="form-control  form-control-sm" id="foto_tema{{ $item->id_tema }}"
-                                name="foto_tema" type="file" accept="image/png,image/jpeg,image/webp">
-                            <div id="emailHelp" class="form-text">Escolha a foto do Tema.</div>
+                <div class="modal-body">
+
+                    <div class="row g-3">
+
+                        <div class="col-12">
+                            <label class="form-label" for="foto_tema">
+                                Foto Tema
+                            </label>
+
+                            <input class="form-control" id="foto_tema" name="foto_tema" type="file"
+                                accept="image/png,image/jpeg,image/webp">
+
+                            <div class="form-text">
+                                Escolha a foto do tema.
+                            </div>
                         </div>
 
-                        <label for="titulo_tema" class="form-label">Titulo Tema</label>
-                        <input type="text" class="form-control" id="titulo_tema" name="titulo_tema">
-                        <div id="emailHelp" class="form-text">Informe o titulo do Tema.</div>
+
+                        <div class="col-12">
+                            <label class="form-label" for="titulo_tema">
+                                Título Tema
+                            </label>
+
+                            <input type="text" class="form-control" id="titulo_tema" name="titulo_tema">
+
+                            <div class="form-text">
+                                Informe o título do tema.
+                            </div>
+                        </div>
+
+
+                        <div class="col-12">
+                            <label class="form-label" for="subtitulo_tema">
+                                Subtítulo Tema
+                            </label>
+
+                            <textarea class="form-control" id="subtitulo_tema" name="subtitulo_tema"
+                                rows="4"></textarea>
+
+                            <div class="form-text">
+                                Informe o subtítulo do tema.
+                            </div>
+                        </div>
+
+
+                        <div class="col-12 col-md-8">
+                            <label class="form-label" for="breve_descricao_tema">
+                                Breve Descrição Tema
+                            </label>
+
+                            <input type="text" class="form-control" id="breve_descricao_tema"
+                                name="breve_descricao_tema">
+
+                            <div class="form-text">
+                                Informe uma breve descrição do tema.
+                            </div>
+                        </div>
+
+
+                        <div class="col-12 col-md-4">
+                            <label class="form-label" for="status_tema">
+                                Status
+                            </label>
+
+                            <select class="form-select" aria-label="Status do Tema" required name="status_tema"
+                                id="status_tema">
+                                <option value="" selected disabled>
+                                    Selecione o status
+                                </option>
+
+                                <option value="ATIVO">
+                                    Ativo
+                                </option>
+
+                                <option value="INATIVO">
+                                    Inativo
+                                </option>
+                            </select>
+
+                            <div class="form-text">
+                                Informe o status do tema.
+                            </div>
+                        </div>
+
                     </div>
 
-                    <div class="mb-3 col-md-12">
-                        <label for="subtitulo_tema" class="form-label">Subtitulo Tema</label>
-                        <textarea type="textarea" class="form-control" id="subtitulo_tema" name="subtitulo_tema"
-                            rows="5"></textarea>
-                        <div id="emailHelp" class="form-text">Informe o sub titulo do Tema.</div>
-                    </div>
+                </div>
 
-                    <div class="mb-3 col-md-12">
-                        <label for="breve_descricao_tema" class="form-label">Breve Descrição
-                            Tema</label>
-                        <input type="text" class="form-control" id="breve_descricao_tema" name="breve_descricao_tema">
-                        <div id="emailHelp" class="form-text">Informe breve descrição do Tema.</div>
-                    </div>
 
-                    <div class="col-md-6 mb-3   ">
-                        <label for="status_tema" class="form-label">Status</label>
-                        <select class="form-select form-select" aria-label="Status" required name="status_tema"
-                            id="status_tema">
-                            <option selected>Selecione Status do Tema</option>
+                <div class="modal-footer">
 
-                            <option value="ATIVO">
-                                Ativo</option>
-                            <option value="INATIVO">
-                                Inativo</option>
-                        </select>
-                        <div id="emailHelp" class="form-text">Informe o Status do Produto.</div>
-                    </div>
-            </div>
+                    <button type="button" class="admin-secondary-action" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                <button type="submit" class="btn btn-warning">Criar Tema</button>
-            </div>
+                    <button type="submit" class="admin-primary-action">
+                        <i class="bi bi-check2"></i>
+                        Criar Tema
+                    </button>
+
+                </div>
 
             </form>
+
         </div>
+
     </div>
-</div>
 </div>

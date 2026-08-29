@@ -11,25 +11,6 @@
             <div class="dash-page dash-page--depoimentos">
 
                 {{-- =========================================================
-                CABEÇALHO
-                ========================================================== --}}
-                <div class="dash-page-header">
-
-                    <div>
-                        <h3 class="dash-title dash-title--sm">
-                            <i class="bi bi-chat-square-quote"></i>
-                            Moderação de Depoimentos
-                        </h3>
-
-                        <p class="dash-subtitle">
-                            Gerencie e publique os feedbacks dos membros na Landing Page.
-                        </p>
-                    </div>
-
-                </div>
-
-
-                {{-- =========================================================
                 PAINEL PRINCIPAL
                 ========================================================== --}}
                 <div class="dep-panel">

@@ -1,227 +1,397 @@
 @extends('layout.admin')
+
 @section('title', 'Gerenciamento de Palestrantes')
 @section('pg-titulo', 'Gerenciamento de Palestrantes')
 @section('link-topo', 'Gerenciamento de Palestrantes')
 
 @section('content')
-    <main class="app-main">
-        {{-- Cabeçalho da Página --}}
-        <div class="app-content-header pt-3">
-            <div class="container-fluid d-flex justify-content-between align-items-center">
-                <button type="button" class="btn btn-primary rounded-3 d-flex align-items-center px-3 py-2"
-                    data-bs-toggle="modal" data-bs-target="#modalNovoPalestrante"> 
-                    <i class="bi bi-plus-circle me-2"></i> Pré-Cadastrar Palestrante
-                </button>
-            </div>
-        </div>
 
-        {{-- Conteúdo Principal --}}
-        <div class="app-content ps-3 pt-3">
-            <div class="container-fluid">
+    <main class="app-main admin-standard-main speaker-admin-main">
 
-                <div class="card card-outline card-primary bg-dark text-white border-0 shadow-sm rounded-3">
-                    <div class="card-header border-bottom border-secondary">
-                        <h3 class="card-title text-white mb-0" style="font-size: 1.05rem;">
-                            <i class="bi bi-mic me-2 text-primary"></i> Contas de Palestrantes
-                        </h3>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-dark table-hover mb-0 align-middle">
-                                <thead class="table-black text-muted small uppercase">
+        <div class="app-content container-fluid admin-standard-content">
+
+            <div class="admin-standard-page">
+
+                {{-- =========================================================
+                PAINEL PRINCIPAL
+                ========================================================== --}}
+                <section class="admin-standard-panel speaker-panel">
+
+                    <header class="admin-standard-panel-header">
+
+                        <div class="admin-standard-heading">
+
+                            <span class="admin-standard-heading-icon">
+                                <i class="bi bi-mic"></i>
+                            </span>
+
+                            <div class="admin-standard-heading-copy">
+                                <h2 class="admin-standard-title">
+                                    Contas de Palestrantes
+                                </h2>
+
+                                <p class="admin-standard-description">
+                                    Gerencie os acessos, áreas de atuação e status dos palestrantes.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <button type="button" class="admin-primary-action" data-bs-toggle="modal"
+                            data-bs-target="#modalNovoPalestrante">
+                            <i class="bi bi-plus-circle"></i>
+                            Pré-Cadastrar Palestrante
+                        </button>
+
+                    </header>
+
+
+                    <div class="speaker-panel-body">
+
+                        <div class="speaker-table-wrap">
+
+                            <table class="speaker-table">
+
+                                <thead>
                                     <tr>
-                                        <th class="ps-4">E-mail de Acesso</th>
+                                        <th>E-mail de Acesso</th>
                                         <th>Cargo / Função</th>
                                         <th>Perfil do Usuário</th>
-                                        <th class="text-end pe-4" style="width: 150px;">Editar</th>
-                                        <th class=" " >Status</th>
+                                        <th class="text-end">Editar</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
+
                                 <tbody>
-                                    @foreach ($palestrante as $item)
+
+                                    @forelse ($palestrante as $item)
+
                                         <tr>
-                                            <td class="ps-4">
-                                                <div class="font-weight-bold text-white">{{ $item->email_usuario }}</div>
-                                            </td>
+
+                                            {{-- E-MAIL --}}
                                             <td>
-                                                <span
-                                                    class="badge bg-secondary rounded-2">{{ $item->area_atuacao_usuario }}</span>
+                                                <div class="speaker-email">
+                                                    <span class="speaker-email-icon">
+                                                        <i class="bi bi-envelope"></i>
+                                                    </span>
+
+                                                    <span>
+                                                        {{ $item->email_usuario }}
+                                                    </span>
+                                                </div>
                                             </td>
+
+
+                                            {{-- ÁREA --}}
                                             <td>
-                                                <span class="badge bg-warning text-dark rounded-pill px-2"
-                                                    style="font-size: 0.7rem;">{{ $item->perfil_usuario }}</span>
-                                            </td>
-                                            <td class="text-end pe-4">
-
-                                                <button class="btn btn-sm btn-outline-light rounded-2 me-1" title="Editar Cargo"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#editarPalestrante{{ $item->id_usuario }}">
-
-
-                                                    <i class="bi bi-pencil"></i></button>
-                                                      @include('admin.modal.editar-palestrante',['palestrante' =>$item])
-
+                                                <span class="speaker-badge">
+                                                    {{ $item->area_atuacao_usuario ?: 'Não informado' }}
+                                                </span>
                                             </td>
 
-                                            <td class="">
+
+                                            {{-- PERFIL --}}
+                                            <td>
+                                                <span class="speaker-badge speaker-badge--profile">
+                                                    {{ $item->perfil_usuario }}
+                                                </span>
+                                            </td>
+
+
+                                            {{-- EDITAR --}}
+                                            <td>
+                                                <div class="speaker-actions">
+
+                                                    <button type="button" class="admin-icon-action" title="Editar Palestrante"
+                                                        aria-label="Editar {{ $item->email_usuario }}" data-bs-toggle="modal"
+                                                        data-bs-target="#editarPalestrante{{ $item->id_usuario }}">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </button>
+
+                                                    @include(
+                                                        'admin.modal.editar-palestrante',
+                                                        ['palestrante' => $item]
+                                                    )
+
+                                                </div>
+                                            </td>
+
+
+                                            {{-- STATUS --}}
+                                            <td class="speaker-status-cell">
 
                                                 @if ($item->status_usuario === 'ATIVO')
 
-                                                    <form action="   {{ route('admin.palestrante.desativar', $item->id_usuario) }}   "
-                                                        method="POST">
+                                                    <form action="{{ route('admin.palestrante.desativar', $item->id_usuario) }}"
+                                                        method="POST" class="speaker-status-form">
                                                         @csrf
                                                         @method('PATCH')
 
-                                                        <div class="form-check form-switch">
-                                                            <input class="form-check-input" type="checkbox" role="switch" checked
-                                                                onchange="this.form.submit()">
+                                                        <div class="speaker-status-wrap">
+
+                                                            <div class="form-check form-switch m-0">
+                                                                <input class="form-check-input speaker-status-switch"
+                                                                    type="checkbox" role="switch" checked
+                                                                    aria-label="Desativar palestrante"
+                                                                    onchange="this.form.submit()">
+                                                            </div>
+
+                                                            <span class="speaker-status-label is-active">
+                                                                Ativo
+                                                            </span>
+
                                                         </div>
+
                                                     </form>
 
                                                 @else
 
-                                                    <form action="
-                                                         {{ route('admin.palestrante.ativar', $item->id_usuario) }} 
-                                                        "
-                                                        method="POST">
+                                                    <form action="{{ route('admin.palestrante.ativar', $item->id_usuario) }}"
+                                                        method="POST" class="speaker-status-form">
                                                         @csrf
                                                         @method('PATCH')
 
-                                                        <div class="form-check form-switch">
-                                                            <input class="form-check-input" type="checkbox" role="switch"
-                                                                onchange="this.form.submit()">
+                                                        <div class="speaker-status-wrap">
+
+                                                            <div class="form-check form-switch m-0">
+                                                                <input class="form-check-input speaker-status-switch"
+                                                                    type="checkbox" role="switch" aria-label="Ativar palestrante"
+                                                                    onchange="this.form.submit()">
+                                                            </div>
+
+                                                            <span class="speaker-status-label">
+                                                                Inativo
+                                                            </span>
+
                                                         </div>
+
                                                     </form>
 
                                                 @endif
-                                                {{-- BTN EDITAR --}}
+
+                                            </td>
+
+                                        </tr>
+
+                                    @empty
+
+                                        <tr>
+                                            <td colspan="5" class="speaker-empty">
+
+                                                <span class="speaker-empty-icon">
+                                                    <i class="bi bi-mic"></i>
+                                                </span>
+
+                                                <strong>
+                                                    Nenhum palestrante cadastrado.
+                                                </strong>
+
+                                                <span>
+                                                    Os palestrantes pré-cadastrados aparecerão aqui.
+                                                </span>
 
                                             </td>
                                         </tr>
 
-                                    @endforeach
+                                    @endforelse
+
                                 </tbody>
+
                             </table>
+
                         </div>
+
                     </div>
-                </div>
+
+                </section>
 
             </div>
+
         </div>
+
     </main>
 
-    {{-- MODAL OTIMIZADO: PRÉ-CADASTRO DE PALESTRANTE --}}
-    <div class="modal modal-lg fade" id="modalNovoPalestrante" tabindex="-1" aria-labelledby="modalNovoUsuarioLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content bg-dark text-white border-secondary">
-                <div class="modal-header border-secondary">
-                    <h5 class="modal-title d-flex align-items-center" id="modalNovoPalestrante">
-                        <i class="bi bi-person-plus-fill text-primary me-2"></i> Cadastrar Novo Usuário
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+
+    {{-- =============================================================
+    MODAL — PRÉ-CADASTRO DE PALESTRANTE
+    ============================================================== --}}
+    <div class="modal modal-lg fade admin-modal-shell" id="modalNovoPalestrante" tabindex="-1"
+        aria-labelledby="modalNovoPalestranteLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+
+            <div class="modal-content admin-modal">
+
+                <div class="modal-header admin-modal-header">
+
+                    <div class="admin-modal-heading">
+
+                        <span class="admin-modal-title-icon">
+                            <i class="bi bi-person-plus-fill"></i>
+                        </span>
+
+                        <div class="admin-modal-title-copy">
+                            <h5 class="modal-title admin-modal-title" id="modalNovoPalestranteLabel">
+                                Pré-Cadastrar Palestrante
+                            </h5>
+
+                            <p class="admin-modal-subtitle">
+                                Cadastre os dados de acesso e as informações iniciais do palestrante.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+
                 </div>
+
+
                 <form action="{{ route('admin.palestrante.create') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
+
+
                     <div class="modal-body">
+
                         <div class="row g-3">
-                            {{-- Nome --}}
-                            <div class="col-12">
-                                <label class="form-label text-muted small">Nome Completo</label>
-                                <input type="text" name="nome_usuario"
-                                    class="form-control bg-black text-white border-secondary rounded-3" required>
+
+                            <div class="col-12 col-md-6">
+                                <label class="form-label" for="nome_usuario">
+                                    Nome Completo
+                                </label>
+
+                                <input type="text" name="nome_usuario" id="nome_usuario" class="form-control" required>
                             </div>
 
-                            {{-- Foto --}}
+
+                            <div class="col-12 col-md-6">
+                                <label class="form-label" for="email_usuario">
+                                    E-mail
+                                </label>
+
+                                <input type="email" name="email_usuario" id="email_usuario" class="form-control" required>
+                            </div>
+
+
                             <div class="col-12">
-                                <label class="form-label text-muted small">Foto do Usuário</label>
-                                <input type="file" name="foto_usuario"
-                                    class="form-control bg-black text-white border-secondary rounded-3" accept="image/*"
+                                <label class="form-label" for="foto_usuario">
+                                    Foto do Usuário
+                                </label>
+
+                                <input type="file" name="foto_usuario" id="foto_usuario" class="form-control"
+                                    accept="image/*" required>
+                            </div>
+
+
+                            <div class="col-12 col-md-6">
+                                <label class="form-label" for="area_atuacao_usuario">
+                                    Área de Atuação
+                                </label>
+
+                                <input type="text" name="area_atuacao_usuario" id="area_atuacao_usuario"
+                                    class="form-control" required>
+                            </div>
+
+
+                            <div class="col-12 col-md-6">
+                                <label class="form-label" for="perfil_usuario">
+                                    Perfil
+                                </label>
+
+                                <input type="text" name="perfil_usuario" id="perfil_usuario" class="form-control"
+                                    value="palestrante" required>
+                            </div>
+
+
+                            <div class="col-12 col-md-6">
+                                <label class="form-label" for="senha_usuario">
+                                    Senha
+                                </label>
+
+                                <input type="password" name="senha_usuario" id="senha_usuario" class="form-control"
                                     required>
                             </div>
-                        </div>
 
-                        {{-- Email --}}
-                        <div class="col-12">
-                            <label class="form-label text-muted small">E-mail</label>
-                            <input type="email" name="email_usuario"
-                                class="form-control bg-black text-white border-secondary rounded-3" required>
-                        </div>
 
-                        {{-- Área de Atuação --}}
-                        <div class="col-12">
-                            <label class="form-label text-muted small">Área de Atuação</label>
-                            <input type="text" name="area_atuacao_usuario"
-                                class="form-control bg-black text-white border-secondary rounded-3" required>
-                        </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label" for="estado_usuario">
+                                    Estado (UF)
+                                </label>
 
-                        {{-- Senha --}}
-                        <div class="col-12">
-                            <label class="form-label text-muted small">Senha</label>
-                            <input type="password" name="senha_usuario"
-                                class="form-control bg-black text-white border-secondary rounded-3" required>
-                        </div>
-
-                        {{-- Termos --}}
-                        <div class="col-12">
-                            <div class="form-check">
-                                <input type="checkbox" name="termos_usuario" value="1"
-                                    class="form-check-input bg-dark border-secondary" id="termos_usuario">
-                                <label class="form-check-label text-muted small" for="termos_usuario">Aceito os termos de
-                                    uso</label>
+                                <input type="text" name="estado_usuario" id="estado_usuario" class="form-control"
+                                    maxlength="2" required>
                             </div>
+
+
+                            <div class="col-12">
+                                <label class="form-label" for="sobre_usuario">
+                                    Sobre o Usuário
+                                </label>
+
+                                <textarea name="sobre_usuario" id="sobre_usuario" class="form-control" rows="4"
+                                    required></textarea>
+                            </div>
+
+
+                            <div class="col-12 col-md-6">
+                                <label class="form-label" for="status_usuario">
+                                    Status do Palestrante
+                                </label>
+
+                                <select class="form-select" name="status_usuario" id="status_usuario" required>
+                                    <option value="" selected disabled>
+                                        Selecione o status
+                                    </option>
+
+                                    <option value="ATIVO">
+                                        Ativo
+                                    </option>
+
+                                    <option value="INATIVO">
+                                        Inativo
+                                    </option>
+                                </select>
+                            </div>
+
+
+                            <div class="col-12 col-md-6 d-flex align-items-end">
+
+                                <div class="form-check">
+
+                                    <input type="checkbox" name="termos_usuario" value="1" class="form-check-input"
+                                        id="termos_usuario">
+
+                                    <label class="form-check-label" for="termos_usuario">
+                                        Aceito os termos de uso
+                                    </label>
+
+                                </div>
+
+                            </div>
+
                         </div>
 
-                        {{-- Perfil --}}
-                        <div class="col-12">
-                            <label class="form-label text-muted small">Perfil</label>
-                            <input type="text" name="perfil_usuario"
-                                class="form-control bg-black text-white border-secondary rounded-3" value="palestrante"
-                                required>
-                        </div>
-
-                        {{-- Estado --}}
-                        <div class="col-12">
-                            <label class="form-label text-muted small">Estado (UF)</label>
-                            <input type="text" name="estado_usuario"
-                                class="form-control bg-black text-white border-secondary rounded-3" maxlength="2" required>
-                        </div>
-
-                        {{-- Sobre --}}
-                        <div class="col-12">
-                            <label class="form-label text-muted small">Sobre o Usuário</label>
-                            <textarea name="sobre_usuario"
-                                class="form-control bg-black text-white border-secondary rounded-3" required></textarea>
-                        </div>
-
-                        {{-- Status --}}
-                        <div class="col-md-6 mb-3   ">
-                            <label for="status_usuario" class="form-label">Status Banner</label>
-                            <select class="form-select form-select" aria-label="Status" required name="status_usuario"
-                                id="status_hero">
-                                <option selected>Selecione Status do Palestrante</option>
-
-                                <option value="ATIVO">
-                                    Ativo</option>
-                                <option value="INATIVO">
-                                    Inativo</option>
-                            </select>
-                            <div id="emailHelp" class="form-text">Informe o Status do Banner.</div>
-                        </div>
                     </div>
-                    <div class="modal-footer border-secondary">
-                        <button type="button" class="btn btn-outline-light rounded-3"
-                            data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary rounded-3 px-4">Salvar Palestrante</button>
+
+
+                    <div class="modal-footer">
+
+                        <button type="button" class="admin-secondary-action" data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
+
+                        <button type="submit" class="admin-primary-action">
+                            <i class="bi bi-check2"></i>
+                            Salvar Palestrante
+                        </button>
+
                     </div>
+
+                </form>
+
             </div>
-            </form>
+
         </div>
     </div>
 
-
-    </div>
-  
 @endsection

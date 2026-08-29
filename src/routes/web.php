@@ -69,6 +69,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         //ROTA EDITAR PERFIL
         Route::get('/perfil', [AdminController::class, 'indexAdmin'])->name('perfil');
+        Route::put('/perfil', [AdminController::class, 'updateAdmin'])->name('perfil.update');
         
         
         Route::get('/palestrantes', [PalestrantesController::class, 'index'])->name('palestrantes');
