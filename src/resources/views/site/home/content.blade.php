@@ -1,111 +1,91 @@
 <main class="experience-main">
 
-    {{-- ================================================================
-    HERO DINÂMICO
-    Mantém os dados cadastrados no dashboard.
-    O conteúdo institucional foi integrado ao final do próprio hero.
-    ================================================================= --}}
-    @foreach ($hero as $item)
-        @if ($item->status_hero === 'ATIVO')
-            <section class="header-advocacia experience-hero"
-                style="background-image: url('{{ asset('conexao360/img/' . $item->foto_banner) }}')">
-                <div class="experience-hero-overlay"></div>
+{{-- ================================================================
+HERO DINÂMICO — NOVA COMPOSIÇÃO
+Mantém os dados cadastrados no dashboard.
+O header fica visualmente integrado ao hero e a antiga faixa/carrossel
+institucional foi removida desta dobra.
+================================================================= --}}
+@foreach ($hero as $item)
+    @if ($item->status_hero === 'ATIVO')
+        <section id="inicio" class="header-advocacia experience-hero"
+            style="background-image: url('{{ asset('conexao360/img/' . $item->foto_banner) }}')">
+            <div class="experience-hero-overlay"></div>
 
-                <div class="experience-shell experience-hero-shell">
-                    <div class="tds-header experience-hero-content">
-                        <p class="tit-header experience-eyebrow">
-                            {{ $item->tagline_hero }}
-                        </p>
+            <div class="experience-shell experience-hero-shell">
 
-                        <h1 class="sub-tit experience-hero-title">
-                            {{ $item->titulo_hero }}
-                        </h1>
+                {{-- CONTEÚDO PRINCIPAL --}}
+                <div class="tds-header experience-hero-content">
 
-                        <p class="descricao-header experience-hero-description">
-                            {{ $item->subtitulo_hero }}
-                        </p>
+                    <p class="tit-header experience-eyebrow">
+                        {{ $item->tagline_hero }}
+                    </p>
 
-                        <div class="experience-event-meta">
-                            <div class="experience-meta-item">
-                                <img src="{{ asset('conexao360/img/icones_adv (8).svg') }}" alt="Calendário">
-                                <div>
-                                    <span>Data e Horário</span>
-                                    <strong>{{ $evento->data_formatada }}</strong>
-                                </div>
-                            </div>
+                    <h1 class="sub-tit experience-hero-title">
+                        {{ $item->titulo_hero }}
+                    </h1>
 
-                            <div class="experience-meta-item">
-                                <img src="{{ asset('conexao360/img/icones_adv (9).svg') }}" alt="Localização">
-                                <div>
-                                    <span>Localização Evento</span>
-                                    <strong>{{ $evento->endereco_evento }}</strong>
-                                </div>
+                    <p class="descricao-header experience-hero-description">
+                        {{ $item->subtitulo_hero }}
+                    </p>
+
+                    <div class="experience-event-meta">
+
+                        <div class="experience-meta-item">
+                            <img src="{{ asset('conexao360/img/icones_adv (8).svg') }}" alt="" aria-hidden="true">
+
+                            <div>
+                                <span>Data e Horário</span>
+                                <strong>{{ $evento->data_formatada }}</strong>
                             </div>
                         </div>
 
-                        <a href="{{ $item->link_botao_hero }}" class="cta-header experience-primary-button" target="_blank"
-                            rel="noopener noreferrer">
+                        <div class="experience-meta-item">
+                            <img src="{{ asset('conexao360/img/icones_adv (9).svg') }}" alt="" aria-hidden="true">
+
+                            <div>
+                                <span>Localização Evento</span>
+                                <strong>{{ $evento->endereco_evento }}</strong>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="experience-hero-actions">
+                        <a id="ingressos" href="{{ $item->link_botao_hero }}" class="cta-header experience-primary-button"
+                            target="_blank" rel="noopener noreferrer">
                             {{ $item->texto_botao_hero }}
                         </a>
+
+                        <a href="{{ url('/evento') }}" class="experience-secondary-button">
+                            Saiba mais
+                        </a>
                     </div>
+
                 </div>
 
-                {{-- Conteúdo institucional integrado ao hero --}}
-                <div class="experience-hero-brand">
-                    <div class="experience-shell experience-hero-brand-shell">
-                        <div class="conexao-carousel experience-hero-brand-carousel" id="conexaoCarousel">
+                {{-- ASSINATURA VISUAL DA DIREITA --}}
+                <aside class="experience-hero-signature" aria-label="Conceito do Conexão 360">
+                    <p>
+                        Mais que um evento.<br>
+                        <em>É um movimento.</em>
+                    </p>
 
-                            <div class="experience-hero-brand-slide">
-                                <div class="experience-hero-brand-logo">
-                                    <img src="{{ asset('conexao360/img/pint.svg') }}" alt="Logo" decoding="async">
-                                </div>
+                    <span class="experience-signature-line"></span>
 
-                                <div class="experience-hero-brand-copy">
-                                    <span>Conexão 360º</span>
-                                    <strong>ADVOCACIA <br> E<span>X</span>PONENCIAL</strong>
-                                    <small>3ª EDIÇÃO</small>
-                                </div>
-
-                                <div class="experience-hero-brand-thumb"
-                                    style="background-image: url('{{ asset('conexao360/img/Mídia (1).jpg') }}');"></div>
-                            </div>
-
-                            <div class="experience-hero-brand-slide">
-                                <div class="experience-hero-brand-logo">
-                                    <img src="{{ asset('conexao360/img/pint.svg') }}" alt="Logo" decoding="async">
-                                </div>
-
-                                <div class="experience-hero-brand-copy">
-                                    <span>Networking de Elite</span>
-                                    <strong>CONEXÕES <br> E<span>X</span>CLUSIVAS</strong>
-                                    <small>VAGAS LIMITADAS</small>
-                                </div>
-
-                                <div class="experience-hero-brand-thumb"
-                                    style="background-image: url('{{ asset('conexao360/img/captura.png') }}');"></div>
-                            </div>
-
-                            <div class="experience-hero-brand-slide">
-                                <div class="experience-hero-brand-logo">
-                                    <img src="{{ asset('conexao360/img/pint.svg') }}" alt="Logo" decoding="async">
-                                </div>
-
-                                <div class="experience-hero-brand-copy">
-                                    <span>Imersão Prática</span>
-                                    <strong>MENTORIA <br> E<span>X</span>STRATÉGICA</strong>
-                                    <small>PRÓXIMO EVENTO</small>
-                                </div>
-
-                                <div class="experience-hero-brand-thumb"
-                                    style="background-image: url('{{ asset('conexao360/img/Mídia (1).jpg') }}');"></div>
-                            </div>
-
-                        </div>
+                    <div class="experience-signature-brand">
+                        <strong>CONEXÃO 360°</strong>
+                        <small>PESSOAS</small>
+                        <small>IDEIAS</small>
+                        <small>RESULTADOS</small>
                     </div>
-                </div>
-            </section>
-        @endif
-    @endforeach
+                </aside>
+
+            </div>
+        </section>
+    @endif
+@endforeach
+
 
 
     {{-- ================================================================
@@ -245,12 +225,12 @@
                             <article class="texto-depoimentos experience-testimonial-card">
                                 <div class="experience-testimonial-person">
                                     @php
-                                        $fotoDepoimento = !empty($item->usuario->foto_usuario)
-                                            ? 'dash/assets/img/' . $item->usuario->foto_usuario
-                                            : null;
+    $fotoDepoimento = !empty($item->usuario->foto_usuario)
+        ? 'dash/assets/img/' . $item->usuario->foto_usuario
+        : null;
 
-                                        $fotoDepoimentoExiste = $fotoDepoimento
-                                            && file_exists(public_path($fotoDepoimento));
+    $fotoDepoimentoExiste = $fotoDepoimento
+        && file_exists(public_path($fotoDepoimento));
                                     @endphp
 
                                     @if ($fotoDepoimentoExiste)
