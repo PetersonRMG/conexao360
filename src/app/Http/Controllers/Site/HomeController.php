@@ -3,45 +3,51 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-
 use App\Models\Temas;
 use App\Models\Dra;
-use App\Models\Video;
 use App\Models\Eventos;
 use App\Models\HeroSection;
 use App\Models\Depoimentos;
+use App\Models\Usuarios;
 
-
-class HomeController extends Controller 
+class HomeController extends Controller
 {
-    //
-    public function index(){  
+    public function index()
+    {
+        $temas = Temas::where('status_tema', 'ATIVO')
+            ->inRandomOrder()
+            ->get();
 
-        $temas = Temas::where('status_tema', 'ATIVO')        
-        ->inRandomOrder()        
-        ->get();
+        $dra = Dra::where('status_dra', 'ATIVO')
+            ->get();
 
-        $dra = Dra::where('status_dra', 'ATIVO')                     
-        ->get();
-
-        $video = Video::where('status_video','ATIVO')       
-        ->get();
-              
-
+        // O carousel da Home trabalha com no máximo 3 banners ativos.
         $hero = HeroSection::where('status_hero', 'ATIVO')
-        ->get();
+            ->limit(3)
+            ->get();
 
         $evento = Eventos::where('status_evento', 'ATIVO')
-        ->first();
+            ->first();
 
         $depoimentos = Depoimentos::where('status_depoimento', 'ATIVO')
-        ->limit(6)
-        ->inRandomOrder()
-        ->get(); 
+            ->limit(6)
+            ->inRandomOrder()
+            ->get();
 
+        // Palestrantes cadastrados no mesmo model de usuários.
+        $palestrantes = Usuarios::where('perfil_usuario', 'palestrante')
+            ->where('status_usuario', 'ATIVO')
+            ->orderByDesc('criado_em_usuario')
+            ->limit(4)
+            ->get();
 
-        // dd($hero);
-        return view('site.home.home',compact('temas', 'dra', 'video','evento','hero','depoimentos'));
+        return view('site.home.home', compact(
+            'temas',
+            'dra',
+            'evento',
+            'hero',
+            'depoimentos',
+            'palestrantes'
+        ));
     }
 }

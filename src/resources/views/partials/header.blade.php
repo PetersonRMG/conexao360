@@ -40,7 +40,7 @@
                 </li>
 
                 <li class="menu-item">
-                    <a href="{{ url('/palestrantes') }}" class="menu-link">
+                    <a href="{{ route('page-palestrantes') }}" class="menu-link">
                         Palestrantes
                     </a>
                 </li>
@@ -52,7 +52,7 @@
                 </li>
 
                 <li class="menu-item">
-                    <a href="{{ url('/comunidade') }}" class="menu-link">
+                    <a  href="{{ route('page-app') }}"  class="menu-link">
                         Comunidade
                     </a>
                 </li>

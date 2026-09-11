@@ -8,93 +8,192 @@ use Illuminate\Http\Request;
 
 class HeroController extends Controller
 {
-    public function createHero(Request $request){
-         $request->validate([
-            'titulo_hero'       => 'required|string|max:255',
-            'tagline_hero'      => 'nullable|string|max:255',
-            'subtitulo_hero'    => 'nullable|string',
-            'texto_botao_hero'  => 'nullable|string|max:100',
-            'link_botao_hero'   => 'nullable|string',
-            'foto_banner'  => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'status_hero'       => 'required|in:ATIVO,INATIVO'
+    /**
+     * Quantidade máxima de banners ativos no carrossel.
+     */
+    private const MAX_HERO_ATIVOS = 3;
+
+
+    /**
+     * Criar Hero
+     */
+    public function createHero(Request $request)
+    {
+        $request->validate([
+            'titulo_hero'      => 'required|string|max:255',
+            'tagline_hero'     => 'nullable|string|max:255',
+            'subtitulo_hero'   => 'nullable|string',
+            'texto_botao_hero' => 'nullable|string|max:100',
+            'link_botao_hero'  => 'nullable|string',
+            'foto_banner'      => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'status_hero'      => 'required|in:ATIVO,INATIVO',
         ]);
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Limite de banners ativos
+        |--------------------------------------------------------------------------
+        */
+        if ($request->status_hero === 'ATIVO') {
+
+            $totalAtivos = HeroSection::where('status_hero', 'ATIVO')->count();
+
+            if ($totalAtivos >= self::MAX_HERO_ATIVOS) {
+
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->withErrors([
+                        'status_hero' =>
+                            'Já existem 3 banners ativos. Desative um deles antes de ativar outro.'
+                    ]);
+            }
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Upload da imagem
+        |--------------------------------------------------------------------------
+        */
+        $caminhoBanner = null;
+
+        if ($request->hasFile('foto_banner')) {
 
             $imagem = $request->file('foto_banner');
-            $nomeImagem = time() . '.' . $imagem->getClientOriginalExtension();
-            $imagem->move(public_path('conexao360/img/hero/'), $nomeImagem);
-            $caminhoBanner = 'hero/' . $nomeImagem;
 
+            $nomeImagem =
+                time() . '_' . uniqid() . '.' . $imagem->getClientOriginalExtension();
+
+            $imagem->move(
+                public_path('conexao360/img/hero/'),
+                $nomeImagem
+            );
+
+            $caminhoBanner = 'hero/' . $nomeImagem;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Cadastro
+        |--------------------------------------------------------------------------
+        */
         HeroSection::create([
-            'titulo_hero'      => $request->titulo_hero,          
-            'tagline_hero'      => $request->tagline_hero,
-            'subtitulo_hero' => $request->subtitulo_hero,
-            'texto_botao_hero'      => $request->texto_botao_hero,
-            'link_botao_hero'    => $request->link_botao_hero,
-            'foto_banner'       =>  $caminhoBanner,
-            'status_hero'       =>  $request->status_hero,
+            'titulo_hero'      => $request->titulo_hero,
+            'tagline_hero'     => $request->tagline_hero,
+            'subtitulo_hero'   => $request->subtitulo_hero,
+            'texto_botao_hero' => $request->texto_botao_hero,
+            'link_botao_hero'  => $request->link_botao_hero,
+            'foto_banner'      => $caminhoBanner,
+            'status_hero'      => $request->status_hero,
         ]);
 
+
         return redirect()
-        ->route('admin.modificar.site')
-        ->with('success', 'Banner criado com sucesso!');
-
-
+            ->route('admin.modificar.site')
+            ->with('success', 'Banner criado com sucesso!');
     }
 
 
-    public function updateHero(Request $request, $id )
-    {      
-
+    /**
+     * Atualizar Hero
+     */
+    public function updateHero(Request $request, $id)
+    {
         $request->validate([
-            'titulo_hero'       => 'required|string|max:255',
-            'tagline_hero'      => 'nullable|string|max:255',
-            'subtitulo_hero'    => 'nullable|string',
-            'texto_botao_hero'  => 'nullable|string|max:100',
-            'link_botao_hero'   => 'nullable|string',
-            'foto_banner'  => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'status_hero'       => 'required|in:ATIVO,INATIVO'
+            'titulo_hero'      => 'required|string|max:255',
+            'tagline_hero'     => 'nullable|string|max:255',
+            'subtitulo_hero'   => 'nullable|string',
+            'texto_botao_hero' => 'nullable|string|max:100',
+            'link_botao_hero'  => 'nullable|string',
+            'foto_banner'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'status_hero'      => 'required|in:ATIVO,INATIVO',
         ]);
 
-        // FORÇA pegar o primeiro registro do banco. Se não existir nenhum, cria um novo!
-        $hero = HeroSection::findOrFail($id);
-        
 
+        $hero = HeroSection::findOrFail($id);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Limite de 3 ativos
+        |--------------------------------------------------------------------------
+        |
+        | Ignoramos o próprio Hero na contagem.
+        |
+        */
+        if ($request->status_hero === 'ATIVO') {
+
+            $totalAtivos = HeroSection::where('status_hero', 'ATIVO')
+                ->where('id_hero_section', '!=', $hero->id_hero_section)
+                ->count();
+
+
+            if ($totalAtivos >= self::MAX_HERO_ATIVOS) {
+
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->withErrors([
+                        'status_hero' =>
+                            'Já existem 3 banners ativos. Desative um deles antes de ativar este banner.'
+                    ]);
+            }
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Mantém imagem atual
+        |--------------------------------------------------------------------------
+        */
         $caminhoBanner = $hero->foto_banner;
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Nova imagem
+        |--------------------------------------------------------------------------
+        */
         if ($request->hasFile('foto_banner')) {
+
             $imagem = $request->file('foto_banner');
-            $nomeImagem = time() . '.' . $imagem->getClientOriginalExtension();
-            $imagem->move(public_path('conexao360/img/hero/'), $nomeImagem);
+
+            $nomeImagem =
+                time() . '_' . uniqid() . '.' . $imagem->getClientOriginalExtension();
+
+            $imagem->move(
+                public_path('conexao360/img/hero/'),
+                $nomeImagem
+            );
+
             $caminhoBanner = 'hero/' . $nomeImagem;
         }
 
-        $hero->fill($request->only(['tagline', 'titulo', 'subtitulo', 'texto_botao', 'link_botao', 'status']));
-        $hero->foto_banner = $caminhoBanner;
-        $hero->save();
 
-        if ($request->status_hero === 'ATIVO') {
-
-            HeroSection::where('id_hero_section', '!=', $hero->id_hero_section)
-                ->update([
-                    'status_hero' => 'INATIVO'
-            ]);
-
-        }
-
-
-        
+        /*
+        |--------------------------------------------------------------------------
+        | Atualização
+        |--------------------------------------------------------------------------
+        */
         $hero->update([
-            'titulo_hero'      => $request->titulo_hero,          
-            'tagline_hero'      => $request->tagline_hero,
-            'subtitulo_hero' => $request->subtitulo_hero,
-            'texto_botao_hero'      => $request->texto_botao_hero,
-            'link_botao_hero'    => $request->link_botao_hero,
-            'foto_banner'       =>  $caminhoBanner,
-            'status_hero'       =>  $request->status_hero,
+            'titulo_hero'      => $request->titulo_hero,
+            'tagline_hero'     => $request->tagline_hero,
+            'subtitulo_hero'   => $request->subtitulo_hero,
+            'texto_botao_hero' => $request->texto_botao_hero,
+            'link_botao_hero'  => $request->link_botao_hero,
+            'foto_banner'      => $caminhoBanner,
+            'status_hero'      => $request->status_hero,
         ]);
 
- 
-        return redirect()->route('admin.modificar.site')->with('success', 'Sessão Principal salva com sucesso no banco!');
+
+        return redirect()
+            ->route('admin.modificar.site')
+            ->with(
+                'success',
+                'Banner atualizado com sucesso!'
+            );
     }
 }

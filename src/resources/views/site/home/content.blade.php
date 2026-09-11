@@ -1,130 +1,80 @@
 <main class="experience-main">
 
-{{-- ================================================================
-HERO DINÂMICO — NOVA COMPOSIÇÃO
-Mantém os dados cadastrados no dashboard.
-O header fica visualmente integrado ao hero e a antiga faixa/carrossel
-institucional foi removida desta dobra.
-================================================================= --}}
-@foreach ($hero as $item)
-    @if ($item->status_hero === 'ATIVO')
-        <section id="inicio" class="header-advocacia experience-hero"
-            style="background-image: url('{{ asset('conexao360/img/' . $item->foto_banner) }}')">
-            <div class="experience-hero-overlay"></div>
-
-            <div class="experience-shell experience-hero-shell">
-
-                {{-- CONTEÚDO PRINCIPAL --}}
-                <div class="tds-header experience-hero-content">
-
-                    <p class="tit-header experience-eyebrow">
-                        {{ $item->tagline_hero }}
-                    </p>
-
-                    <h1 class="sub-tit experience-hero-title">
-                        {{ $item->titulo_hero }}
-                    </h1>
-
-                    <p class="descricao-header experience-hero-description">
-                        {{ $item->subtitulo_hero }}
-                    </p>
-
-                    <div class="experience-event-meta">
-
-                        <div class="experience-meta-item">
-                            <img src="{{ asset('conexao360/img/icones_adv (8).svg') }}" alt="" aria-hidden="true">
-
-                            <div>
-                                <span>Data e Horário</span>
-                                <strong>{{ $evento->data_formatada }}</strong>
-                            </div>
-                        </div>
-
-                        <div class="experience-meta-item">
-                            <img src="{{ asset('conexao360/img/icones_adv (9).svg') }}" alt="" aria-hidden="true">
-
-                            <div>
-                                <span>Localização Evento</span>
-                                <strong>{{ $evento->endereco_evento }}</strong>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="experience-hero-actions">
-                        <a id="ingressos" href="{{ $item->link_botao_hero }}" class="cta-header experience-primary-button"
-                            target="_blank" rel="noopener noreferrer">
-                            {{ $item->texto_botao_hero }}
-                        </a>
-
-                        <a href="{{ url('/evento') }}" class="experience-secondary-button">
-                            Saiba mais
-                        </a>
-                    </div>
-
-                </div>
-
-                {{-- ASSINATURA VISUAL DA DIREITA --}}
-                <aside class="experience-hero-signature" aria-label="Conceito do Conexão 360">
-                    <p>
-                        Mais que um evento.<br>
-                        <em>É um movimento.</em>
-                    </p>
-
-                    <span class="experience-signature-line"></span>
-
-                    <div class="experience-signature-brand">
-                        <strong>CONEXÃO 360°</strong>
-                        <small>PESSOAS</small>
-                        <small>IDEIAS</small>
-                        <small>RESULTADOS</small>
-                    </div>
-                </aside>
-
-            </div>
-        </section>
-    @endif
-@endforeach
-
-
-
     {{-- ================================================================
-    PALESTRA / CONTEÚDO EM VÍDEO
-    Dados dinâmicos: $video
+    1. HERO — CARROSSEL DINÂMICO
+    Exibe no máximo 3 banners ativos cadastrados no dashboard.
     ================================================================= --}}
-    <section id="palestra" class="palestra experience-about">
-        <div class="experience-shell experience-about-shell">
-            @foreach ($video as $item)
-                <article class="teste experience-about-grid">
-                    <div class="conteudo experience-about-copy">
-                        <p class="experience-eyebrow">Sobre o Evento</p>
-                        <span class="tag experience-outline-tag">Palestra Exclusiva</span>
+    <section id="inicio" class="experience-hero-stage" aria-label="Destaques do Conexão 360">
+        <div class="experience-hero-carousel" id="heroCarousel">
+            @foreach ($hero->take(3) as $item)
+                <article class="header-advocacia experience-hero experience-hero-slide"
+                    style="background-image: url('{{ asset('conexao360/img/' . $item->foto_banner) }}')">
 
-                        <h2>{{ $item->titulo_video }}</h2>
+                    <div class="experience-hero-overlay"></div>
 
-                        <p>{{ $item->subtitulo_video }}</p>
+                    <div class="experience-shell experience-hero-shell">
 
-                        <ul class="experience-check-list">
-                            <li>Com método, clareza e direção estratégica</li>
-                            <li>Sem promessas vazias</li>
-                            <li>Sem atalhos irreais</li>
-                        </ul>
-                    </div>
+                        <div class="tds-header experience-hero-content">
+                            <p class="tit-header experience-eyebrow">
+                                {{ $item->tagline_hero }}
+                            </p>
 
-                    <div class="imagem experience-video-card">
-                        <a class="data-lity experience-video-link" href="{{ asset('conexao360/img/' . $item->url_video) }}"
-                            data-lity>
-                            <img src="{{ asset('conexao360/img/' . $item->capa_video) }}" alt="Palestra advocacia"
-                                loading="lazy" decoding="async">
+                            <h1 class="sub-tit experience-hero-title">
+                                {{ $item->titulo_hero }}
+                            </h1>
 
-                            <span class="play-btn" aria-hidden="true">
-                                <span class="play-icon"></span>
-                            </span>
-                        </a>
+                            <p class="descricao-header experience-hero-description">
+                                {{ $item->subtitulo_hero }}
+                            </p>
 
-                        <p class="tit-video experience-video-caption">
-                            — {{ $item->legenda_video }} —
-                        </p>
+                            <div class="experience-event-meta">
+                                <div class="experience-meta-item">
+                                    <img src="{{ asset('conexao360/img/icones_adv (8).svg') }}" alt="" aria-hidden="true">
+                                    <div>
+                                        <span>Data e Horário</span>
+                                        <strong>{{ $evento->data_formatada }}</strong>
+                                    </div>
+                                </div>
+
+                                <div class="experience-meta-item">
+                                    <img src="{{ asset('conexao360/img/icones_adv (9).svg') }}" alt="" aria-hidden="true">
+                                    <div>
+                                        <span>Localização Evento</span>
+                                        <strong>{{ $evento->endereco_evento }}</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="experience-hero-actions">
+                                <a href="{{ $item->link_botao_hero }}"
+                                    class="cta-header experience-primary-button"
+                                    target="_blank"
+                                    rel="noopener noreferrer">
+                                    {{ $item->texto_botao_hero }}
+                                </a>
+
+                                <a href="#mente-criativa" class="experience-secondary-button">
+                                    Conheça o evento
+                                </a>
+                            </div>
+                        </div>
+
+                        <aside class="experience-hero-signature" aria-label="Conceito do Conexão 360">
+                            <p>
+                                Mais que um evento.<br>
+                                <em>É um movimento.</em>
+                            </p>
+
+                            <span class="experience-signature-line"></span>
+
+                            <div class="experience-signature-brand">
+                                <strong>CONEXÃO 360°</strong>
+                                <small>PESSOAS</small>
+                                <small>IDEIAS</small>
+                                <small>RESULTADOS</small>
+                            </div>
+                        </aside>
+
                     </div>
                 </article>
             @endforeach
@@ -133,14 +83,48 @@ institucional foi removida desta dobra.
 
 
     {{-- ================================================================
-    TEMAS / O QUE SERÁ ATIVADO
-    Dados dinâmicos: $temas
+    2. DRA. — A MENTE CRIATIVA
+    Mantém os dados dinâmicos já existentes e aumenta o respiro vertical.
     ================================================================= --}}
-    <section class="abordagem experience-topics">
+    <section id="mente-criativa" class="sobre experience-speakers experience-section-spaced">
+        <div class="experience-shell">
+            <div class="experience-section-heading experience-section-heading--dark">
+                <p class="experience-eyebrow">Idealizadora do Conexão 360°</p>
+                <h2 class="titulo">A Mente Criativa por Trás do Conexão 360°</h2>
+            </div>
+
+            <div class="experience-speaker-grid">
+                @foreach ($dra as $item)
+                    <article class="sobre-tds experience-speaker-card">
+                        <div class="ajst-img experience-speaker-image">
+                            <img src="{{ asset('conexao360/img/' . $item->foto_dra) }}"
+                                alt="{{ $item->titulo_dra }}"
+                                loading="lazy"
+                                decoding="async">
+                        </div>
+
+                        <div class="sobre-info experience-speaker-info">
+                            <p class="experience-eyebrow">A mente que provoca mudança</p>
+                            <h3>{{ $item->titulo_dra }}</h3>
+                            <h4>{{ $item->sub_titulo_dra }}</h4>
+                            <p>{{ $item->descricao_dra }}</p>
+                        </div>
+                    </article>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+
+    {{-- ================================================================
+    3. TEMAS / O QUE SERÁ ATIVADO
+    Mantido visualmente, com novo padrão de espaçamento entre seções.
+    ================================================================= --}}
+    <section class="abordagem experience-topics experience-section-spaced">
         <div class="experience-shell">
             <div class="experience-section-heading experience-section-heading--light">
                 <p class="experience-eyebrow">Conexão 360º</p>
-                <h2 class="title">O que você vai ativar no conexão 360°</h2>
+                <h2 class="title">O que você vai ativar no Conexão 360°</h2>
                 <h3 class="sub-title">( Não é conteúdo. É virada de chave )</h3>
             </div>
 
@@ -148,8 +132,10 @@ institucional foi removida desta dobra.
                 @foreach ($temas as $item)
                     <article class="experience-topic-card" id="tema-{{ $item->id_tema }}">
                         <div class="experience-topic-image">
-                            <img src="{{ asset('conexao360/img/' . $item->foto_tema) }}" alt="{{ $item->titulo_tema }}"
-                                loading="lazy" decoding="async">
+                            <img src="{{ asset('conexao360/img/' . $item->foto_tema) }}"
+                                alt="{{ $item->titulo_tema }}"
+                                loading="lazy"
+                                decoding="async">
                         </div>
 
                         <div class="experience-topic-content">
@@ -169,52 +155,98 @@ institucional foi removida desta dobra.
 
 
     {{-- ================================================================
-    DRA. / PALESTRANTE
-    Dados dinâmicos: $dra
+    4. PALESTRANTES EM DESTAQUE
+    Dados dinâmicos: $palestrantes (tbl_usuarios / perfil palestrante).
     ================================================================= --}}
-    <section class="sobre experience-speakers">
-        <div class="experience-shell">
-            <div class="experience-section-heading experience-section-heading--dark">
-                <p class="experience-eyebrow">Uma Referência na Advocacia</p>
-                <h2 class="titulo">A Mente que Provoca Mudança</h2>
-            </div>
+    @if ($palestrantes->isNotEmpty())
+        <section id="palestrantes" class="experience-featured-speakers experience-section-spaced">
+            <div class="experience-shell">
 
-            <div class="experience-speaker-grid">
-                @foreach ($dra as $item)
-                    <article class="sobre-tds experience-speaker-card">
-                        <div class="ajst-img experience-speaker-image">
-                            <img src="{{ asset('conexao360/img/' . $item->foto_dra) }}" alt="Dra. Simone Baptista"
-                                loading="lazy" decoding="async">
-                        </div>
+                <div class="experience-featured-speakers-heading">
+                    <div>
+                        <p class="experience-eyebrow">Palestrantes em destaque</p>
+                        <h2>Grandes nomes. Grandes ideias.</h2>
+                    </div>
 
-                        <div class="sobre-info experience-speaker-info">
-                            <p class="experience-eyebrow">Palestrante</p>
-                            <h3>{{ $item->titulo_dra }}</h3>
-                            <h4>{{ $item->sub_titulo_dra }}</h4>
-                            <p>{{ $item->descricao_dra }}</p>
-                        </div>
-                    </article>
-                @endforeach
+                    <a href="{{ route('page-palestrantes') }}" class="experience-text-link">
+                        Ver todos os palestrantes
+                        <span aria-hidden="true">→</span>
+                    </a>
+                </div>
+
+                <div class="experience-featured-speakers-grid">
+                    @foreach ($palestrantes as $palestrante)
+                        @php
+                            $fotoPalestrante = !empty($palestrante->foto_usuario)
+                                ? 'dash/assets/img/' . $palestrante->foto_usuario
+                                : null;
+
+                            $fotoPalestranteExiste = $fotoPalestrante
+                                && file_exists(public_path($fotoPalestrante));
+
+                            $iniciaisPalestrante = collect(preg_split('/\s+/', trim($palestrante->nome_usuario)))
+                                ->filter()
+                                ->take(2)
+                                ->map(fn ($parte) => mb_strtoupper(mb_substr($parte, 0, 1)))
+                                ->implode('');
+                        @endphp
+
+                        <article class="experience-featured-speaker-card">
+                            <div class="experience-featured-speaker-media">
+                                @if ($fotoPalestranteExiste)
+                                    <img src="{{ asset($fotoPalestrante) }}"
+                                        alt="{{ $palestrante->nome_usuario }}"
+                                        loading="lazy"
+                                        decoding="async">
+                                @else
+                                    <div class="experience-featured-speaker-fallback"
+                                        aria-label="{{ $palestrante->nome_usuario }}">
+                                        {{ $iniciaisPalestrante }}
+                                    </div>
+                                @endif
+
+                                <div class="experience-featured-speaker-overlay"></div>
+
+                                <div class="experience-featured-speaker-summary">
+                                    <h3>{{ $palestrante->nome_usuario }}</h3>
+                                    <p>{{ $palestrante->area_atuacao_usuario }}</p>
+                                </div>
+
+                                <a href="{{ url('/palestrantes') }}"
+                                    class="experience-featured-speaker-arrow"
+                                    aria-label="Conhecer {{ $palestrante->nome_usuario }}">
+                                    →
+                                </a>
+                            </div>
+
+                            @if (!empty($palestrante->sobre_usuario))
+                                <p class="experience-featured-speaker-about">
+                                    {{ \Illuminate\Support\Str::limit($palestrante->sobre_usuario, 105) }}
+                                </p>
+                            @endif
+                        </article>
+                    @endforeach
+                </div>
+
             </div>
-        </div>
-    </section>
+        </section>
+    @endif
 
 
     {{-- ================================================================
-    DEPOIMENTOS
-    Dados dinâmicos: $depoimentos e relacionamento usuario
+    5. DEPOIMENTOS
+    Mantém estrutura e dados atuais.
     ================================================================= --}}
-    <section id="depoimento" class="depoimentos experience-testimonials">
+    <section id="depoimento" class="depoimentos experience-testimonials experience-section-spaced">
         <div class="experience-shell">
-            <div
-                class="experience-section-heading experience-section-heading--light experience-section-heading--compact">
+            <div class="experience-section-heading experience-section-heading--light experience-section-heading--compact">
                 <div>
                     <p class="experience-eyebrow">Depoimentos</p>
                     <h2 class="titulo">A Voz de Quem Já Esteve Lá</h2>
                 </div>
 
                 <p class="experience-heading-support">
-                    O que profissionais da advocacia dizem sobre as palestras anteriores
+                    O que profissionais da advocacia dizem sobre as experiências anteriores
                 </p>
             </div>
 
@@ -225,17 +257,21 @@ institucional foi removida desta dobra.
                             <article class="texto-depoimentos experience-testimonial-card">
                                 <div class="experience-testimonial-person">
                                     @php
-    $fotoDepoimento = !empty($item->usuario->foto_usuario)
-        ? 'dash/assets/img/' . $item->usuario->foto_usuario
-        : null;
+                                        $fotoDepoimento = !empty($item->usuario->foto_usuario)
+                                            ? 'dash/assets/img/' . $item->usuario->foto_usuario
+                                            : null;
 
-    $fotoDepoimentoExiste = $fotoDepoimento
-        && file_exists(public_path($fotoDepoimento));
+                                        $fotoDepoimentoExiste = $fotoDepoimento
+                                            && file_exists(public_path($fotoDepoimento));
                                     @endphp
 
                                     @if ($fotoDepoimentoExiste)
-                                        <img class="img-advo" src="{{ asset($fotoDepoimento) }}"
-                                            alt="{{ $item->usuario->nome_usuario }}" width="54" height="54" loading="lazy"
+                                        <img class="img-advo"
+                                            src="{{ asset($fotoDepoimento) }}"
+                                            alt="{{ $item->usuario->nome_usuario }}"
+                                            width="54"
+                                            height="54"
+                                            loading="lazy"
                                             decoding="async">
                                     @else
                                         <div class="img-advo experience-testimonial-avatar-fallback"
@@ -264,14 +300,165 @@ institucional foi removida desta dobra.
 
 
     {{-- ================================================================
-    LOCAL DO EVENTO
-    Opção aprovada: dados + Google Maps, sem inventar fotografia.
-    Dados dinâmicos: $evento
+    6. APP / COMUNIDADE
+    Imagens reais do aplicativo.
+    Colocar os arquivos em public/conexao360/img/app-login.png e app-home.png.
     ================================================================= --}}
-    <section class="local_sessao experience-location">
+    <section id="comunidade" class="experience-app-section experience-section-spaced">
+        <div class="experience-shell experience-app-shell">
+
+            <div class="experience-app-copy">
+                <p class="experience-eyebrow">App & Comunidade</p>
+                <h2>O evento termina.<br>As conexões continuam.</h2>
+
+                <p class="experience-app-description">
+                    O Conexão 360 também vive no digital. Continue perto de quem esteve no evento,
+                    compartilhe experiências e encontre conteúdos que mantêm a comunidade ativa durante todo o ano.
+                </p>
+
+                <div class="experience-app-features">
+                    <div class="experience-app-feature">
+                        <i class="bi bi-people"></i>
+                        <div>
+                            <strong>Networking profissional</strong>
+                            <span>Encontre e acompanhe outros participantes.</span>
+                        </div>
+                    </div>
+
+                    <div class="experience-app-feature">
+                        <i class="bi bi-chat-square-text"></i>
+                        <div>
+                            <strong>Publicações e discussões</strong>
+                            <span>Compartilhe ideias e continue as conversas do evento.</span>
+                        </div>
+                    </div>
+
+                    <div class="experience-app-feature">
+                        <i class="bi bi-images"></i>
+                        <div>
+                            <strong>Fotos e vídeos</strong>
+                            <span>Reviva os principais momentos do Conexão 360.</span>
+                        </div>
+                    </div>
+
+                    <div class="experience-app-feature">
+                        <i class="bi bi-calendar-event"></i>
+                        <div>
+                            <strong>Eventos e novidades</strong>
+                            <span>Acompanhe próximas experiências e conteúdos exclusivos.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="experience-app-actions">
+                    <a href="{{ route('page-app') }}" class="experience-primary-button">
+                        Conheça a comunidade
+                    </a>
+                </div>
+            </div>
+
+            <div class="experience-app-visual" aria-label="Telas do aplicativo Conexão 360">
+                <div class="experience-app-glow"></div>
+
+                <img src="{{ asset('conexao360/img/app-login.png') }}"
+                    alt="Tela de login do aplicativo Conexão 360"
+                    class="experience-app-phone experience-app-phone--back"
+                    loading="lazy"
+                    decoding="async">
+
+                <img src="{{ asset('conexao360/img/app-home.png') }}"
+                    alt="Feed da comunidade no aplicativo Conexão 360"
+                    class="experience-app-phone experience-app-phone--front"
+                    loading="lazy"
+                    decoding="async">
+            </div>
+
+        </div>
+    </section>
+
+
+    {{-- ================================================================
+    7. CONEXÃO JURÍDICA / NOTÍCIAS
+    Conteúdo demonstrativo por enquanto; pronto para virar @foreach com API.
+    ================================================================= --}}
+    <section id="noticias" class="experience-news-section experience-section-spaced">
         <div class="experience-shell">
-            <div
-                class="experience-section-heading experience-section-heading--light experience-section-heading--compact">
+
+            <div class="experience-news-heading">
+                <div>
+                    <p class="experience-eyebrow">Notícias</p>
+                    <h2>Conexão Jurídica</h2>
+                    <p>Informação para uma advocacia que evolui.</p>
+                </div>
+
+                <a href="{{ url('/noticias') }}" class="experience-text-link experience-text-link--light">
+                    Ver todas as notícias
+                    <span aria-hidden="true">→</span>
+                </a>
+            </div>
+
+            <div class="experience-news-grid">
+
+                <article class="experience-news-card">
+                    <a href="#" class="experience-news-image">
+                        <img src="{{ asset('conexao360/img/Mídia (1).jpg') }}"
+                            alt="Profissionais em encontro jurídico"
+                            loading="lazy"
+                            decoding="async">
+                    </a>
+
+                    <div class="experience-news-content">
+                        <span class="experience-news-category">Tecnologia</span>
+                        <h3>Inteligência artificial e os novos fluxos de trabalho na advocacia</h3>
+                        <p>Como novas ferramentas podem apoiar pesquisa, organização e produtividade sem substituir estratégia e julgamento profissional.</p>
+                        <a href="#" class="experience-news-link">Ler mais →</a>
+                    </div>
+                </article>
+
+                <article class="experience-news-card">
+                    <a href="#" class="experience-news-image">
+                        <img src="{{ asset('conexao360/img/captura.png') }}"
+                            alt="Networking durante evento profissional"
+                            loading="lazy"
+                            decoding="async">
+                    </a>
+
+                    <div class="experience-news-content">
+                        <span class="experience-news-category">Carreira</span>
+                        <h3>Posicionamento jurídico: autoridade também se constrói fora do tribunal</h3>
+                        <p>Relacionamento, clareza de comunicação e consistência de marca se tornaram partes importantes da presença profissional.</p>
+                        <a href="#" class="experience-news-link">Ler mais →</a>
+                    </div>
+                </article>
+
+                <article class="experience-news-card">
+                    <a href="#" class="experience-news-image">
+                        <img src="{{ asset('conexao360/img/vista.png') }}"
+                            alt="Ambiente corporativo e gestão"
+                            loading="lazy"
+                            decoding="async">
+                    </a>
+
+                    <div class="experience-news-content">
+                        <span class="experience-news-category">Gestão</span>
+                        <h3>Escritório de advocacia também é negócio: indicadores que ajudam a decidir</h3>
+                        <p>Organizar processos e acompanhar resultados torna decisões de crescimento mais claras e menos dependentes de improviso.</p>
+                        <a href="#" class="experience-news-link">Ler mais →</a>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+
+    {{-- ================================================================
+    8. LOCAL DO EVENTO
+    Mantém dados dinâmicos atuais.
+    ================================================================= --}}
+    <section class="local_sessao experience-location experience-section-spaced">
+        <div class="experience-shell">
+            <div class="experience-section-heading experience-section-heading--light experience-section-heading--compact">
                 <div>
                     <p class="experience-eyebrow">Local do Evento</p>
                     <h2 class="tit_local">Sua transformação tem hora e lugar marcados</h2>
@@ -309,7 +496,10 @@ institucional foi removida desta dobra.
                 </div>
 
                 <div class="mapa experience-map-card">
-                    <iframe src="{{ $evento->url_evento }}" title="Local do evento" allowfullscreen loading="lazy"
+                    <iframe src="{{ $evento->url_evento }}"
+                        title="Local do evento"
+                        allowfullscreen
+                        loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
@@ -317,11 +507,7 @@ institucional foi removida desta dobra.
     </section>
 
 
-    {{-- ================================================================
-    CTA FINAL / INGRESSOS
-    Versão compacta: sem contador e sem card interno.
-    Mantém o CTA existente e reaproveita os dados dinâmicos do evento.
-    ================================================================= --}}
+    {{-- CTA FINAL — mantido antes do footer do layout --}}
     <section id="ingressos" class="cta-sessao experience-final-cta">
         <div class="experience-final-cta-overlay"></div>
 
@@ -332,9 +518,8 @@ institucional foi removida desta dobra.
                 <h2>O próximo nível da sua carreira jurídica é uma decisão estratégica.</h2>
 
                 <p class="experience-final-cta-description">
-                    Saia do operacional exaustivo e assuma o controle da sua advocacia com o método de quem vive a
-                    prática
-                    real todos os dias.
+                    Faça parte do Conexão 360 e viva uma experiência criada para ampliar repertório,
+                    relacionamentos e novas possibilidades profissionais.
                 </p>
 
                 <div class="experience-final-cta-meta">
@@ -352,7 +537,8 @@ institucional foi removida desta dobra.
                 </div>
 
                 <a href="https://sun.eduzz.com/Q9N56RAK01"
-                    class="cta-botao experience-primary-button experience-final-cta-button" target="_blank"
+                    class="cta-botao experience-primary-button experience-final-cta-button"
+                    target="_blank"
                     rel="noopener noreferrer">
                     Garantir meu ingresso <span>›</span>
                 </a>
@@ -367,3 +553,31 @@ institucional foi removida desta dobra.
 <script src="{{ asset('conexao360/js/slick.js') }}"></script>
 <script src="{{ asset('conexao360/js/lity.min.js') }}"></script>
 <script src="{{ asset('conexao360/js/script.js') }}"></script>
+
+<script>
+    $(function () {
+        const $heroCarousel = $('#heroCarousel');
+
+        if ($heroCarousel.length && !$heroCarousel.hasClass('slick-initialized')) {
+            const quantidadeSlides = $heroCarousel.children('.experience-hero-slide').length;
+
+            $heroCarousel.slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                infinite: quantidadeSlides > 1,
+                autoplay: quantidadeSlides > 1,
+                autoplaySpeed: 6500,
+                speed: 700,
+                fade: true,
+                cssEase: 'ease-in-out',
+                arrows: quantidadeSlides > 1,
+                dots: quantidadeSlides > 1,
+                pauseOnHover: true,
+                pauseOnFocus: true,
+                adaptiveHeight: false,
+                prevArrow: '<button type="button" class="experience-hero-arrow experience-hero-arrow--prev" aria-label="Slide anterior">‹</button>',
+                nextArrow: '<button type="button" class="experience-hero-arrow experience-hero-arrow--next" aria-label="Próximo slide">›</button>'
+            });
+        }
+    });
+</script>

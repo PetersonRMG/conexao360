@@ -1,0 +1,749 @@
+/* ==========================================================================
+   PÁGINA COMUNIDADE / APP — CONEXÃO 360
+   Este arquivo é complementar ao CSS principal da Home.
+   Carregue-o DEPOIS de estilo.css / estilo-reestruturado.css.
+   ========================================================================== */
+
+.community-page {
+    --community-dark: #080808;
+    --community-dark-soft: #0e0e0e;
+    --community-paper: #f1eee7;
+    --community-gold: var(--exp-gold, #d6b26a);
+    --community-border: rgba(214, 178, 106, .22);
+    background: var(--community-dark);
+}
+
+
+/* --------------------------------------------------------------------------
+   HEADINGS
+   -------------------------------------------------------------------------- */
+
+.community-page .community-section-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
+    align-items: end;
+    gap: 72px;
+    margin-bottom: 54px;
+}
+
+.community-page .community-section-heading h2 {
+    max-width: 820px;
+    margin: 0;
+    color: #171510;
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.65rem, 4vw, 4.2rem);
+    font-weight: 400;
+    letter-spacing: -.045em;
+    line-height: 1.04;
+}
+
+.community-page .community-section-heading > p {
+    max-width: 460px;
+    margin: 0;
+    color: #6e685f;
+    font-family: 'Montserrat', sans-serif;
+    font-size: .96rem;
+    line-height: 1.75;
+}
+
+.community-page .community-section-heading--light h2 {
+    color: #fff;
+}
+
+.community-page .community-section-heading--light > p {
+    color: rgba(255,255,255,.62);
+}
+
+
+/* --------------------------------------------------------------------------
+   HERO
+   -------------------------------------------------------------------------- */
+
+.community-page .community-hero {
+    position: relative;
+    isolation: isolate;
+    min-height: 760px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 145px 0 90px;
+    background:
+        radial-gradient(circle at 78% 42%, rgba(214,178,106,.15), transparent 27%),
+        linear-gradient(135deg, #070707 0%, #101010 54%, #080808 100%);
+    border-bottom: 1px solid rgba(214,178,106,.14);
+}
+
+.community-page .community-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+        linear-gradient(90deg, rgba(214,178,106,.055) 1px, transparent 1px),
+        linear-gradient(rgba(214,178,106,.035) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: linear-gradient(90deg, transparent 5%, black 50%, transparent);
+    opacity: .32;
+}
+
+.community-page .community-hero-shell {
+    position: relative;
+    z-index: 3;
+    display: grid;
+    grid-template-columns: minmax(0, 52%) minmax(0, 48%);
+    align-items: center;
+    gap: 56px;
+}
+
+.community-page .community-hero-copy h1 {
+    max-width: 780px;
+    margin: 0 0 28px;
+    color: #fff;
+    font-family: 'Cinzel', serif;
+    font-size: clamp(3.7rem, 5.4vw, 6.25rem);
+    font-weight: 400;
+    letter-spacing: -.05em;
+    line-height: .95;
+}
+
+.community-page .community-hero-copy h1 span {
+    color: var(--community-gold);
+}
+
+.community-page .community-hero-description {
+    max-width: 690px;
+    margin: 0 0 34px;
+    color: rgba(255,255,255,.70);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+.community-page .community-hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.community-page .community-secondary-button {
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 24px;
+    border: 1px solid rgba(214,178,106,.45);
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: .22s ease;
+}
+
+.community-page .community-secondary-button:hover {
+    color: var(--community-gold);
+    border-color: var(--community-gold);
+    background: rgba(214,178,106,.07);
+}
+
+.community-page .community-hero-points {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    margin-top: 34px;
+}
+
+.community-page .community-hero-points span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255,255,255,.58);
+    font-size: .76rem;
+}
+
+.community-page .community-hero-points i {
+    color: var(--community-gold);
+    font-size: 1rem;
+}
+
+
+/* celulares */
+.community-page .community-hero-visual {
+    position: relative;
+    min-height: 610px;
+}
+
+.community-page .community-phone-orbit {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    left: 51%;
+    top: 50%;
+    border: 1px solid rgba(214,178,106,.14);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow:
+        0 0 0 80px rgba(214,178,106,.025),
+        0 0 100px rgba(214,178,106,.08);
+}
+
+.community-page .community-phone {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: auto;
+    max-width: none;
+    object-fit: contain;
+    filter: drop-shadow(0 34px 44px rgba(0,0,0,.50));
+}
+
+.community-page .community-phone--back {
+    left: 4%;
+    top: 18px;
+    height: 550px;
+    transform: rotate(-5deg);
+}
+
+.community-page .community-phone--front {
+    right: -1%;
+    bottom: 0;
+    height: 585px;
+    transform: rotate(4deg);
+}
+
+
+/* --------------------------------------------------------------------------
+   PROPÓSITO
+   -------------------------------------------------------------------------- */
+
+.community-page .community-purpose {
+    background: var(--community-paper);
+    color: #171510;
+}
+
+.community-page .community-purpose-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid rgba(20,20,20,.15);
+    border-left: 1px solid rgba(20,20,20,.15);
+}
+
+.community-page .community-purpose-card {
+    position: relative;
+    min-height: 320px;
+    padding: 34px 30px;
+    border-right: 1px solid rgba(20,20,20,.15);
+    border-bottom: 1px solid rgba(20,20,20,.15);
+    background: #f7f4ed;
+}
+
+.community-page .community-purpose-card > span {
+    position: absolute;
+    right: 22px;
+    top: 20px;
+    color: rgba(20,20,20,.30);
+    font-family: 'Cinzel', serif;
+    font-size: .72rem;
+}
+
+.community-page .community-purpose-card > i {
+    display: inline-flex;
+    margin-bottom: 54px;
+    color: #ad843d;
+    font-size: 2rem;
+}
+
+.community-page .community-purpose-card h3 {
+    margin: 0 0 12px;
+    color: #181612;
+    font-family: 'Cinzel', serif;
+    font-size: 1.35rem;
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+.community-page .community-purpose-card p {
+    margin: 0;
+    color: #716b62;
+    font-size: .88rem;
+    line-height: 1.7;
+}
+
+
+/* --------------------------------------------------------------------------
+   JORNADA
+   -------------------------------------------------------------------------- */
+
+.community-page .community-journey {
+    background:
+        radial-gradient(circle at 50% 0%, rgba(214,178,106,.09), transparent 31%),
+        #090909;
+    color: #fff;
+}
+
+.community-page .community-journey-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.community-page .community-journey-card {
+    position: relative;
+    min-height: 430px;
+    padding: 40px 36px;
+    border: 1px solid rgba(214,178,106,.18);
+    background: #0d0d0d;
+}
+
+.community-page .community-journey-card--featured {
+    border-color: rgba(214,178,106,.55);
+    background:
+        linear-gradient(180deg, rgba(214,178,106,.06), transparent 42%),
+        #111;
+}
+
+.community-page .community-journey-number {
+    margin-bottom: 72px;
+    color: rgba(214,178,106,.42);
+    font-family: 'Cinzel', serif;
+    font-size: 3.2rem;
+    line-height: 1;
+}
+
+.community-page .community-journey-label {
+    color: var(--community-gold);
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+}
+
+.community-page .community-journey-card h3 {
+    max-width: 390px;
+    margin: 12px 0 24px;
+    color: #fff;
+    font-family: 'Cinzel', serif;
+    font-size: 1.75rem;
+    font-weight: 400;
+    line-height: 1.15;
+}
+
+.community-page .community-journey-card ul {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.community-page .community-journey-card li {
+    position: relative;
+    padding-left: 18px;
+    color: rgba(255,255,255,.62);
+    font-size: .86rem;
+    line-height: 1.55;
+}
+
+.community-page .community-journey-card li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: .65em;
+    width: 6px;
+    height: 1px;
+    background: var(--community-gold);
+}
+
+
+/* --------------------------------------------------------------------------
+   RECURSOS
+   -------------------------------------------------------------------------- */
+
+.community-page .community-features {
+    background: var(--community-paper);
+}
+
+.community-page .community-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.community-page .community-feature-card {
+    min-height: 260px;
+    padding: 32px;
+    border: 1px solid rgba(20,20,20,.12);
+    background: #faf8f3;
+    transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+
+.community-page .community-feature-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(173,132,61,.45);
+    box-shadow: 0 16px 38px rgba(0,0,0,.08);
+}
+
+.community-page .community-feature-card i {
+    display: inline-flex;
+    margin-bottom: 48px;
+    color: #ad843d;
+    font-size: 1.8rem;
+}
+
+.community-page .community-feature-card h3 {
+    margin: 0 0 10px;
+    color: #171510;
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+}
+
+.community-page .community-feature-card p {
+    margin: 0;
+    color: #716b62;
+    font-size: .88rem;
+    line-height: 1.7;
+}
+
+
+/* --------------------------------------------------------------------------
+   APP POR DENTRO
+   -------------------------------------------------------------------------- */
+
+.community-page .community-inside {
+    background:
+        radial-gradient(circle at 30% 40%, rgba(214,178,106,.07), transparent 24%),
+        #090909;
+    color: #fff;
+}
+
+.community-page .community-inside-row {
+    min-height: 650px;
+    display: grid;
+    grid-template-columns: minmax(0, 48%) minmax(0, 52%);
+    align-items: center;
+    gap: 80px;
+    padding: 54px 0;
+}
+
+.community-page .community-inside-row + .community-inside-row {
+    border-top: 1px solid rgba(214,178,106,.14);
+}
+
+.community-page .community-inside-row--reverse {
+    grid-template-columns: minmax(0, 52%) minmax(0, 48%);
+}
+
+.community-page .community-inside-copy h2 {
+    max-width: 650px;
+    margin: 0 0 24px;
+    color: #fff;
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.55rem, 4vw, 4.15rem);
+    font-weight: 400;
+    letter-spacing: -.04em;
+    line-height: 1.03;
+}
+
+.community-page .community-inside-copy > p:not(.experience-eyebrow) {
+    max-width: 600px;
+    margin: 0 0 32px;
+    color: rgba(255,255,255,.63);
+    font-size: .96rem;
+    line-height: 1.8;
+}
+
+.community-page .community-inside-list {
+    display: grid;
+    gap: 13px;
+}
+
+.community-page .community-inside-list > div {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    color: rgba(255,255,255,.80);
+    font-size: .86rem;
+}
+
+.community-page .community-inside-list i {
+    color: var(--community-gold);
+    font-size: 1.05rem;
+}
+
+.community-page .community-inside-phone {
+    position: relative;
+    min-height: 560px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.community-page .community-inside-phone img {
+    position: relative;
+    z-index: 2;
+    max-height: 555px;
+    max-width: 100%;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 28px 45px rgba(0,0,0,.5));
+}
+
+.community-page .community-inside-halo {
+    position: absolute;
+    width: 430px;
+    height: 430px;
+    border-radius: 50%;
+    background: rgba(214,178,106,.12);
+    filter: blur(85px);
+}
+
+
+/* --------------------------------------------------------------------------
+   CTA FINAL
+   -------------------------------------------------------------------------- */
+
+.community-page .community-final-cta {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 130px 0;
+    background: #070707;
+    text-align: center;
+    border-top: 1px solid rgba(214,178,106,.14);
+}
+
+.community-page .community-final-cta-glow {
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    z-index: -1;
+    width: 720px;
+    height: 360px;
+    border-radius: 50%;
+    background: rgba(214,178,106,.10);
+    filter: blur(120px);
+    transform: translate(-50%, -50%);
+}
+
+.community-page .community-final-cta-shell {
+    max-width: 1000px;
+}
+
+.community-page .community-final-cta h2 {
+    margin: 0 0 24px;
+    color: #fff;
+    font-family: 'Cinzel', serif;
+    font-size: clamp(3.1rem, 5vw, 5.2rem);
+    font-weight: 400;
+    letter-spacing: -.05em;
+    line-height: .98;
+}
+
+.community-page .community-final-cta h2 span {
+    color: var(--community-gold);
+}
+
+.community-page .community-final-cta > .experience-shell > p:not(.experience-eyebrow) {
+    max-width: 700px;
+    margin: 0 auto 32px;
+    color: rgba(255,255,255,.62);
+    font-size: .98rem;
+    line-height: 1.8;
+}
+
+.community-page .community-final-cta small {
+    display: block;
+    max-width: 620px;
+    margin: 18px auto 0;
+    color: rgba(255,255,255,.32);
+    font-size: .65rem;
+}
+
+
+/* --------------------------------------------------------------------------
+   RESPONSIVO
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1100px) {
+    .community-page .community-hero-shell {
+        grid-template-columns: minmax(0, 55%) minmax(0, 45%);
+        gap: 28px;
+    }
+
+    .community-page .community-phone--back {
+        left: 0;
+        height: 485px;
+    }
+
+    .community-page .community-phone--front {
+        height: 515px;
+    }
+
+    .community-page .community-purpose-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .community-page .community-section-heading {
+        gap: 38px;
+    }
+}
+
+
+@media (max-width: 900px) {
+    .community-page .community-hero {
+        min-height: auto;
+        padding: 120px 0 70px;
+    }
+
+    .community-page .community-hero-shell,
+    .community-page .community-inside-row,
+    .community-page .community-inside-row--reverse {
+        grid-template-columns: 1fr;
+    }
+
+    .community-page .community-hero-copy {
+        max-width: 760px;
+    }
+
+    .community-page .community-hero-visual {
+        min-height: 590px;
+        max-width: 650px;
+        width: 100%;
+        margin: 10px auto 0;
+    }
+
+    .community-page .community-section-heading {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .community-page .community-journey-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .community-page .community-journey-card {
+        min-height: 0;
+    }
+
+    .community-page .community-journey-number {
+        margin-bottom: 36px;
+    }
+
+    .community-page .community-feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .community-page .community-inside-row {
+        gap: 28px;
+        min-height: 0;
+    }
+
+    .community-page .community-inside-row--reverse .community-inside-copy {
+        order: 2;
+    }
+
+    .community-page .community-inside-row--reverse .community-inside-phone {
+        order: 1;
+    }
+}
+
+
+@media (max-width: 620px) {
+    .community-page .community-hero {
+        padding-top: 104px;
+    }
+
+    .community-page .community-hero-copy h1 {
+        font-size: clamp(2.7rem, 13vw, 4rem);
+    }
+
+    .community-page .community-hero-description {
+        font-size: .9rem;
+    }
+
+    .community-page .community-hero-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .community-page .community-hero-actions .experience-primary-button,
+    .community-page .community-secondary-button {
+        width: 100%;
+    }
+
+    .community-page .community-hero-points {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .community-page .community-hero-visual {
+        min-height: 490px;
+    }
+
+    .community-page .community-phone-orbit {
+        width: 340px;
+        height: 340px;
+    }
+
+    .community-page .community-phone--back {
+        left: -1%;
+        top: 24px;
+        height: 410px;
+    }
+
+    .community-page .community-phone--front {
+        right: -4%;
+        height: 430px;
+    }
+
+    .community-page .community-purpose-grid,
+    .community-page .community-feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .community-page .community-purpose-card,
+    .community-page .community-feature-card {
+        min-height: 0;
+    }
+
+    .community-page .community-purpose-card > i,
+    .community-page .community-feature-card i {
+        margin-bottom: 28px;
+    }
+
+    .community-page .community-section-heading h2 {
+        font-size: 2.2rem;
+    }
+
+    .community-page .community-section-heading > p {
+        font-size: .88rem;
+    }
+
+    .community-page .community-inside-copy h2 {
+        font-size: 2.35rem;
+    }
+
+    .community-page .community-inside-copy > p:not(.experience-eyebrow) {
+        font-size: .9rem;
+    }
+
+    .community-page .community-inside-phone {
+        min-height: 470px;
+    }
+
+    .community-page .community-inside-phone img {
+        max-height: 460px;
+    }
+
+    .community-page .community-final-cta {
+        padding: 90px 0;
+    }
+
+    .community-page .community-final-cta h2 {
+        font-size: clamp(2.5rem, 12vw, 3.7rem);
+    }
+}

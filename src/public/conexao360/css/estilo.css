@@ -5441,3 +5441,1487 @@ header.site-header .btn-rede-exclusiva {
         background-position: 64% center;
     }
 }
+
+
+/* ========================================================================== 
+   HOME 2026 — REESTRUTURAÇÃO
+   Hero carousel + espaçamento vertical + palestrantes + app + notícias.
+   ========================================================================== */
+
+.experience-main {
+    --exp-section-space: 96px;
+}
+
+/* --------------------------------------------------------------------------
+   PADRÃO DE RESPIRO VERTICAL
+   -------------------------------------------------------------------------- */
+
+.experience-main .experience-section-spaced {
+    padding-top: var(--exp-section-space) !important;
+    padding-bottom: var(--exp-section-space) !important;
+}
+
+.experience-main .experience-section-spaced .experience-section-heading {
+    margin-bottom: 34px;
+}
+
+
+/* --------------------------------------------------------------------------
+   1. HERO CAROUSEL
+   -------------------------------------------------------------------------- */
+
+.experience-main .experience-hero-stage {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: #050505;
+}
+
+.experience-main .experience-hero-carousel {
+    position: relative;
+    width: 100%;
+}
+
+.experience-main .experience-hero-carousel .slick-list,
+.experience-main .experience-hero-carousel .slick-track {
+    width: 100%;
+}
+
+.experience-main .experience-hero-slide.header-advocacia {
+    min-height: 650px;
+    padding-top: 112px;
+    padding-bottom: 68px;
+}
+
+.experience-main .experience-hero-carousel .slick-slide {
+    height: auto;
+}
+
+.experience-main .experience-hero-carousel .slick-slide > div {
+    height: 100%;
+}
+
+/* Fade mais elegante entre banners */
+.experience-main .experience-hero-carousel .slick-slide .experience-hero-content,
+.experience-main .experience-hero-carousel .slick-slide .experience-hero-signature {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity .5s ease .15s, transform .5s ease .15s;
+}
+
+.experience-main .experience-hero-carousel .slick-current .experience-hero-content,
+.experience-main .experience-hero-carousel .slick-current .experience-hero-signature {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.experience-main .experience-hero-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 15;
+
+    width: 44px;
+    height: 44px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: 1px solid rgba(214, 178, 106, .42);
+    border-radius: 50%;
+
+    background: rgba(4, 4, 4, .42);
+    color: #f1d592;
+
+    font-family: Georgia, serif;
+    font-size: 27px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    backdrop-filter: blur(8px);
+    transform: translateY(-50%);
+
+    transition: .22s ease;
+}
+
+.experience-main .experience-hero-arrow:hover {
+    background: var(--exp-gold);
+    color: #080808;
+    border-color: var(--exp-gold);
+}
+
+.experience-main .experience-hero-arrow--prev {
+    left: max(22px, calc((100vw - 1480px) / 2));
+}
+
+.experience-main .experience-hero-arrow--next {
+    right: max(22px, calc((100vw - 1480px) / 2));
+}
+
+.experience-main .experience-hero-carousel .slick-dots {
+    position: absolute;
+    left: 50%;
+    bottom: 22px;
+    z-index: 15;
+
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    width: auto;
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+
+    transform: translateX(-50%);
+}
+
+.experience-main .experience-hero-carousel .slick-dots li {
+    width: auto;
+    height: auto;
+    margin: 0;
+}
+
+.experience-main .experience-hero-carousel .slick-dots button {
+    width: 20px;
+    height: 3px;
+
+    padding: 0;
+
+    border: 0;
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, .28);
+
+    font-size: 0;
+
+    transition: .25s ease;
+}
+
+.experience-main .experience-hero-carousel .slick-dots .slick-active button {
+    width: 38px;
+    background: var(--exp-gold);
+}
+
+
+/* --------------------------------------------------------------------------
+   2. DRA. / MENTE CRIATIVA
+   -------------------------------------------------------------------------- */
+
+.experience-main .experience-speakers.sobre {
+    padding-top: var(--exp-section-space) !important;
+    padding-bottom: var(--exp-section-space) !important;
+}
+
+.experience-main .experience-speakers .experience-speaker-card.sobre-tds {
+    min-height: 390px;
+}
+
+.experience-main .experience-speakers .experience-speaker-image.ajst-img {
+    height: 390px;
+}
+
+.experience-main .experience-speakers .experience-speaker-info.sobre-info {
+    padding: 48px 56px;
+}
+
+
+/* --------------------------------------------------------------------------
+   4. PALESTRANTES EM DESTAQUE
+   -------------------------------------------------------------------------- */
+
+.experience-main .experience-featured-speakers {
+    background: var(--exp-paper, #f2efe8);
+    color: var(--exp-text, #181714);
+}
+
+.experience-main .experience-featured-speakers-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 34px;
+
+    margin-bottom: 30px;
+}
+
+.experience-main .experience-featured-speakers-heading h2 {
+    margin: 0;
+
+    color: #15130f;
+
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2rem, 3.5vw, 3.15rem);
+    font-weight: 400;
+    letter-spacing: -.035em;
+    line-height: 1.02;
+}
+
+.experience-main .experience-text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding-bottom: 4px;
+
+    border-bottom: 1px solid rgba(20, 20, 20, .22);
+
+    color: #4f4a41;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: .66rem;
+    font-weight: 600;
+
+    text-decoration: none;
+    white-space: nowrap;
+
+    transition: .2s ease;
+}
+
+.experience-main .experience-text-link:hover {
+    color: #a77b2b;
+    border-bottom-color: #a77b2b;
+}
+
+.experience-main .experience-text-link--light {
+    color: rgba(255, 255, 255, .72);
+    border-bottom-color: rgba(214, 178, 106, .32);
+}
+
+.experience-main .experience-text-link--light:hover {
+    color: var(--exp-gold);
+    border-bottom-color: var(--exp-gold);
+}
+
+.experience-main .experience-featured-speakers-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.experience-main .experience-featured-speaker-card {
+    min-width: 0;
+}
+
+.experience-main .experience-featured-speaker-media {
+    position: relative;
+
+    height: 315px;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(20, 20, 20, .13);
+
+    background: #181818;
+}
+
+.experience-main .experience-featured-speaker-media > img,
+.experience-main .experience-featured-speaker-fallback {
+    width: 100%;
+    height: 100%;
+}
+
+.experience-main .experience-featured-speaker-media > img {
+    display: block;
+    object-fit: cover;
+    object-position: center 18%;
+
+    transition: transform .45s ease;
+}
+
+.experience-main .experience-featured-speaker-card:hover .experience-featured-speaker-media > img {
+    transform: scale(1.035);
+}
+
+.experience-main .experience-featured-speaker-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--exp-gold);
+
+    font-family: 'Cinzel', serif;
+    font-size: 3rem;
+
+    background:
+        radial-gradient(circle at 50% 30%, rgba(214,178,106,.11), transparent 34%),
+        #111;
+}
+
+.experience-main .experience-featured-speaker-overlay {
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(180deg, transparent 40%, rgba(4,4,4,.35) 63%, rgba(4,4,4,.94) 100%);
+}
+
+.experience-main .experience-featured-speaker-summary {
+    position: absolute;
+    left: 18px;
+    right: 58px;
+    bottom: 17px;
+    z-index: 2;
+}
+
+.experience-main .experience-featured-speaker-summary h3 {
+    margin: 0 0 4px;
+
+    color: #fff;
+
+    font-family: 'Cinzel', serif;
+    font-size: 1.04rem;
+    font-weight: 400;
+    line-height: 1.12;
+}
+
+.experience-main .experience-featured-speaker-summary p {
+    margin: 0;
+
+    color: rgba(255, 255, 255, .69);
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: .57rem;
+    line-height: 1.35;
+}
+
+.experience-main .experience-featured-speaker-arrow {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    z-index: 3;
+
+    width: 34px;
+    height: 34px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(214, 178, 106, .75);
+    border-radius: 50%;
+
+    color: var(--exp-gold);
+
+    font-size: 16px;
+
+    text-decoration: none;
+
+    transition: .22s ease;
+}
+
+.experience-main .experience-featured-speaker-arrow:hover {
+    background: var(--exp-gold);
+    color: #0a0a0a;
+}
+
+.experience-main .experience-featured-speaker-about {
+    display: -webkit-box;
+
+    margin: 10px 3px 0;
+    overflow: hidden;
+
+    color: #69635b;
+
+    font-size: .58rem;
+    line-height: 1.55;
+
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+
+/* --------------------------------------------------------------------------
+   5. DEPOIMENTOS — apenas mais respiro
+   -------------------------------------------------------------------------- */
+
+.experience-main .experience-testimonials.depoimentos {
+    padding-top: var(--exp-section-space) !important;
+    padding-bottom: var(--exp-section-space) !important;
+}
+
+
+/* --------------------------------------------------------------------------
+   6. APP / COMUNIDADE
+   -------------------------------------------------------------------------- */
+
+.experience-main .experience-app-section {
+    position: relative;
+    overflow: hidden;
+
+    background:
+        radial-gradient(circle at 78% 52%, rgba(214, 178, 106, .10), transparent 32%),
+        linear-gradient(135deg, #090909 0%, #111 48%, #080808 100%);
+
+    color: #fff;
+}
+
+.experience-main .experience-app-section::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(90deg, rgba(214,178,106,.06) 1px, transparent 1px),
+        linear-gradient(rgba(214,178,106,.04) 1px, transparent 1px);
+    background-size: 64px 64px;
+
+    mask-image: linear-gradient(90deg, transparent, black 58%, transparent);
+    opacity: .26;
+}
+
+.experience-main .experience-app-shell {
+    position: relative;
+    z-index: 2;
+
+    display: grid;
+    grid-template-columns: minmax(0, 48%) minmax(0, 52%);
+    align-items: center;
+    gap: 46px;
+}
+
+.experience-main .experience-app-copy h2 {
+    max-width: 650px;
+    margin: 0 0 22px;
+
+    color: #fff;
+
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.3rem, 4.2vw, 4.1rem);
+    font-weight: 400;
+    letter-spacing: -.04em;
+    line-height: .98;
+}
+
+.experience-main .experience-app-description {
+    max-width: 620px;
+    margin: 0 0 30px;
+
+    color: #aaa49a;
+
+    font-size: .74rem;
+    line-height: 1.75;
+}
+
+.experience-main .experience-app-features {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+
+    max-width: 660px;
+
+    border: 1px solid rgba(214, 178, 106, .20);
+    background: rgba(214, 178, 106, .16);
+}
+
+.experience-main .experience-app-feature {
+    min-height: 108px;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+
+    padding: 20px;
+
+    background: #0e0e0e;
+}
+
+.experience-main .experience-app-feature > i {
+    flex: 0 0 auto;
+
+    margin-top: 2px;
+
+    color: var(--exp-gold);
+
+    font-size: 1.15rem;
+}
+
+.experience-main .experience-app-feature strong,
+.experience-main .experience-app-feature span {
+    display: block;
+}
+
+.experience-main .experience-app-feature strong {
+    margin-bottom: 5px;
+
+    color: #fff;
+
+    font-size: .63rem;
+    font-weight: 600;
+}
+
+.experience-main .experience-app-feature span {
+    color: #8f8a82;
+
+    font-size: .55rem;
+    line-height: 1.5;
+}
+
+.experience-main .experience-app-actions {
+    margin-top: 28px;
+}
+
+.experience-main .experience-app-visual {
+    position: relative;
+
+    min-height: 570px;
+}
+
+.experience-main .experience-app-glow {
+    position: absolute;
+    left: 50%;
+    top: 52%;
+
+    width: 430px;
+    height: 430px;
+
+    border-radius: 50%;
+
+    background: rgba(214,178,106,.13);
+    filter: blur(70px);
+
+    transform: translate(-50%, -50%);
+}
+
+.experience-main .experience-app-phone {
+    position: absolute;
+    z-index: 2;
+
+    display: block;
+
+    width: auto;
+    max-width: none;
+
+    object-fit: contain;
+
+    filter: drop-shadow(0 28px 40px rgba(0,0,0,.48));
+}
+
+.experience-main .experience-app-phone--back {
+    left: 6%;
+    top: 30px;
+
+    height: 500px;
+
+    transform: rotate(-4deg);
+}
+
+.experience-main .experience-app-phone--front {
+    right: 3%;
+    bottom: -8px;
+
+    height: 535px;
+
+    transform: rotate(3deg);
+}
+
+
+/* --------------------------------------------------------------------------
+   7. NOTÍCIAS / CONEXÃO JURÍDICA
+   -------------------------------------------------------------------------- */
+
+.experience-main .experience-news-section {
+    background: var(--exp-paper, #f2efe8);
+    color: var(--exp-text, #181714);
+}
+
+.experience-main .experience-news-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 36px;
+
+    margin-bottom: 30px;
+}
+
+.experience-main .experience-news-heading h2 {
+    margin: 0 0 8px;
+
+    color: #171510;
+
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
+    font-weight: 400;
+    letter-spacing: -.035em;
+    line-height: 1;
+}
+
+.experience-main .experience-news-heading > div > p:last-child {
+    margin: 0;
+
+    color: #6f685e;
+
+    font-size: .67rem;
+}
+
+.experience-main .experience-news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.experience-main .experience-news-card {
+    min-width: 0;
+
+    border: 1px solid rgba(20, 20, 20, .12);
+
+    background: #faf8f3;
+}
+
+.experience-main .experience-news-image {
+    height: 205px;
+
+    display: block;
+    overflow: hidden;
+}
+
+.experience-main .experience-news-image img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    filter: saturate(.8) contrast(1.02);
+
+    transition: transform .4s ease;
+}
+
+.experience-main .experience-news-card:hover .experience-news-image img {
+    transform: scale(1.03);
+}
+
+.experience-main .experience-news-content {
+    padding: 21px 22px 23px;
+}
+
+.experience-main .experience-news-category {
+    display: inline-flex;
+
+    margin-bottom: 12px;
+    padding: 5px 9px;
+
+    border: 1px solid rgba(168, 123, 43, .35);
+
+    color: #a37a32;
+
+    font-size: .48rem;
+    font-weight: 700;
+    letter-spacing: .10em;
+
+    text-transform: uppercase;
+}
+
+.experience-main .experience-news-content h3 {
+    margin: 0 0 10px;
+
+    color: #181713;
+
+    font-family: 'Cinzel', serif;
+    font-size: 1.06rem;
+    font-weight: 400;
+    line-height: 1.25;
+}
+
+.experience-main .experience-news-content p {
+    display: -webkit-box;
+
+    margin: 0 0 16px;
+    overflow: hidden;
+
+    color: #6e685f;
+
+    font-size: .58rem;
+    line-height: 1.6;
+
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+.experience-main .experience-news-link {
+    color: #9d742d;
+
+    font-size: .56rem;
+    font-weight: 700;
+
+    text-decoration: none;
+}
+
+.experience-main .experience-news-link:hover {
+    color: #6e4d17;
+}
+
+
+/* --------------------------------------------------------------------------
+   8. LOCAL — mais espaço entre seções, estrutura mantida
+   -------------------------------------------------------------------------- */
+
+.experience-main .experience-location.local_sessao {
+    padding-top: var(--exp-section-space) !important;
+    padding-bottom: var(--exp-section-space) !important;
+}
+
+
+/* --------------------------------------------------------------------------
+   RESPONSIVIDADE — NOVAS SEÇÕES
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1100px) {
+    .experience-main {
+        --exp-section-space: 82px;
+    }
+
+    .experience-main .experience-featured-speakers-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .experience-main .experience-featured-speaker-media {
+        height: 360px;
+    }
+
+    .experience-main .experience-app-shell {
+        grid-template-columns: minmax(0, 47%) minmax(0, 53%);
+        gap: 24px;
+    }
+
+    .experience-main .experience-app-phone--back {
+        left: 0;
+        height: 440px;
+    }
+
+    .experience-main .experience-app-phone--front {
+        right: -3%;
+        height: 485px;
+    }
+}
+
+
+@media (max-width: 820px) {
+    .experience-main {
+        --exp-section-space: 72px;
+    }
+
+    .experience-main .experience-hero-arrow {
+        display: none !important;
+    }
+
+    .experience-main .experience-featured-speakers-heading,
+    .experience-main .experience-news-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .experience-main .experience-app-shell {
+        grid-template-columns: 1fr;
+        gap: 26px;
+    }
+
+    .experience-main .experience-app-copy {
+        max-width: 680px;
+    }
+
+    .experience-main .experience-app-visual {
+        min-height: 545px;
+    }
+
+    .experience-main .experience-app-phone--back {
+        left: 20%;
+    }
+
+    .experience-main .experience-app-phone--front {
+        right: 17%;
+    }
+
+    .experience-main .experience-news-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .experience-main .experience-news-card {
+        display: grid;
+        grid-template-columns: minmax(220px, 40%) minmax(0, 60%);
+    }
+
+    .experience-main .experience-news-image {
+        height: 100%;
+        min-height: 220px;
+    }
+}
+
+
+@media (max-width: 620px) {
+    .experience-main {
+        --exp-section-space: 60px;
+    }
+
+    .experience-main .experience-section-spaced .experience-section-heading {
+        margin-bottom: 26px;
+    }
+
+    .experience-main .experience-hero-slide.header-advocacia {
+        min-height: 700px;
+        padding-bottom: 58px;
+    }
+
+    .experience-main .experience-speakers .experience-speaker-card.sobre-tds {
+        min-height: 0;
+    }
+
+    .experience-main .experience-speakers .experience-speaker-image.ajst-img {
+        height: 310px;
+    }
+
+    .experience-main .experience-speakers .experience-speaker-info.sobre-info {
+        padding: 30px 24px;
+    }
+
+    .experience-main .experience-featured-speakers-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .experience-main .experience-featured-speaker-media {
+        height: 410px;
+    }
+
+    .experience-main .experience-app-features {
+        grid-template-columns: 1fr;
+    }
+
+    .experience-main .experience-app-visual {
+        min-height: 480px;
+    }
+
+    .experience-main .experience-app-phone--back {
+        left: -2%;
+        top: 34px;
+        height: 390px;
+    }
+
+    .experience-main .experience-app-phone--front {
+        right: -4%;
+        bottom: 0;
+        height: 420px;
+    }
+
+    .experience-main .experience-news-card {
+        display: block;
+    }
+
+    .experience-main .experience-news-image {
+        height: 205px;
+        min-height: 0;
+    }
+}
+
+
+/* ==========================================================================
+   TIPOGRAFIA V2 — FONTES MAIORES / MELHOR LEGIBILIDADE
+   Aplicar depois de todas as regras atuais.
+   ========================================================================== */
+
+/* HEADER */
+header.site-header .brand-name {
+    font-size: 15.5px !important;
+}
+
+header.site-header .menu-link {
+    font-size: 13px !important;
+    font-weight: 500;
+}
+
+header.site-header .btn-rede-exclusiva {
+    font-size: 10.8px !important;
+}
+
+
+/* BASE DO SITE */
+.experience-main {
+    font-size: 16px;
+}
+
+.experience-main .experience-eyebrow {
+    font-size: .76rem;
+    line-height: 1.5;
+}
+
+.experience-main .experience-primary-button,
+.experience-main .experience-secondary-button {
+    font-size: .78rem;
+}
+
+
+/* HERO */
+.experience-main .experience-hero-content .tit-header {
+    font-size: .78rem;
+}
+
+.experience-main .experience-hero-description.descricao-header {
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.experience-main .experience-meta-item span {
+    font-size: .66rem;
+}
+
+.experience-main .experience-meta-item strong {
+    font-size: .82rem;
+    line-height: 1.45;
+}
+
+
+/* TÍTULOS DAS SEÇÕES */
+.experience-main .experience-section-heading .title,
+.experience-main .experience-section-heading .titulo,
+.experience-main .experience-section-heading .tit_local {
+    font-size: clamp(2.3rem, 3.7vw, 3.6rem);
+}
+
+.experience-main .experience-section-heading .sub-title {
+    font-size: .84rem;
+    line-height: 1.55;
+}
+
+.experience-main .experience-heading-support {
+    max-width: 430px;
+    font-size: .82rem;
+    line-height: 1.6;
+}
+
+
+/* DRA. */
+.experience-main .experience-speaker-info.sobre-info h3 {
+    font-size: clamp(2rem, 3vw, 2.9rem);
+}
+
+.experience-main .experience-speaker-info.sobre-info h4 {
+    font-size: .82rem;
+    line-height: 1.5;
+}
+
+.experience-main .experience-speaker-info.sobre-info > p:last-child,
+.experience-main .experience-speakers.sobre .experience-speaker-info > p:last-child {
+    font-size: .94rem;
+    line-height: 1.75;
+}
+
+
+/* TEMAS */
+.experience-main .experience-topic-number {
+    font-size: .7rem;
+}
+
+.experience-main .experience-topic-content h3 {
+    font-size: 1.08rem;
+    line-height: 1.25;
+}
+
+.experience-main .experience-topic-content h4 {
+    font-size: .78rem;
+    line-height: 1.45;
+}
+
+.experience-main .experience-topic-content p {
+    font-size: .78rem;
+    line-height: 1.65;
+}
+
+
+/* PALESTRANTES EM DESTAQUE */
+.experience-main .experience-featured-speakers-heading h2 {
+    font-size: clamp(2.35rem, 3.8vw, 3.55rem);
+}
+
+.experience-main .experience-text-link {
+    font-size: .8rem;
+}
+
+.experience-main .experience-featured-speaker-summary h3 {
+    font-size: 1.2rem;
+}
+
+.experience-main .experience-featured-speaker-summary p {
+    font-size: .76rem;
+    line-height: 1.45;
+}
+
+.experience-main .experience-featured-speaker-about {
+    font-size: .78rem;
+    line-height: 1.65;
+}
+
+
+/* DEPOIMENTOS */
+.experience-main .experience-testimonial-person h3 {
+    font-size: .9rem;
+}
+
+.experience-main .experience-testimonial-person h4 {
+    font-size: .68rem;
+}
+
+.experience-main .experience-testimonial-text.textetexto {
+    font-size: .82rem;
+    line-height: 1.7;
+}
+
+
+/* APP / COMUNIDADE */
+.experience-main .experience-app-copy h2 {
+    font-size: clamp(2.8rem, 4.7vw, 4.7rem);
+}
+
+.experience-main .experience-app-description {
+    font-size: .96rem;
+    line-height: 1.75;
+}
+
+.experience-main .experience-app-feature strong {
+    font-size: .84rem;
+}
+
+.experience-main .experience-app-feature span {
+    font-size: .76rem;
+    line-height: 1.6;
+}
+
+.experience-main .experience-app-feature > i {
+    font-size: 1.35rem;
+}
+
+
+/* NOTÍCIAS */
+.experience-main .experience-news-heading h2 {
+    font-size: clamp(2.35rem, 3.8vw, 3.6rem);
+}
+
+.experience-main .experience-news-heading > div > p:last-child {
+    font-size: .86rem;
+}
+
+.experience-main .experience-news-category {
+    font-size: .65rem;
+}
+
+.experience-main .experience-news-content h3 {
+    font-size: 1.28rem;
+    line-height: 1.3;
+}
+
+.experience-main .experience-news-content p {
+    font-size: .82rem;
+    line-height: 1.7;
+}
+
+.experience-main .experience-news-link {
+    font-size: .78rem;
+}
+
+
+/* LOCAL */
+.experience-main .experience-location-kicker {
+    font-size: .68rem;
+}
+
+.experience-main .experience-location-intro h3 {
+    font-size: clamp(1.8rem, 2.7vw, 2.5rem);
+}
+
+.experience-main .experience-location-item .info-text strong {
+    font-size: .72rem;
+}
+
+.experience-main .experience-location-item .info-text p {
+    font-size: .84rem;
+    line-height: 1.6;
+}
+
+
+/* CTA FINAL */
+.experience-main .experience-final-cta h2 {
+    font-size: clamp(2.4rem, 4vw, 3.8rem);
+}
+
+.experience-main .experience-final-cta-description {
+    font-size: .96rem !important;
+    line-height: 1.75 !important;
+}
+
+.experience-main .experience-final-cta-meta-item span {
+    font-size: .64rem;
+}
+
+.experience-main .experience-final-cta-meta-item strong {
+    font-size: .84rem;
+}
+
+.experience-main .experience-final-cta-button.cta-botao {
+    font-size: .82rem;
+}
+
+
+/* RESPONSIVIDADE */
+@media (max-width: 969px) {
+    header.site-header .menu-link {
+        font-size: 14px !important;
+    }
+
+    .experience-main .experience-hero-description.descricao-header {
+        font-size: .92rem;
+    }
+
+    .experience-main .experience-app-description,
+    .experience-main .experience-speaker-info.sobre-info > p:last-child,
+    .experience-main .experience-speakers.sobre .experience-speaker-info > p:last-child {
+        font-size: .9rem;
+    }
+}
+
+@media (max-width: 620px) {
+    .experience-main .experience-eyebrow {
+        font-size: .7rem;
+    }
+
+    .experience-main .experience-section-heading .title,
+    .experience-main .experience-section-heading .titulo,
+    .experience-main .experience-section-heading .tit_local {
+        font-size: 2rem !important;
+    }
+
+    .experience-main .experience-topic-content h3 {
+        font-size: 1rem;
+    }
+
+    .experience-main .experience-topic-content h4,
+    .experience-main .experience-topic-content p,
+    .experience-main .experience-featured-speaker-summary p,
+    .experience-main .experience-featured-speaker-about,
+    .experience-main .experience-app-feature span,
+    .experience-main .experience-news-content p,
+    .experience-main .experience-location-item .info-text p {
+        font-size: .8rem;
+    }
+
+    .experience-main .experience-app-copy h2 {
+        font-size: clamp(2.35rem, 11vw, 3.25rem);
+    }
+
+    .experience-main .experience-news-content h3 {
+        font-size: 1.15rem;
+    }
+
+    .experience-main .experience-testimonial-text.textetexto {
+        font-size: .8rem;
+    }
+}
+
+
+/* ==========================================================================
+   TIPOGRAFIA V2 — FONTES MAIORES / MELHOR LEGIBILIDADE
+   Aplicar depois de todas as regras atuais.
+   ========================================================================== */
+
+/* HEADER */
+header.site-header .brand-name {
+    font-size: 15.5px !important;
+}
+
+header.site-header .menu-link {
+    font-size: 13px !important;
+    font-weight: 500;
+}
+
+header.site-header .btn-rede-exclusiva {
+    font-size: 10.8px !important;
+}
+
+
+/* BASE DO SITE */
+.experience-main {
+    font-size: 16px;
+}
+
+.experience-main .experience-eyebrow {
+    font-size: .76rem;
+    line-height: 1.5;
+}
+
+.experience-main .experience-primary-button,
+.experience-main .experience-secondary-button {
+    font-size: .78rem;
+}
+
+
+/* HERO */
+.experience-main .experience-hero-content .tit-header {
+    font-size: .78rem;
+}
+
+.experience-main .experience-hero-description.descricao-header {
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.experience-main .experience-meta-item span {
+    font-size: .66rem;
+}
+
+.experience-main .experience-meta-item strong {
+    font-size: .82rem;
+    line-height: 1.45;
+}
+
+
+/* TÍTULOS DAS SEÇÕES */
+.experience-main .experience-section-heading .title,
+.experience-main .experience-section-heading .titulo,
+.experience-main .experience-section-heading .tit_local {
+    font-size: clamp(2.3rem, 3.7vw, 3.6rem);
+}
+
+.experience-main .experience-section-heading .sub-title {
+    font-size: .84rem;
+    line-height: 1.55;
+}
+
+.experience-main .experience-heading-support {
+    max-width: 430px;
+    font-size: .82rem;
+    line-height: 1.6;
+}
+
+
+/* DRA. */
+.experience-main .experience-speaker-info.sobre-info h3 {
+    font-size: clamp(2rem, 3vw, 2.9rem);
+}
+
+.experience-main .experience-speaker-info.sobre-info h4 {
+    font-size: .82rem;
+    line-height: 1.5;
+}
+
+.experience-main .experience-speaker-info.sobre-info > p:last-child,
+.experience-main .experience-speakers.sobre .experience-speaker-info > p:last-child {
+    font-size: .94rem;
+    line-height: 1.75;
+}
+
+
+/* TEMAS */
+.experience-main .experience-topic-number {
+    font-size: .7rem;
+}
+
+.experience-main .experience-topic-content h3 {
+    font-size: 1.08rem;
+    line-height: 1.25;
+}
+
+.experience-main .experience-topic-content h4 {
+    font-size: .78rem;
+    line-height: 1.45;
+}
+
+.experience-main .experience-topic-content p {
+    font-size: .78rem;
+    line-height: 1.65;
+}
+
+
+/* PALESTRANTES EM DESTAQUE */
+.experience-main .experience-featured-speakers-heading h2 {
+    font-size: clamp(2.35rem, 3.8vw, 3.55rem);
+}
+
+.experience-main .experience-text-link {
+    font-size: .8rem;
+}
+
+.experience-main .experience-featured-speaker-summary h3 {
+    font-size: 1.2rem;
+}
+
+.experience-main .experience-featured-speaker-summary p {
+    font-size: .76rem;
+    line-height: 1.45;
+}
+
+.experience-main .experience-featured-speaker-about {
+    font-size: .78rem;
+    line-height: 1.65;
+}
+
+
+/* DEPOIMENTOS */
+.experience-main .experience-testimonial-person h3 {
+    font-size: .9rem;
+}
+
+.experience-main .experience-testimonial-person h4 {
+    font-size: .68rem;
+}
+
+.experience-main .experience-testimonial-text.textetexto {
+    font-size: .82rem;
+    line-height: 1.7;
+}
+
+
+/* APP / COMUNIDADE */
+.experience-main .experience-app-copy h2 {
+    font-size: clamp(2.8rem, 4.7vw, 4.7rem);
+}
+
+.experience-main .experience-app-description {
+    font-size: .96rem;
+    line-height: 1.75;
+}
+
+.experience-main .experience-app-feature strong {
+    font-size: .84rem;
+}
+
+.experience-main .experience-app-feature span {
+    font-size: .76rem;
+    line-height: 1.6;
+}
+
+.experience-main .experience-app-feature > i {
+    font-size: 1.35rem;
+}
+
+
+/* NOTÍCIAS */
+.experience-main .experience-news-heading h2 {
+    font-size: clamp(2.35rem, 3.8vw, 3.6rem);
+}
+
+.experience-main .experience-news-heading > div > p:last-child {
+    font-size: .86rem;
+}
+
+.experience-main .experience-news-category {
+    font-size: .65rem;
+}
+
+.experience-main .experience-news-content h3 {
+    font-size: 1.28rem;
+    line-height: 1.3;
+}
+
+.experience-main .experience-news-content p {
+    font-size: .82rem;
+    line-height: 1.7;
+}
+
+.experience-main .experience-news-link {
+    font-size: .78rem;
+}
+
+
+/* LOCAL */
+.experience-main .experience-location-kicker {
+    font-size: .68rem;
+}
+
+.experience-main .experience-location-intro h3 {
+    font-size: clamp(1.8rem, 2.7vw, 2.5rem);
+}
+
+.experience-main .experience-location-item .info-text strong {
+    font-size: .72rem;
+}
+
+.experience-main .experience-location-item .info-text p {
+    font-size: .84rem;
+    line-height: 1.6;
+}
+
+
+/* CTA FINAL */
+.experience-main .experience-final-cta h2 {
+    font-size: clamp(2.4rem, 4vw, 3.8rem);
+}
+
+.experience-main .experience-final-cta-description {
+    font-size: .96rem !important;
+    line-height: 1.75 !important;
+}
+
+.experience-main .experience-final-cta-meta-item span {
+    font-size: .64rem;
+}
+
+.experience-main .experience-final-cta-meta-item strong {
+    font-size: .84rem;
+}
+
+.experience-main .experience-final-cta-button.cta-botao {
+    font-size: .82rem;
+}
+
+
+/* RESPONSIVIDADE */
+@media (max-width: 969px) {
+    header.site-header .menu-link {
+        font-size: 14px !important;
+    }
+
+    .experience-main .experience-hero-description.descricao-header {
+        font-size: .92rem;
+    }
+
+    .experience-main .experience-app-description,
+    .experience-main .experience-speaker-info.sobre-info > p:last-child,
+    .experience-main .experience-speakers.sobre .experience-speaker-info > p:last-child {
+        font-size: .9rem;
+    }
+}
+
+@media (max-width: 620px) {
+    .experience-main .experience-eyebrow {
+        font-size: .7rem;
+    }
+
+    .experience-main .experience-section-heading .title,
+    .experience-main .experience-section-heading .titulo,
+    .experience-main .experience-section-heading .tit_local {
+        font-size: 2rem !important;
+    }
+
+    .experience-main .experience-topic-content h3 {
+        font-size: 1rem;
+    }
+
+    .experience-main .experience-topic-content h4,
+    .experience-main .experience-topic-content p,
+    .experience-main .experience-featured-speaker-summary p,
+    .experience-main .experience-featured-speaker-about,
+    .experience-main .experience-app-feature span,
+    .experience-main .experience-news-content p,
+    .experience-main .experience-location-item .info-text p {
+        font-size: .8rem;
+    }
+
+    .experience-main .experience-app-copy h2 {
+        font-size: clamp(2.35rem, 11vw, 3.25rem);
+    }
+
+    .experience-main .experience-news-content h3 {
+        font-size: 1.15rem;
+    }
+
+    .experience-main .experience-testimonial-text.textetexto {
+        font-size: .8rem;
+    }
+}

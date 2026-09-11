@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Site\HomeController;
+use App\Http\Controllers\Site\PaginaAppController;
+use App\Http\Controllers\Site\PaginaPalestrantesController;
 
 
 use App\Http\Controllers\Admin\DashController;
@@ -22,8 +24,12 @@ use App\Http\Controllers\Admin\AdminController;
 
 
 
+
+
 // Rota Pública do Site
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/page-app', [PaginaAppController::class, 'index'])->name('page-app');
+Route::get('/page-palestrantes', [PaginaPalestrantesController::class, 'index'])->name('page-palestrantes');
 
 
 // Rotas do Painel Administrativo
