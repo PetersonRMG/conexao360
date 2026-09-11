@@ -34,7 +34,7 @@
                 </li>
 
                 <li class="menu-item">
-                    <a href="{{ url('/evento') }}" class="menu-link">
+                    <a href="{{ route('page-evento') }}" class="menu-link">
                         O Evento
                     </a>
                 </li>
@@ -45,11 +45,11 @@
                     </a>
                 </li>
 
-                <li class="menu-item">
+                {{-- <li class="menu-item">
                     <a href="{{ url('/programacao') }}" class="menu-link">
                         Programação
                     </a>
-                </li>
+                </li> --}}
 
                 <li class="menu-item">
                     <a  href="{{ route('page-app') }}"  class="menu-link">
@@ -58,7 +58,7 @@
                 </li>
 
                 <li class="menu-item">
-                    <a href="{{ url('/noticias') }}" class="menu-link">
+                    <a href="{{  route('page-noticias') }}" class="menu-link">
                         Notícias
                     </a>
                 </li>

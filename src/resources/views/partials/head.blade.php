@@ -67,6 +67,8 @@
 <link rel="stylesheet" href="{{asset('conexao360/css/estilo.css')}}">
 <link rel="stylesheet" href="{{asset('conexao360/css/comunidade.css')}}">
 <link rel="stylesheet" href="{{asset('conexao360/css/palestrantes.css')}}">
+<link rel="stylesheet" href="{{asset('conexao360/css/noticias.css')}}">
+<link rel="stylesheet" href="{{asset('conexao360/css/evento.css')}}">
 {{--
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" /> --}}
 <!-- <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script> -->
