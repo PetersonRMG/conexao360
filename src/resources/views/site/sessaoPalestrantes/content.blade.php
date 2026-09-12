@@ -50,12 +50,12 @@
 
             {{-- FILTROS DINÂMICOS POR ÁREA DE ATUAÇÃO --}}
             @php
-                $areasPalestrantes = $palestrantes
-                    ->pluck('area_atuacao_usuario')
-                    ->filter()
-                    ->unique()
-                    ->sort()
-                    ->values();
+$areasPalestrantes = $palestrantes
+    ->pluck('area_atuacao_usuario')
+    ->filter()
+    ->unique()
+    ->sort()
+    ->values();
             @endphp
 
             @if ($areasPalestrantes->isNotEmpty())
@@ -80,7 +80,7 @@
             <div class="speakers-grid">
 
                 @forelse ($palestrantes as $item)
-                    @php
+                                        @php
                         $fotoPalestrante = !empty($item->foto_usuario)
                             ? 'dash/assets/img/' . $item->foto_usuario
                             : null;
@@ -91,53 +91,53 @@
                         $iniciais = collect(explode(' ', trim($item->nome_usuario)))
                             ->filter()
                             ->take(2)
-                            ->map(fn ($parte) => mb_strtoupper(mb_substr($parte, 0, 1)))
+                            ->map(fn($parte) => mb_strtoupper(mb_substr($parte, 0, 1)))
                             ->implode('');
 
                         $areaSlug = \Illuminate\Support\Str::slug($item->area_atuacao_usuario ?? 'sem-area');
-                    @endphp
+                                        @endphp
 
-                    <article
-                        class="speaker-card"
-                        id="palestrante-{{ $item->id_usuario }}"
-                        data-area="{{ $areaSlug }}"
-                    >
-                        <div class="speaker-card-media">
-                            @if ($fotoExiste)
-                                <img
-                                    src="{{ asset($fotoPalestrante) }}"
-                                    alt="{{ $item->nome_usuario }}"
-                                    loading="lazy"
-                                    decoding="async"
-                                >
-                            @else
-                                <div class="speaker-card-fallback">
-                                    {{ $iniciais ?: 'P' }}
-                                </div>
-                            @endif
+                                        <article
+                                            class="speaker-card"
+                                            id="palestrante-{{ $item->id_usuario }}"
+                                            data-area="{{ $areaSlug }}"
+                                        >
+                                            <div class="speaker-card-media">
+                                                @if ($fotoExiste)
+                                                    <img
+                                                        src="{{ asset($fotoPalestrante) }}"
+                                                        alt="{{ $item->nome_usuario }}"
+                                                        loading="lazy"
+                                                        decoding="async"
+                                                    >
+                                                @else
+                                                    <div class="speaker-card-fallback">
+                                                        {{ $iniciais ?: 'P' }}
+                                                    </div>
+                                                @endif
 
-                            <div class="speaker-card-gradient"></div>
+                                                <div class="speaker-card-gradient"></div>
 
-                            <div class="speaker-card-main">
-                                <p class="speaker-card-area">
-                                    {{ $item->area_atuacao_usuario ?: 'Palestrante' }}
-                                </p>
+                                                <div class="speaker-card-main">
+                                                    <p class="speaker-card-area">
+                                                        {{ $item->area_atuacao_usuario ?: 'Palestrante' }}
+                                                    </p>
 
-                                <h3>{{ $item->nome_usuario }}</h3>
-                            </div>
-                        </div>
+                                                    <h3>{{ $item->nome_usuario }}</h3>
+                                                </div>
+                                            </div>
 
-                        <div class="speaker-card-body">
-                            <p>
-                                {{ $item->sobre_usuario ?: 'Palestrante convidado do Conexão 360.' }}
-                            </p>
+                                            <div class="speaker-card-body">
+                                                <p>
+                                                    {{ $item->sobre_usuario ?: 'Palestrante convidado do Conexão 360.' }}
+                                                </p>
 
-                            <a href="#palestrante-{{ $item->id_usuario }}" class="speaker-card-link">
-                                Conheça
-                                <span aria-hidden="true">→</span>
-                            </a>
-                        </div>
-                    </article>
+                                                <a href="{{ route('page-palestrante', $item->id_usuario) }}" class="speaker-card-link">
+                                                    Conheça
+                                                    <span aria-hidden="true">→</span>
+                                                </a>
+                                            </div>
+                                        </article>
 
                 @empty
                     <div class="speakers-empty">

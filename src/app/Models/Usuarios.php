@@ -31,6 +31,13 @@ class Usuarios extends Authenticatable
         'estado_usuario',
         'sobre_usuario',
         'status_usuario' ,
+        'instagram_usuario',
+        'linkedin_usuario',
+        'youtube_usuario',
+        'tiktok_usuario',
+        'facebook_usuario',
+        'site_usuario',
+
                 
     ];
     

@@ -57,6 +57,16 @@
 
             <li class="nav-item d-none d-md-block">
 
+                <a href="{{ route('admin.palestrante.perfil.index') }}"
+                    class="nav-link admin-topbar-link {{ Request::routeIs('admin.palestrante.perfil.*') ? 'active' : '' }}">
+                    Meu Perfil
+                </a>
+
+            </li>
+
+
+            <li class="nav-item d-none d-md-block">
+
                 <a href="{{ route('admin.palestrante.depoimento.index') }}"
                     class="nav-link admin-topbar-link {{ Request::routeIs('admin.palestrante.depoimento.*') ? 'active' : '' }}">
                     Depoimentos

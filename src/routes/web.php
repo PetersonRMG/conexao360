@@ -6,6 +6,7 @@ use App\Http\Controllers\Site\PaginaAppController;
 use App\Http\Controllers\Site\PaginaPalestrantesController;
 use App\Http\Controllers\Site\PaginaNoticiasController;
 use App\Http\Controllers\Site\PaginaEventoController;
+ 
 
 
 use App\Http\Controllers\Admin\DashController;
@@ -23,6 +24,7 @@ use App\Http\Controllers\Admin\ModificacaoSiteController;
 use App\Http\Controllers\Admin\PalestrantesController;
 use App\Http\Controllers\Admin\UsuariosController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\PerfilPalestranteController;
 
 
 
@@ -34,6 +36,12 @@ Route::get('/page-app', [PaginaAppController::class, 'index'])->name('page-app')
 Route::get('/page-palestrantes', [PaginaPalestrantesController::class, 'index'])->name('page-palestrantes');
 Route::get('/page-noticias', [PaginaNoticiasController::class, 'index'])->name('page-noticias');
 Route::get('/page-evento', [PaginaEventoController::class, 'index']) ->name('page-evento');
+Route::get(
+    '/page-palestrantes/{id}',
+    [PaginaPalestrantesController::class, 'show']
+)
+    ->whereNumber('id')
+    ->name('page-palestrante');
 
 
 // Rotas do Painel Administrativo
@@ -103,5 +111,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         //DEPOIMENTO PALESTRANTE
         Route::get('/depoimentos', [DepoimentosController::class, 'indexPalestrante'])->name('palestrante.depoimento.index');
         Route::put('/depoimentos', [DepoimentosController::class, 'createDepoimento'])->name('palestrante.depoimento.create');
+        Route::get('/perfil', [PerfilPalestranteController::class, 'index']  )->name('palestrante.perfil.index');
+
+        Route::put('/perfil', [PerfilPalestranteController::class, 'update'] )->name('palestrante.perfil.update');
+
     });
 });

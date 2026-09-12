@@ -176,55 +176,56 @@
 
                 <div class="experience-featured-speakers-grid">
                     @foreach ($palestrantes as $palestrante)
-                        @php
-                            $fotoPalestrante = !empty($palestrante->foto_usuario)
-                                ? 'dash/assets/img/' . $palestrante->foto_usuario
-                                : null;
+                                                        @php
+                        $fotoPalestrante = !empty($palestrante->foto_usuario)
+                            ? 'dash/assets/img/' . $palestrante->foto_usuario
+                            : null;
 
-                            $fotoPalestranteExiste = $fotoPalestrante
-                                && file_exists(public_path($fotoPalestrante));
+                        $fotoPalestranteExiste = $fotoPalestrante
+                            && file_exists(public_path($fotoPalestrante));
 
-                            $iniciaisPalestrante = collect(preg_split('/\s+/', trim($palestrante->nome_usuario)))
-                                ->filter()
-                                ->take(2)
-                                ->map(fn ($parte) => mb_strtoupper(mb_substr($parte, 0, 1)))
-                                ->implode('');
-                        @endphp
+                        $iniciaisPalestrante = collect(preg_split('/\s+/', trim($palestrante->nome_usuario)))
+                            ->filter()
+                            ->take(2)
+                            ->map(fn($parte) => mb_strtoupper(mb_substr($parte, 0, 1)))
+                            ->implode('');
+                                                        @endphp
 
-                        <article class="experience-featured-speaker-card">
-                            <div class="experience-featured-speaker-media">
-                                @if ($fotoPalestranteExiste)
-                                    <img src="{{ asset($fotoPalestrante) }}"
-                                        alt="{{ $palestrante->nome_usuario }}"
-                                        loading="lazy"
-                                        decoding="async">
-                                @else
-                                    <div class="experience-featured-speaker-fallback"
-                                        aria-label="{{ $palestrante->nome_usuario }}">
-                                        {{ $iniciaisPalestrante }}
-                                    </div>
-                                @endif
+                                                        <article class="experience-featured-speaker-card">
+                                                            <div class="experience-featured-speaker-media">
+                                                                @if ($fotoPalestranteExiste)
+                                                                    <img src="{{ asset($fotoPalestrante) }}"
+                                                                        alt="{{ $palestrante->nome_usuario }}"
+                                                                        loading="lazy"
+                                                                        decoding="async">
+                                                                @else
+                                                                    <div class="experience-featured-speaker-fallback"
+                                                                        aria-label="{{ $palestrante->nome_usuario }}">
+                                                                        {{ $iniciaisPalestrante }}
+                                                                    </div>
+                                                                @endif
 
-                                <div class="experience-featured-speaker-overlay"></div>
+                                                                <div class="experience-featured-speaker-overlay"></div>
 
-                                <div class="experience-featured-speaker-summary">
-                                    <h3>{{ $palestrante->nome_usuario }}</h3>
-                                    <p>{{ $palestrante->area_atuacao_usuario }}</p>
-                                </div>
+                                                                <div class="experience-featured-speaker-summary">
+                                                                    <h3>{{ $palestrante->nome_usuario }}</h3>
+                                                                    <p>{{ $palestrante->area_atuacao_usuario }}</p>
+                                                                </div>
 
-                                <a href="{{ url('/palestrantes') }}"
-                                    class="experience-featured-speaker-arrow"
-                                    aria-label="Conhecer {{ $palestrante->nome_usuario }}">
-                                    →
-                                </a>
-                            </div>
+                                                                <a href="{{ route('page-palestrante', $palestrante->id_usuario) }}"
+                                                                    class="experience-featured-speaker-arrow"
+                                                                    aria-label="Conhecer {{ $palestrante->nome_usuario }}">
+                                                                    →
+                                                                </a>
 
-                            @if (!empty($palestrante->sobre_usuario))
-                                <p class="experience-featured-speaker-about">
-                                    {{ \Illuminate\Support\Str::limit($palestrante->sobre_usuario, 105) }}
-                                </p>
-                            @endif
-                        </article>
+                                                            </div>
+
+                                                            @if (!empty($palestrante->sobre_usuario))
+                                                                <p class="experience-featured-speaker-about">
+                                                                    {{ \Illuminate\Support\Str::limit($palestrante->sobre_usuario, 105) }}
+                                                                </p>
+                                                            @endif
+                                                        </article>
                     @endforeach
                 </div>
 
@@ -257,12 +258,12 @@
                             <article class="texto-depoimentos experience-testimonial-card">
                                 <div class="experience-testimonial-person">
                                     @php
-                                        $fotoDepoimento = !empty($item->usuario->foto_usuario)
-                                            ? 'dash/assets/img/' . $item->usuario->foto_usuario
-                                            : null;
+    $fotoDepoimento = !empty($item->usuario->foto_usuario)
+        ? 'dash/assets/img/' . $item->usuario->foto_usuario
+        : null;
 
-                                        $fotoDepoimentoExiste = $fotoDepoimento
-                                            && file_exists(public_path($fotoDepoimento));
+    $fotoDepoimentoExiste = $fotoDepoimento
+        && file_exists(public_path($fotoDepoimento));
                                     @endphp
 
                                     @if ($fotoDepoimentoExiste)
