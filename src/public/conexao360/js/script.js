@@ -180,3 +180,15 @@
         }
     });
 })();
+
+const menuPrincipal = document.querySelector('.menu-principal');
+
+if (menuPrincipal) {
+    menuPrincipal.addEventListener('click', function (event) {
+
+        if (event.target === menuPrincipal) {
+            fecharMenuMobile();
+        }
+
+    });
+}

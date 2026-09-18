@@ -6925,3 +6925,369 @@ header.site-header .btn-rede-exclusiva {
         font-size: .8rem;
     }
 }
+
+/* =========================================================
+   MENU MOBILE
+   ========================================================= */
+
+@media (max-width: 991.98px) {
+
+    /* =====================================================
+       HEADER
+       ===================================================== */
+
+    .site-header {
+        position: relative;
+        z-index: 1000;
+    }
+
+
+    /* =====================================================
+       BOTÃO HAMBURGER
+       ===================================================== */
+
+    .abrir-menu {
+        position: relative;
+        z-index: 1102;
+
+        width: 46px;
+        height: 46px;
+
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+
+        flex-shrink: 0;
+
+        margin: 0;
+        padding: 0;
+
+        border: 1px solid #d6b26a;
+        border-radius: 10px;
+
+        background: #d6b26a;
+
+        cursor: pointer;
+
+        transition:
+            opacity 0.25s ease,
+            visibility 0.25s ease,
+            transform 0.2s ease;
+    }
+
+    .abrir-menu:hover {
+        transform: scale(1.04);
+    }
+
+
+    /* Linha central do hamburger */
+    .abrir-menu span {
+        position: relative;
+
+        width: 22px;
+        height: 2px;
+
+        display: block;
+
+        border-radius: 2px;
+
+        background: #090909;
+    }
+
+
+    /* Linha superior e inferior */
+    .abrir-menu span::before,
+    .abrir-menu span::after {
+        content: "";
+
+        position: absolute;
+        left: 0;
+
+        width: 22px;
+        height: 2px;
+
+        border-radius: 2px;
+
+        background: #090909;
+    }
+
+    .abrir-menu span::before {
+        top: -7px;
+    }
+
+    .abrir-menu span::after {
+        top: 7px;
+    }
+
+
+    /* Esconde hamburger quando o menu está aberto */
+    html.menu-ativo .abrir-menu {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+
+
+    /* =====================================================
+       OVERLAY DO MENU
+       ===================================================== */
+
+    .menu-principal {
+        position: fixed !important;
+
+        inset: 0 !important;
+
+        width: 100vw !important;
+        height: 100vh;
+        height: 100dvh;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        display: block !important;
+
+        background: rgba(0, 0, 0, 0.72);
+
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+
+        z-index: 1100;
+
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+
+        transition:
+            opacity 0.3s ease,
+            visibility 0.3s ease;
+    }
+
+
+    /* =====================================================
+       PAINEL LATERAL
+       ===================================================== */
+
+    .menu-lista {
+        position: absolute;
+
+        top: 0;
+        right: 0;
+
+        width: min(88vw, 380px);
+
+        height: 100%;
+        min-height: 100dvh;
+
+        margin: 0 !important;
+
+        padding:
+            calc(env(safe-area-inset-top, 0px) + 100px)
+            24px
+            calc(env(safe-area-inset-bottom, 0px) + 32px)
+            24px !important;
+
+        display: flex !important;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+
+        list-style: none;
+
+        background:
+            linear-gradient(
+                180deg,
+                #090909 0%,
+                #0d0d0d 100%
+            );
+
+        border-left: 1px solid rgba(214, 178, 106, 0.2);
+
+        box-shadow: -18px 0 40px rgba(0, 0, 0, 0.45);
+
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        transform: translateX(100%);
+
+        transition: transform 0.35s ease;
+    }
+
+
+    /* =====================================================
+       MENU ABERTO
+       ===================================================== */
+
+    html.menu-ativo .menu-principal {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    html.menu-ativo .menu-lista {
+        transform: translateX(0);
+    }
+
+
+    /* Impede rolagem da página atrás do menu */
+    html.menu-ativo,
+    html.menu-ativo body {
+        overflow: hidden;
+    }
+
+
+    /* =====================================================
+       ITENS
+       ===================================================== */
+
+    .menu-item {
+        width: 100%;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+
+    .menu-link {
+        position: static !important;
+
+        width: 100%;
+        min-height: 64px;
+
+        display: flex !important;
+        align-items: center;
+
+        padding: 0 2px !important;
+
+        color: #f5f1e8 !important;
+
+        font-size: 15px;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+
+        text-decoration: none !important;
+
+        opacity: 1 !important;
+
+        transition:
+            color 0.2s ease,
+            padding-left 0.2s ease;
+    }
+
+
+    .menu-link:hover,
+    .menu-link:focus,
+    .menu-link--active {
+        color: #d6b26a !important;
+        padding-left: 8px !important;
+    }
+
+
+    /* =====================================================
+       CTA
+       ===================================================== */
+
+    .menu-item-cta {
+        margin-top: 30px !important;
+
+        border-bottom: 0;
+    }
+
+
+    .btn-rede-exclusiva {
+        width: 100%;
+        min-height: 52px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 12px 20px;
+
+        border: 1px solid #d6b26a;
+        border-radius: 4px;
+
+        background: #d6b26a;
+
+        color: #090909 !important;
+
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+
+        text-decoration: none;
+
+        text-transform: uppercase;
+
+        transition:
+            background 0.2s ease,
+            transform 0.2s ease;
+    }
+
+    .btn-rede-exclusiva:hover {
+        background: #e3c276;
+        transform: translateY(-1px);
+    }
+
+
+    /* =====================================================
+       BOTÃO FECHAR
+       ===================================================== */
+
+    .fechar-menu {
+        position: fixed !important;
+
+        top: calc(env(safe-area-inset-top, 0px) + 22px);
+        right: 22px;
+
+        width: 44px;
+        height: 44px;
+
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        border: 1px solid rgba(214, 178, 106, 0.55);
+        border-radius: 50%;
+
+        background: #111111;
+
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+
+        z-index: 1103;
+
+        cursor: pointer;
+    }
+
+
+    /* X */
+    .fechar-menu::before,
+    .fechar-menu::after {
+        content: "";
+
+        position: absolute;
+
+        top: 50%;
+        left: 50%;
+
+        width: 18px;
+        height: 2px;
+
+        border-radius: 2px;
+
+        background: #d6b26a;
+    }
+
+    .fechar-menu::before {
+        transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .fechar-menu::after {
+        transform: translate(-50%, -50%) rotate(-45deg);
+    }
+
+}
