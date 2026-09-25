@@ -6,14 +6,14 @@ use App\Http\Controllers\Site\PaginaAppController;
 use App\Http\Controllers\Site\PaginaPalestrantesController;
 use App\Http\Controllers\Site\PaginaNoticiasController;
 use App\Http\Controllers\Site\PaginaEventoController;
- 
+
 
 
 use App\Http\Controllers\Admin\DashController;
 use App\Http\Controllers\Admin\ConexaoController;
 use App\Http\Controllers\Admin\EventoController;
 use App\Http\Controllers\Admin\DataController;
-use App\Http\Controllers\Admin\FormularioController;
+
 use App\Http\Controllers\Admin\TemasController;
 use App\Http\Controllers\Admin\HeroController;
 use App\Http\Controllers\Admin\VideoController;
@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\PalestrantesController;
 use App\Http\Controllers\Admin\UsuariosController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\PerfilPalestranteController;
+use App\Http\Controllers\Admin\PublicacaoController;
 
 
 
@@ -35,13 +36,9 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/page-app', [PaginaAppController::class, 'index'])->name('page-app');
 Route::get('/page-palestrantes', [PaginaPalestrantesController::class, 'index'])->name('page-palestrantes');
 Route::get('/page-noticias', [PaginaNoticiasController::class, 'index'])->name('page-noticias');
-Route::get('/page-evento', [PaginaEventoController::class, 'index']) ->name('page-evento');
-Route::get(
-    '/page-palestrantes/{id}',
-    [PaginaPalestrantesController::class, 'show']
-)
-    ->whereNumber('id')
-    ->name('page-palestrante');
+Route::get('/page-evento', [PaginaEventoController::class, 'index'])->name('page-evento');
+Route::get('/page-palestrantes/{id}', [PaginaPalestrantesController::class, 'show'])->whereNumber('id')->name('page-palestrante');
+
 
 
 // Rotas do Painel Administrativo
@@ -100,8 +97,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/usuarios', [UsuariosController::class, 'index'])->name('cadastro.usuarios');
 
 
-        Route::put('/lista/update', [FormularioController::class, 'update'])->name('admin.lista.update');
+       
         Route::put('/conexao/update', [ConexaoController::class, 'update'])->name('admin.conexao.update');
+        // PUBLICAÇÕES
+        Route::get('/publicacoes', [PublicacaoController::class, 'index'])
+            ->name('publicacoes.index');
+    
+        Route::post('/publicacoes', [PublicacaoController::class, 'store'])
+            ->name('publicacoes.store');
+    
+        Route::patch('/publicacoes/{id}/status', [PublicacaoController::class, 'status'])
+            ->name('publicacoes.status');
     });
 
     Route::prefix('palestrante')->middleware(['auth:admin', 'perfil:palestrante'])->group(function () {
@@ -111,9 +117,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         //DEPOIMENTO PALESTRANTE
         Route::get('/depoimentos', [DepoimentosController::class, 'indexPalestrante'])->name('palestrante.depoimento.index');
         Route::put('/depoimentos', [DepoimentosController::class, 'createDepoimento'])->name('palestrante.depoimento.create');
-        Route::get('/perfil', [PerfilPalestranteController::class, 'index']  )->name('palestrante.perfil.index');
+        Route::get('/perfil', [PerfilPalestranteController::class, 'index'])->name('palestrante.perfil.index');
 
-        Route::put('/perfil', [PerfilPalestranteController::class, 'update'] )->name('palestrante.perfil.update');
+        Route::put('/perfil', [PerfilPalestranteController::class, 'update'])->name('palestrante.perfil.update');
+
 
     });
 });
