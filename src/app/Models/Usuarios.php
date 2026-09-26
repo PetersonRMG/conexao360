@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
 
 use App\Models\Publicacao;
 use App\Models\CurtidaPublicacao;
@@ -13,6 +14,8 @@ use App\Models\Conteudo;
 
 class Usuarios extends Authenticatable
 {
+    use HasApiTokens;
+
     protected $table = 'tbl_usuarios';
 
     protected $primaryKey = 'id_usuario';
