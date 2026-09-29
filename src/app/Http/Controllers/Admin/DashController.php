@@ -10,6 +10,7 @@ use App\Models\HeroSection;
 use App\Models\Eventos;
 use App\Models\Depoimentos; 
 use App\Models\Usuarios;
+use App\Models\Denuncia;
 use Illuminate\Http\Request;
 
 
@@ -49,8 +50,26 @@ class DashController extends Controller
          ->take(5)             
         ->get();
 
+        $aguardandoModeracao = Denuncia::where('status_denuncia', 'PENDENTE')
+        ->count();
 
-        return view('admin.dash.controlebas', compact('evento', 'temas', 'dra', 'video', 'hero', 'depoimentos','usuario', 'usuarioNovos'));
+        $novosEsteMes = Usuarios::whereYear('criado_em_usuario', now()->year)
+        ->whereMonth('criado_em_usuario', now()->month)
+        ->count();
+
+
+        return view('admin.dash.controlebas', compact(
+            'evento',
+            'temas',
+            'dra',
+            'video',
+            'hero',
+            'depoimentos',
+            'usuario',
+            'usuarioNovos',
+            'aguardandoModeracao',
+            'novosEsteMes'
+        ));
        
     }
 

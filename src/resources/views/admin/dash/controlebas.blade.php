@@ -64,6 +64,7 @@
                     </article>
 
 
+                    <a href="{{ route('admin.moderacao.index') }}">
                     <article class="dash-stat-card dash-stat-card--warning">
                         <div class="dash-stat-icon">
                             <i class="bi bi-exclamation-triangle-fill"></i>
@@ -73,7 +74,7 @@
                             <span class="dash-stat-label">Aguardando Moderação</span>
 
                             <strong class="dash-stat-value">
-                                {{ 7 }}
+                                {{ $aguardandoModeracao }}
                             </strong>
 
                             <span class="dash-stat-description">
@@ -82,6 +83,7 @@
                             </span>
                         </div>
                     </article>
+                    </a>
 
 
                     <article class="dash-stat-card dash-stat-card--info">
@@ -93,12 +95,12 @@
                             <span class="dash-stat-label">Novos este Mês</span>
 
                             <strong class="dash-stat-value">
-                                +84
+                                {{ $novosEsteMes }}
                             </strong>
 
                             <span class="dash-stat-description">
-                                <i class="bi bi-graph-up-arrow"></i>
-                                Crescimento mensal
+                                <i class="bi bi-person-plus"></i>
+                                Cadastros no mês atual
                             </span>
                         </div>
                     </article>

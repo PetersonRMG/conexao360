@@ -26,6 +26,7 @@ use App\Http\Controllers\Admin\UsuariosController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\PerfilPalestranteController;
 use App\Http\Controllers\Admin\PublicacaoController;
+use App\Http\Controllers\Admin\ModeracaoController;
 
 
 
@@ -108,6 +109,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
     
         Route::patch('/publicacoes/{id}/status', [PublicacaoController::class, 'status'])
             ->name('publicacoes.status');
+
+
+        // MODERAÇÃO / DENÚNCIAS
+        Route::get('/moderacao', [ModeracaoController::class, 'index'])
+            ->name('moderacao.index');
+
+        Route::patch('/moderacao/{id}/analisar', [ModeracaoController::class, 'analisar'])
+            ->name('moderacao.analisar');
     });
 
     Route::prefix('palestrante')->middleware(['auth:admin', 'perfil:palestrante'])->group(function () {
