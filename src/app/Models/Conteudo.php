@@ -50,4 +50,23 @@ class Conteudo extends Model
             'id_evento'
         );
     }
+
+    public function getPlataformaAttribute(): string
+    {
+        $host = strtolower((string) parse_url((string) $this->url_conteudo, PHP_URL_HOST));
+
+        if (str_contains($host, 'instagram.com')) {
+            return 'Instagram';
+        }
+
+        if (str_contains($host, 'youtube.com') || str_contains($host, 'youtu.be')) {
+            return 'YouTube';
+        }
+
+        if (str_contains($host, 'vimeo.com')) {
+            return 'Vimeo';
+        }
+
+        return 'Outro';
+    }
 }

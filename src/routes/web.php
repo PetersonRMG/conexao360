@@ -27,6 +27,8 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\PerfilPalestranteController;
 use App\Http\Controllers\Admin\PublicacaoController;
 use App\Http\Controllers\Admin\ModeracaoController;
+use App\Http\Controllers\Admin\ConteudosController;
+use App\Http\Controllers\Admin\EnquetesController;
 
 
 
@@ -109,6 +111,26 @@ Route::prefix('admin')->name('admin.')->group(function () {
     
         Route::patch('/publicacoes/{id}/status', [PublicacaoController::class, 'status'])
             ->name('publicacoes.status');
+
+        // CONTEÚDOS / VÍDEOS
+        Route::get('/conteudos', [ConteudosController::class, 'index'])
+            ->name('conteudos.index');
+
+        Route::get('/conteudos/videos', [ConteudosController::class, 'videos'])
+            ->name('conteudos.videos');
+
+        Route::post('/conteudos/videos', [ConteudosController::class, 'storeVideo'])
+            ->name('conteudos.videos.store');
+
+        Route::patch('/conteudos/videos/{id}/status', [ConteudosController::class, 'statusVideo'])
+            ->name('conteudos.videos.status');
+
+        // ENQUETES
+        Route::get('/enquetes', [EnquetesController::class, 'index'])
+            ->name('enquetes.index');
+
+        Route::post('/enquetes', [EnquetesController::class, 'store'])
+            ->name('enquetes.store');
 
 
         // MODERAÇÃO / DENÚNCIAS
