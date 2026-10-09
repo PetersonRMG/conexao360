@@ -310,6 +310,30 @@
                     </a>
 
 
+                    <a href="{{ route('admin.palestrante.publicacoes.index') }}" class="speaker-management-card">
+
+                        <span class="speaker-management-icon">
+                            <i class="bi bi-file-post-fill"></i>
+                        </span>
+
+                        <div class="speaker-management-copy">
+
+                            <strong>
+                                Minhas Publicações
+                            </strong>
+
+                            <p>
+                                Crie publicações com texto e imagem
+                                para os participantes da rede.
+                            </p>
+
+                        </div>
+
+                        <i class="bi bi-arrow-right speaker-management-arrow"></i>
+
+                    </a>
+
+
                     @if ($rotaVideosExiste)
 
                         <a href="{{ route('admin.palestrante.video.index') }}" class="speaker-management-card">

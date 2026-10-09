@@ -100,15 +100,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/usuarios', [UsuariosController::class, 'index'])->name('cadastro.usuarios');
 
 
-       
+
         Route::put('/conexao/update', [ConexaoController::class, 'update'])->name('admin.conexao.update');
+
         // PUBLICAÇÕES
         Route::get('/publicacoes', [PublicacaoController::class, 'index'])
             ->name('publicacoes.index');
-    
+
         Route::post('/publicacoes', [PublicacaoController::class, 'store'])
             ->name('publicacoes.store');
-    
+
         Route::patch('/publicacoes/{id}/status', [PublicacaoController::class, 'status'])
             ->name('publicacoes.status');
 
@@ -151,6 +152,43 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/perfil', [PerfilPalestranteController::class, 'index'])->name('palestrante.perfil.index');
 
         Route::put('/perfil', [PerfilPalestranteController::class, 'update'])->name('palestrante.perfil.update');
+
+        // ========================================
+        // PUBLICAÇÕES DO PALESTRANTE
+        // ========================================
+
+        Route::get(
+            '/publicacoes',
+            [PublicacaoController::class, 'indexPalestrante']
+        )->name('palestrante.publicacoes.index');
+
+        Route::post(
+            '/publicacoes',
+            [PublicacaoController::class, 'storePalestrante']
+        )->name('palestrante.publicacoes.store');
+
+        Route::patch(
+            '/publicacoes/{id}/status',
+            [PublicacaoController::class, 'statusPalestrante']
+        )->name('palestrante.publicacoes.status');
+
+        // VÍDEOS DAS PALESTRAS
+        Route::get('/videos', [ConteudosController::class, 'videosPalestrante'])
+            ->name('palestrante.video.index');
+
+        Route::post('/videos', [ConteudosController::class, 'storeVideoPalestrante'])
+            ->name('palestrante.video.store');
+
+        Route::patch('/videos/{id}/status', [ConteudosController::class, 'statusVideoPalestrante'])
+            ->name('palestrante.video.status');
+
+
+        // ENQUETES DO PALESTRANTE
+        Route::get('/enquetes', [EnquetesController::class, 'indexPalestrante'])
+            ->name('palestrante.enquete.index');
+
+        Route::post('/enquetes', [EnquetesController::class, 'storePalestrante'])
+            ->name('palestrante.enquete.store');
 
 
     });

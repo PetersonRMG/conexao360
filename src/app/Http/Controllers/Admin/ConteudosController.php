@@ -8,6 +8,7 @@ use App\Models\Enquete;
 use App\Models\Eventos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class ConteudosController extends Controller
 {
@@ -30,7 +31,9 @@ class ConteudosController extends Controller
 
     public function videos()
     {
-        $eventos = Eventos::orderByDesc('data_inicial_evento')->get();
+        $eventos = Eventos::where('status_evento', 'ATIVO')
+            ->orderByDesc('data_inicial_evento')
+            ->get();
 
         $videos = Conteudo::with(['usuario', 'evento'])
             ->where('tipo_conteudo', 'VIDEO')
@@ -46,21 +49,7 @@ class ConteudosController extends Controller
 
     public function storeVideo(Request $request)
     {
-        $dados = $request->validate([
-            'id_evento' => 'required|integer|exists:tbl_eventos,id_evento',
-            'titulo_conteudo' => 'required|string|max:150',
-            'descricao_conteudo' => 'required|string|max:3000',
-            'liberado_em_conteudo' => 'required|date',
-            'url_conteudo' => 'required|url|max:255',
-        ], [
-            'id_evento.required' => 'Selecione o evento relacionado ao vídeo.',
-            'titulo_conteudo.required' => 'Informe o título do vídeo.',
-            'descricao_conteudo.required' => 'Informe uma descrição para o vídeo.',
-            'liberado_em_conteudo.required' => 'Informe quando o vídeo ficará disponível.',
-            'url_conteudo.required' => 'Informe a URL do vídeo.',
-            'url_conteudo.url' => 'Informe uma URL válida para o vídeo.',
-        ]);
-
+        $dados = $this->validarVideo($request);
         $usuario = Auth::guard('admin')->user();
 
         Conteudo::create([
@@ -99,5 +88,113 @@ class ConteudosController extends Controller
         return redirect()
             ->route('admin.conteudos.videos')
             ->with('success', $mensagem);
+    }
+
+    public function videosPalestrante()
+    {
+        $usuario = Auth::guard('admin')->user();
+
+        abort_unless(
+            $usuario && $usuario->perfil_usuario === 'palestrante',
+            403
+        );
+
+        $eventos = Eventos::where('status_evento', 'ATIVO')
+            ->orderByDesc('data_inicial_evento')
+            ->get();
+
+        $videos = Conteudo::with(['usuario', 'evento'])
+            ->where('tipo_conteudo', 'VIDEO')
+            ->where('id_usuario', $usuario->id_usuario)
+            ->orderByDesc('liberado_em_conteudo')
+            ->orderByDesc('id_conteudos')
+            ->get();
+
+        return view('palestrante.videos.index', compact(
+            'eventos',
+            'videos'
+        ));
+    }
+
+    public function storeVideoPalestrante(Request $request)
+    {
+        $usuario = Auth::guard('admin')->user();
+
+        abort_unless(
+            $usuario && $usuario->perfil_usuario === 'palestrante',
+            403
+        );
+
+        $dados = $this->validarVideo($request);
+
+        Conteudo::create([
+            'id_usuario' => $usuario->id_usuario,
+            'id_evento' => $dados['id_evento'],
+            'titulo_conteudo' => $dados['titulo_conteudo'],
+            'tipo_conteudo' => 'VIDEO',
+            'descricao_conteudo' => $dados['descricao_conteudo'],
+            'liberado_em_conteudo' => $dados['liberado_em_conteudo'],
+            'url_conteudo' => $dados['url_conteudo'],
+            'status_conteudo' => 'ATIVO',
+        ]);
+
+        return redirect()
+            ->route('admin.palestrante.video.index')
+            ->with('success', 'Vídeo cadastrado com sucesso.');
+    }
+
+    public function statusVideoPalestrante(Request $request, $id)
+    {
+        $usuario = Auth::guard('admin')->user();
+
+        abort_unless(
+            $usuario && $usuario->perfil_usuario === 'palestrante',
+            403
+        );
+
+        $dados = $request->validate([
+            'status_conteudo' => 'required|in:ATIVO,INATIVO',
+        ]);
+
+        $video = Conteudo::where('tipo_conteudo', 'VIDEO')
+            ->where('id_usuario', $usuario->id_usuario)
+            ->where('id_conteudos', $id)
+            ->firstOrFail();
+
+        $video->update([
+            'status_conteudo' => $dados['status_conteudo'],
+        ]);
+
+        $mensagem = $dados['status_conteudo'] === 'ATIVO'
+            ? 'Vídeo ativado com sucesso.'
+            : 'Vídeo inativado com sucesso.';
+
+        return redirect()
+            ->route('admin.palestrante.video.index')
+            ->with('success', $mensagem);
+    }
+
+    private function validarVideo(Request $request): array
+    {
+        return $request->validate([
+            'id_evento' => [
+                'required',
+                'integer',
+                Rule::exists('tbl_eventos', 'id_evento')
+                    ->where(fn ($query) => $query->where('status_evento', 'ATIVO')),
+            ],
+            'titulo_conteudo' => 'required|string|max:150',
+            'descricao_conteudo' => 'required|string|max:3000',
+            'liberado_em_conteudo' => 'required|date',
+            'url_conteudo' => 'required|url|max:255',
+        ], [
+            'id_evento.required' => 'Selecione o evento relacionado ao vídeo.',
+            'id_evento.exists' => 'Selecione um evento ativo.',
+            'titulo_conteudo.required' => 'Informe o título do vídeo.',
+            'descricao_conteudo.required' => 'Informe uma descrição para o vídeo.',
+            'liberado_em_conteudo.required' => 'Informe quando o vídeo ficará disponível.',
+            'url_conteudo.required' => 'Informe a URL do vídeo.',
+            'url_conteudo.url' => 'Informe uma URL válida para o vídeo.',
+        ]);
     }
 }

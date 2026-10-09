@@ -1,4 +1,8 @@
-@extends('layout.admin')
+@extends('layout.palestrante')
+
+@section('title', 'Publicações')
+@section('pg-titulo', 'Publicações')
+@section('link-topo', 'Conteúdo')
 
 @section('content')
 
@@ -19,7 +23,7 @@
                         <strong>Publicações</strong>
 
                         <span>
-                            Crie e gerencie as publicações oficiais da rede Conexão 360.
+                            Crie e gerencie as suas publicações na rede Conexão 360.
                         </span>
                     </div>
 
@@ -80,8 +84,8 @@
                             <h4>Nova publicação</h4>
 
                             <p>
-                                Publique novidades, avisos e conteúdos oficiais
-                                para os membros da rede.
+                                Compartilhe textos e imagens com os participantes
+                                da rede Conexão 360.
                             </p>
                         </div>
 
@@ -93,7 +97,7 @@
                 <div class="site-editor-card">
 
                     <form
-                        action="{{ route('admin.publicacoes.store') }}"
+                        action="{{ route('admin.palestrante.publicacoes.store') }}"
                         method="POST"
                         enctype="multipart/form-data">
 
@@ -157,7 +161,7 @@
                                     for="midia_publicacao"
                                     class="form-label">
 
-                                    Imagem ou vídeo
+                                    Imagem
 
                                 </label>
 
@@ -166,10 +170,10 @@
                                     name="midia_publicacao"
                                     id="midia_publicacao"
                                     class="form-control"
-                                    accept=".jpg,.jpeg,.png,.webp,">
+                                    accept=".jpg,.jpeg,.png,.webp">
 
                                 <div class="form-text">
-                                    JPG, PNG, WEBP.
+                                    JPG, JPEG, PNG ou WEBP.
                                 </div>
 
                             </div>
@@ -194,8 +198,8 @@
                                     placeholder="Escreva o conteúdo da publicação...">{{ old('texto_publicacao') }}</textarea>
 
                                 <div class="form-text">
-                                    A publicação precisa possuir texto,
-                                    mídia ou ambos.
+                                    A publicação pode possuir texto,
+                                    imagem ou ambos.
                                 </div>
 
                             </div>
@@ -238,11 +242,11 @@
                         </div>
 
                         <div>
-                            <h4>Publicações cadastradas</h4>
+                            <h4>Minhas publicações</h4>
 
                             <p>
-                                Visualize e controle as publicações disponíveis
-                                na rede.
+                                Visualize e controle somente as publicações
+                                criadas por você.
                             </p>
                         </div>
 
@@ -392,7 +396,7 @@
 
                 <form
                     action="{{ route(
-                        'admin.publicacoes.status',
+                        'admin.palestrante.publicacoes.status',
                         $publicacao->id_publicacao
                     ) }}"
                     method="POST">
