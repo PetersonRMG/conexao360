@@ -1,0 +1,46 @@
+[90m= [39m[34;4mIlluminate\Support\Collection[39;24m {#7663
+    [34mall[39m: [
+      {#7660
+        +"[1mid_usuario[22m": [35m1[39m,
+        +"[1mnome_usuario[22m": [32m"[39m[32mAlan Trabalhista[39m[32m"[39m,
+        +"[1mperfil_usuario[22m": [32m"[39m[32mpalestrante[39m[32m"[39m,
+        +"[1mstatus_usuario[22m": [32m"[39m[32mATIVO[39m[32m"[39m,
+      },
+      {#7659
+        +"[1mid_usuario[22m": [35m2[39m,
+        +"[1mnome_usuario[22m": [32m"[39m[32mArmado Batista[39m[32m"[39m,
+        +"[1mperfil_usuario[22m": [32m"[39m[32mpalestrante[39m[32m"[39m,
+        +"[1mstatus_usuario[22m": [32m"[39m[32mATIVO[39m[32m"[39m,
+      },
+      {#7658
+        +"[1mid_usuario[22m": [35m3[39m,
+        +"[1mnome_usuario[22m": [32m"[39m[32mJoão Camisa[39m[32m"[39m,
+        +"[1mperfil_usuario[22m": [32m"[39m[32musuario[39m[32m"[39m,
+        +"[1mstatus_usuario[22m": [32m"[39m[32mATIVO[39m[32m"[39m,
+      },
+      {#7657
+        +"[1mid_usuario[22m": [35m4[39m,
+        +"[1mnome_usuario[22m": [32m"[39m[32mSimone Batista[39m[32m"[39m,
+        +"[1mperfil_usuario[22m": [32m"[39m[32madministrador[39m[32m"[39m,
+        +"[1mstatus_usuario[22m": [32m"[39m[32mATIVO[39m[32m"[39m,
+      },
+      {#7656
+        +"[1mid_usuario[22m": [35m5[39m,
+        +"[1mnome_usuario[22m": [32m"[39m[32mGabriela teste[39m[32m"[39m,
+        +"[1mperfil_usuario[22m": [32m"[39m[32mpalestrante[39m[32m"[39m,
+        +"[1mstatus_usuario[22m": [32m"[39m[32mATIVO[39m[32m"[39m,
+      },
+      {#7655
+        +"[1mid_usuario[22m": [35m6[39m,
+        +"[1mnome_usuario[22m": [32m"[39m[32mMaria Aparecida[39m[32m"[39m,
+        +"[1mperfil_usuario[22m": [32m"[39m[32mpalestrante[39m[32m"[39m,
+        +"[1mstatus_usuario[22m": [32m"[39m[32mATIVO[39m[32m"[39m,
+      },
+      {#7654
+        +"[1mid_usuario[22m": [35m7[39m,
+        +"[1mnome_usuario[22m": [32m"[39m[32mcarla trindade[39m[32m"[39m,
+        +"[1mperfil_usuario[22m": [32m"[39m[32mpalestrante[39m[32m"[39m,
+        +"[1mstatus_usuario[22m": [32m"[39m[32mATIVO[39m[32m"[39m,
+      },
+    ],
+  }
