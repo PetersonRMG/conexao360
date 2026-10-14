@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\V1\PublicacaoController;
 use App\Http\Controllers\Api\V1\CurtidaPublicacaoController;
 use App\Http\Controllers\Api\V1\ComentarioPublicacaoController;
 use App\Http\Controllers\Api\V1\ConexaoController;
+use App\Http\Controllers\Api\V1\PerfilController;
 
 
 Route::prefix('v1')->group(function () {
@@ -36,12 +37,23 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
 
 
-        // USUÁRIO
+        // USUÁRIO LOGADO
 
         Route::get('/usuario', [
             UsuarioController::class,
             'show'
         ]);
+
+
+        // PERFIL DE USUÁRIO
+
+        Route::get(
+            '/usuarios/{idUsuario}',
+            [
+                PerfilController::class,
+                'show'
+            ]
+        );
 
 
         // PUBLICAÇÕES
@@ -90,6 +102,11 @@ Route::prefix('v1')->group(function () {
                 'store'
             ]
         );
+
+        Route::post('/publicacoes', [
+            PublicacaoController::class,
+            'store'
+        ]);
 
 
         // CONEXÕES
