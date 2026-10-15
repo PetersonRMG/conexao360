@@ -1200,8 +1200,7 @@
                                     Copiar
                                 </button>
 
-                                <pre id="{{ $endpointId }}-headers"><code>Accept: application/json@if($endpoint['autenticado'])
-Authorization: Bearer SEU_TOKEN@endif</code></pre>
+                                <pre id="{{ $endpointId }}-headers"><code>Accept: application/json{{ $endpoint['autenticado'] ? "\nAuthorization: Bearer SEU_TOKEN" : '' }}</code></pre>
 
                             </div>
 
