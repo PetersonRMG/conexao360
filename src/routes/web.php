@@ -6,6 +6,8 @@ use App\Http\Controllers\Site\PaginaAppController;
 use App\Http\Controllers\Site\PaginaPalestrantesController;
 use App\Http\Controllers\Site\PaginaNoticiasController;
 use App\Http\Controllers\Site\PaginaEventoController;
+use App\Http\Controllers\Site\ApiDocumentationController;
+
 
 
 
@@ -193,3 +195,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     });
 });
+
+Route::get(
+    '/api/documentacao',
+    [ApiDocumentationController::class, 'index']
+)->name('api.documentacao');
