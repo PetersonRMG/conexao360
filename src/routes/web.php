@@ -41,6 +41,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/page-app', [PaginaAppController::class, 'index'])->name('page-app');
 Route::get('/page-palestrantes', [PaginaPalestrantesController::class, 'index'])->name('page-palestrantes');
 Route::get('/page-noticias', [PaginaNoticiasController::class, 'index'])->name('page-noticias');
+Route::get('/page-noticias/{id}', [PaginaNoticiasController::class, 'show'])->where('id', '[a-f0-9]{40}')->name('page-noticias.show');
 Route::get('/page-evento', [PaginaEventoController::class, 'index'])->name('page-evento');
 Route::get('/page-palestrantes/{id}', [PaginaPalestrantesController::class, 'show'])->whereNumber('id')->name('page-palestrante');
 
@@ -106,42 +107,31 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('/conexao/update', [ConexaoController::class, 'update'])->name('admin.conexao.update');
 
         // PUBLICAÇÕES
-        Route::get('/publicacoes', [PublicacaoController::class, 'index'])
-            ->name('publicacoes.index');
+        Route::get('/publicacoes', [PublicacaoController::class, 'index'])->name('publicacoes.index');
 
-        Route::post('/publicacoes', [PublicacaoController::class, 'store'])
-            ->name('publicacoes.store');
+        Route::post('/publicacoes', [PublicacaoController::class, 'store'])->name('publicacoes.store');
 
-        Route::patch('/publicacoes/{id}/status', [PublicacaoController::class, 'status'])
-            ->name('publicacoes.status');
+        Route::patch('/publicacoes/{id}/status', [PublicacaoController::class, 'status'])->name('publicacoes.status');
 
         // CONTEÚDOS / VÍDEOS
-        Route::get('/conteudos', [ConteudosController::class, 'index'])
-            ->name('conteudos.index');
+        Route::get('/conteudos', [ConteudosController::class, 'index'])->name('conteudos.index');
 
-        Route::get('/conteudos/videos', [ConteudosController::class, 'videos'])
-            ->name('conteudos.videos');
+        Route::get('/conteudos/videos', [ConteudosController::class, 'videos'])->name('conteudos.videos');
 
-        Route::post('/conteudos/videos', [ConteudosController::class, 'storeVideo'])
-            ->name('conteudos.videos.store');
+        Route::post('/conteudos/videos', [ConteudosController::class, 'storeVideo'])->name('conteudos.videos.store');
 
-        Route::patch('/conteudos/videos/{id}/status', [ConteudosController::class, 'statusVideo'])
-            ->name('conteudos.videos.status');
+        Route::patch('/conteudos/videos/{id}/status', [ConteudosController::class, 'statusVideo'])->name('conteudos.videos.status');
 
         // ENQUETES
-        Route::get('/enquetes', [EnquetesController::class, 'index'])
-            ->name('enquetes.index');
+        Route::get('/enquetes', [EnquetesController::class, 'index'])->name('enquetes.index');
 
-        Route::post('/enquetes', [EnquetesController::class, 'store'])
-            ->name('enquetes.store');
+        Route::post('/enquetes', [EnquetesController::class, 'store'])->name('enquetes.store');
 
 
         // MODERAÇÃO / DENÚNCIAS
-        Route::get('/moderacao', [ModeracaoController::class, 'index'])
-            ->name('moderacao.index');
+        Route::get('/moderacao', [ModeracaoController::class, 'index'])->name('moderacao.index');
 
-        Route::patch('/moderacao/{id}/analisar', [ModeracaoController::class, 'analisar'])
-            ->name('moderacao.analisar');
+        Route::patch('/moderacao/{id}/analisar', [ModeracaoController::class, 'analisar'])->name('moderacao.analisar');
     });
 
     Route::prefix('palestrante')->middleware(['auth:admin', 'perfil:palestrante'])->group(function () {
@@ -161,36 +151,28 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get(
             '/publicacoes',
-            [PublicacaoController::class, 'indexPalestrante']
-        )->name('palestrante.publicacoes.index');
+            [PublicacaoController::class, 'indexPalestrante'])->name('palestrante.publicacoes.index');
 
         Route::post(
             '/publicacoes',
-            [PublicacaoController::class, 'storePalestrante']
-        )->name('palestrante.publicacoes.store');
+            [PublicacaoController::class, 'storePalestrante'])->name('palestrante.publicacoes.store');
 
         Route::patch(
             '/publicacoes/{id}/status',
-            [PublicacaoController::class, 'statusPalestrante']
-        )->name('palestrante.publicacoes.status');
+            [PublicacaoController::class, 'statusPalestrante'])->name('palestrante.publicacoes.status');
 
         // VÍDEOS DAS PALESTRAS
-        Route::get('/videos', [ConteudosController::class, 'videosPalestrante'])
-            ->name('palestrante.video.index');
+        Route::get('/videos', [ConteudosController::class, 'videosPalestrante'])->name('palestrante.video.index');
 
-        Route::post('/videos', [ConteudosController::class, 'storeVideoPalestrante'])
-            ->name('palestrante.video.store');
+        Route::post('/videos', [ConteudosController::class, 'storeVideoPalestrante'])->name('palestrante.video.store');
 
-        Route::patch('/videos/{id}/status', [ConteudosController::class, 'statusVideoPalestrante'])
-            ->name('palestrante.video.status');
+        Route::patch('/videos/{id}/status', [ConteudosController::class, 'statusVideoPalestrante'])->name('palestrante.video.status');
 
 
         // ENQUETES DO PALESTRANTE
-        Route::get('/enquetes', [EnquetesController::class, 'indexPalestrante'])
-            ->name('palestrante.enquete.index');
+        Route::get('/enquetes', [EnquetesController::class, 'indexPalestrante'])->name('palestrante.enquete.index');
 
-        Route::post('/enquetes', [EnquetesController::class, 'storePalestrante'])
-            ->name('palestrante.enquete.store');
+        Route::post('/enquetes', [EnquetesController::class, 'storePalestrante'])->name('palestrante.enquete.store');
 
 
     });

@@ -9,10 +9,11 @@ use App\Models\Eventos;
 use App\Models\HeroSection;
 use App\Models\Depoimentos;
 use App\Models\Usuarios;
+use App\Services\NoticiasStjService;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(NoticiasStjService $noticiasStjService)
     {
         $temas = Temas::where('status_tema', 'ATIVO')
             ->inRandomOrder()
@@ -41,13 +42,18 @@ class HomeController extends Controller
             ->limit(4)
             ->get();
 
+        // Mesma origem, imagens e cache da página Conexão Jurídica.
+        // A consulta ao RSS só acontece quando o cache expira.
+        $noticiasHome = $noticiasStjService->listar()->take(3);
+
         return view('site.home.home', compact(
             'temas',
             'dra',
             'evento',
             'hero',
             'depoimentos',
-            'palestrantes'
+            'palestrantes',
+            'noticiasHome'
         ));
     }
 }

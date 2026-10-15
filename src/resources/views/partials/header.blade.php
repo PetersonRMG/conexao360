@@ -124,14 +124,14 @@
                 @endphp
 
 
-                <li class="menu-item menu-item-more">
+                <!-- <li class="menu-item menu-item-more">
 
                     <details class="menu-more" {{ $maisAtivo ? 'open' : '' }}>
 
                         <summary class="menu-link menu-more-trigger {{
-    $maisAtivo
-    ? 'menu-link--active'
-    : ''
+                        $maisAtivo
+                        ? 'menu-link--active'
+                        : ''
                             }}">
                             Mais
 
@@ -142,45 +142,45 @@
                         <div class="menu-more-dropdown">
 
                             <a href="{{ url('/experiencia') }}" class="{{
-    request()->is('experiencia')
-    ? 'active'
-    : ''
+                        request()->is('experiencia')
+                        ? 'active'
+                        : ''
                                 }}">
                                 Experiência
                             </a>
 
 
                             <a href="{{ url('/depoimentos') }}" class="{{
-    request()->is('depoimentos')
-    ? 'active'
-    : ''
-                                }}">
+                                request()->is('depoimentos')
+                                ? 'active'
+                                : ''
+                                                    }}">
                                 Depoimentos
                             </a>
 
 
                             <a href="{{ url('/local') }}" class="{{
-    request()->is('local')
-    ? 'active'
-    : ''
+                                request()->is('local')
+                                ? 'active'
+                                : ''
                                 }}">
                                 Local
                             </a>
 
 
                             <a href="{{ url('/faq') }}" class="{{
-    request()->is('faq')
-    ? 'active'
-    : ''
+                                request()->is('faq')
+                                ? 'active'
+                                : ''
                                 }}">
                                 FAQ
                             </a>
 
 
                             <a href="{{ url('/contato') }}" class="{{
-    request()->is('contato')
-    ? 'active'
-    : ''
+                                request()->is('contato')
+                                ? 'active'
+                                : ''
                                 }}">
                                 Contato
                             </a>
@@ -199,7 +199,7 @@
                         Garantir ingresso
                     </a>
 
-                </li>
+                </li> -->
 
             </ul>
 

@@ -379,78 +379,62 @@
 
 
     {{-- ================================================================
-    7. CONEXÃO JURÍDICA / NOTÍCIAS
-    Conteúdo demonstrativo por enquanto; pronto para virar @foreach com API.
+    7. CONEXÃO JURÍDICA / NOTÍCIAS REAIS DO STJ
     ================================================================= --}}
-    <section id="noticias" class="experience-news-section experience-section-spaced">
-        <div class="experience-shell">
 
-            <div class="experience-news-heading">
-                <div>
-                    <p class="experience-eyebrow">Notícias</p>
-                    <h2>Conexão Jurídica</h2>
-                    <p>Informação para uma advocacia que evolui.</p>
-                </div>
-
-                <a href="{{ url('/noticias') }}" class="experience-text-link experience-text-link--light">
-                    Ver todas as notícias
-                    <span aria-hidden="true">→</span>
-                </a>
+  {{-- Parcial da Home — recebe $noticiasHome do HomeController. --}}
+<section id="noticias" class="experience-news-section experience-section-spaced">
+    <div class="experience-shell">
+        <div class="experience-news-heading">
+            <div>
+                <p class="experience-eyebrow">Notícias</p>
+                <h2>Conexão Jurídica</h2>
+                <p>Informação para uma advocacia que evolui.</p>
             </div>
 
-            <div class="experience-news-grid">
-
-                <article class="experience-news-card">
-                    <a href="#" class="experience-news-image">
-                        <img src="{{ asset('conexao360/img/Mídia (1).jpg') }}"
-                            alt="Profissionais em encontro jurídico"
-                            loading="lazy"
-                            decoding="async">
-                    </a>
-
-                    <div class="experience-news-content">
-                        <span class="experience-news-category">Tecnologia</span>
-                        <h3>Inteligência artificial e os novos fluxos de trabalho na advocacia</h3>
-                        <p>Como novas ferramentas podem apoiar pesquisa, organização e produtividade sem substituir estratégia e julgamento profissional.</p>
-                        <a href="#" class="experience-news-link">Ler mais →</a>
-                    </div>
-                </article>
-
-                <article class="experience-news-card">
-                    <a href="#" class="experience-news-image">
-                        <img src="{{ asset('conexao360/img/captura.png') }}"
-                            alt="Networking durante evento profissional"
-                            loading="lazy"
-                            decoding="async">
-                    </a>
-
-                    <div class="experience-news-content">
-                        <span class="experience-news-category">Carreira</span>
-                        <h3>Posicionamento jurídico: autoridade também se constrói fora do tribunal</h3>
-                        <p>Relacionamento, clareza de comunicação e consistência de marca se tornaram partes importantes da presença profissional.</p>
-                        <a href="#" class="experience-news-link">Ler mais →</a>
-                    </div>
-                </article>
-
-                <article class="experience-news-card">
-                    <a href="#" class="experience-news-image">
-                        <img src="{{ asset('conexao360/img/vista.png') }}"
-                            alt="Ambiente corporativo e gestão"
-                            loading="lazy"
-                            decoding="async">
-                    </a>
-
-                    <div class="experience-news-content">
-                        <span class="experience-news-category">Gestão</span>
-                        <h3>Escritório de advocacia também é negócio: indicadores que ajudam a decidir</h3>
-                        <p>Organizar processos e acompanhar resultados torna decisões de crescimento mais claras e menos dependentes de improviso.</p>
-                        <a href="#" class="experience-news-link">Ler mais →</a>
-                    </div>
-                </article>
-
-            </div>
+            <a href="{{ route('page-noticias') }}" class="experience-text-link experience-text-link--light">
+                Ver todas as notícias
+                <span aria-hidden="true">→</span>
+            </a>
         </div>
-    </section>
+
+        <div class="experience-news-grid">
+            @forelse (($noticiasHome ?? collect()) as $item)
+                @php
+                    $imagem = $item['imagem'] ?? 'conexao360/img/vista.png';
+                    $imagemUrl = \Illuminate\Support\Str::startsWith($imagem, ['https://', 'http://'])
+                        ? $imagem
+                        : asset($imagem);
+                    $linkInterno = route('page-noticias.show', ['id' => $item['id']]);
+                @endphp
+
+                <article class="experience-news-card">
+                    <a href="{{ $linkInterno }}" class="experience-news-image">
+                        <img
+                            src="{{ $imagemUrl }}"
+                            alt="Imagem da notícia: {{ $item['titulo'] }}"
+                            loading="lazy"
+                            decoding="async"
+                            referrerpolicy="no-referrer"
+                            onerror="this.onerror=null;this.src='{{ asset('conexao360/img/vista.png') }}';"
+                        >
+                    </a>
+                    <div class="experience-news-content">
+                        <span class="experience-news-category">{{ $item['categoria'] ?? 'Notícias STJ' }}</span>
+                        <h3><a href="{{ $linkInterno }}" style="color:inherit;text-decoration:none;">{{ $item['titulo'] }}</a></h3>
+                        <p>{{ \Illuminate\Support\Str::limit($item['resumo'] ?? '', 150) }}</p>
+                        <a href="{{ $linkInterno }}" class="experience-news-link">Ler mais →</a>
+                    </div>
+                </article>
+            @empty
+                <p>As notícias estão temporariamente indisponíveis.
+                    <a href="{{ route('page-noticias') }}">Acessar Conexão Jurídica</a>
+                </p>
+            @endforelse
+        </div>
+    </div>
+</section>
+
 
 
     {{-- ================================================================

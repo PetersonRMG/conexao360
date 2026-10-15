@@ -71,8 +71,21 @@
                     <article class="news-card" data-category="{{ $categoriaSlug }}"
                         data-title="{{ \Illuminate\Support\Str::lower($item['titulo']) }}"
                         data-summary="{{ \Illuminate\Support\Str::lower($item['resumo']) }}">
-                        <a href="{{ $item['url'] }}" class="news-card-image">
-                            <img src="{{ asset($item['imagem']) }}" alt="{{ $item['titulo'] }}" loading="lazy">
+                        <a href="{{ route('page-noticias.show', ['id' => $item['id']]) }}"
+                           class="news-card-image"
+>
+                            @php
+                                $imagemNoticia = \Illuminate\Support\Str::startsWith($item['imagem'], ['http://', 'https://'])
+                                    ? $item['imagem']
+                                    : asset($item['imagem']);
+                            @endphp
+                            <img
+                                src="{{ $imagemNoticia }}"
+                                alt="Imagem ilustrativa da notícia: {{ $item['titulo'] }}"
+                                loading="lazy"
+                                referrerpolicy="no-referrer"
+                                onerror="this.onerror=null;this.src='{{ asset('conexao360/img/vista.png') }}';"
+                            >
 
                             <span class="news-card-category">
                                 {{ $item['categoria'] }}
@@ -81,34 +94,44 @@
 
                         <div class="news-card-content">
                             <span class="news-card-date">
-                                {{ $item['data'] }}
+                                {{ $item['data'] }} · Fonte: STJ
                             </span>
 
                             <h3>
-                                <a href="{{ $item['url'] }}">
+                                <a href="{{ route('page-noticias.show', ['id' => $item['id']]) }}">
                                     {{ $item['titulo'] }}
                                 </a>
                             </h3>
 
                             <p>{{ $item['resumo'] }}</p>
 
-                            <a href="{{ $item['url'] }}" class="news-card-link">
+                            <a href="{{ route('page-noticias.show', ['id' => $item['id']]) }}"
+                               class="news-card-link"
+>
                                 Ler mais <span>→</span>
                             </a>
                         </div>
                     </article>
                 @endforeach
 
+                @if ($noticias->isEmpty())
+                    <p role="status" class="news-empty">
+                        Não foi possível carregar as notícias no momento.
+                        Tente novamente mais tarde.
+                    </p>
+                @endif
+
             </div>
 
-            <div class="news-pagination">
-                <button type="button" class="is-active">1</button>
-                <button type="button">2</button>
-                <button type="button">3</button>
-                <span>...</span>
-                <button type="button">10</button>
-                <button type="button"><i class="bi bi-arrow-right"></i></button>
-            </div>
+            <p id="newsNoResults" role="status" hidden>
+                Nenhuma notícia encontrada para sua busca.
+            </p>
+
+            <div class="news-pagination"
+                 id="newsPagination"
+                 role="navigation"
+                 aria-label="Paginação das notícias"
+                 hidden></div>
 
         </div>
     </section>
@@ -169,43 +192,138 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const filtros = document.querySelectorAll('.news-filter');
-        const cards = document.querySelectorAll('.news-card');
+        const grid = document.getElementById('newsGrid');
+        const cards = Array.from(document.querySelectorAll('.news-card'));
         const busca = document.getElementById('newsSearch');
+        const paginacao = document.getElementById('newsPagination');
+        const mensagemSemResultados = document.getElementById('newsNoResults');
 
+        const porPagina = 6;
         let filtroAtual = 'todas';
+        let paginaAtual = 1;
 
-        function filtrarNoticias() {
-            const termo = (busca?.value || '').toLowerCase().trim();
+        function normalizarTexto(valor) {
+            return String(valor || '')
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLocaleLowerCase('pt-BR');
+        }
 
-            cards.forEach((card) => {
-                const categoria = card.dataset.category;
-                const titulo = card.dataset.title || '';
-                const resumo = card.dataset.summary || '';
+        function criarBotaoPagina(rotulo, pagina, ativo, desativado, icone) {
+            const botao = document.createElement('button');
+            botao.type = 'button';
+            botao.disabled = desativado;
+
+            if (ativo) {
+                botao.classList.add('is-active');
+                botao.setAttribute('aria-current', 'page');
+            }
+
+            if (icone) {
+                const elementoIcone = document.createElement('i');
+                elementoIcone.className = `bi bi-arrow-${icone}`;
+                botao.appendChild(elementoIcone);
+                botao.setAttribute(
+                    'aria-label',
+                    icone === 'left' ? 'Página anterior' : 'Próxima página'
+                );
+            } else {
+                botao.textContent = String(rotulo);
+                botao.setAttribute('aria-label', `Ir para página ${pagina}`);
+            }
+
+            botao.addEventListener('click', function () {
+                if (desativado || pagina === paginaAtual) return;
+
+                paginaAtual = pagina;
+                renderizarNoticias();
+
+                if (grid) {
+                    grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+
+            return botao;
+        }
+
+        function renderizarNoticias() {
+            const termo = normalizarTexto(busca?.value.trim());
+
+            const filtradas = cards.filter(function (card) {
+                const categoria = card.dataset.category || '';
+                const titulo = normalizarTexto(card.dataset.title);
+                const resumo = normalizarTexto(card.dataset.summary);
 
                 const passaCategoria =
                     filtroAtual === 'todas' || categoria === filtroAtual;
 
                 const passaBusca =
-                    termo === '' ||
-                    titulo.includes(termo) ||
-                    resumo.includes(termo);
+                    termo === '' || titulo.includes(termo) || resumo.includes(termo);
 
-                card.hidden = !(passaCategoria && passaBusca);
+                return passaCategoria && passaBusca;
             });
+
+            const totalPaginas = Math.ceil(filtradas.length / porPagina);
+            paginaAtual = Math.min(paginaAtual, Math.max(totalPaginas, 1));
+
+            cards.forEach(function (card) {
+                card.hidden = true;
+            });
+
+            const inicio = (paginaAtual - 1) * porPagina;
+            filtradas.slice(inicio, inicio + porPagina).forEach(function (card) {
+                card.hidden = false;
+            });
+
+            if (mensagemSemResultados) {
+                // Se o feed falhar, a mensagem do Blade já informa a indisponibilidade.
+                mensagemSemResultados.hidden =
+                    cards.length === 0 || filtradas.length > 0;
+            }
+
+            if (!paginacao) return;
+
+            paginacao.replaceChildren();
+            // noticias.css usa display:flex; o inline garante esconder quando há apenas uma página.
+            paginacao.style.display = totalPaginas <= 1 ? 'none' : 'flex';
+
+            if (totalPaginas <= 1) return;
+
+            paginacao.appendChild(
+                criarBotaoPagina('Anterior', paginaAtual - 1, false, paginaAtual === 1, 'left')
+            );
+
+            for (let pagina = 1; pagina <= totalPaginas; pagina++) {
+                paginacao.appendChild(
+                    criarBotaoPagina(pagina, pagina, pagina === paginaAtual, false, null)
+                );
+            }
+
+            paginacao.appendChild(
+                criarBotaoPagina('Próxima', paginaAtual + 1, false, paginaAtual === totalPaginas, 'right')
+            );
         }
 
-        filtros.forEach((botao) => {
+        filtros.forEach(function (botao) {
             botao.addEventListener('click', function () {
-                filtros.forEach((item) => item.classList.remove('is-active'));
-                this.classList.add('is-active');
+                filtros.forEach(function (item) {
+                    item.classList.remove('is-active');
+                });
 
-                filtroAtual = this.dataset.filter;
-                filtrarNoticias();
+                botao.classList.add('is-active');
+                filtroAtual = botao.dataset.filter || 'todas';
+                paginaAtual = 1;
+                renderizarNoticias();
             });
         });
 
         if (busca) {
-            busca.addEventListener('input', filtrarNoticias);
+            busca.addEventListener('input', function () {
+                paginaAtual = 1;
+                renderizarNoticias();
+            });
         }
+
+        renderizarNoticias();
     });
 </script>
