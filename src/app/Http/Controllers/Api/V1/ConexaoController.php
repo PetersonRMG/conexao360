@@ -11,62 +11,245 @@ use Illuminate\Http\Request;
 
 class ConexaoController extends Controller
 {
-    /**
-     * Lista conexões aceitas do usuário autenticado.
-     */
-    public function index(Request $request): JsonResponse
-    {
-        $idUsuario = $request->user()->id_usuario;
+    private const PERFIS_GLOBAIS = [
+        'administrador',
+        'palestrante',
+    ];
 
-        $conexoes = Conexao::with([
-            'solicitante:id_usuario,nome_usuario,foto_usuario,perfil_usuario',
-            'destino:id_usuario,nome_usuario,foto_usuario,perfil_usuario',
-        ])
-            ->where('status_conexao', 'ACEITA')
-            ->where(function ($query) use ($idUsuario) {
+    // =====================================
+    // LISTAR CONEXÕES
+    // =====================================
 
-                $query
-                    ->where(
-                        'id_usuario_solicitante',
+    public function index(
+        Request $request
+    ): JsonResponse {
+
+        $usuarioLogado =
+            $request->user();
+
+        $idUsuario =
+            $usuarioLogado
+                ->id_usuario;
+
+        // =================================
+        // CONEXÕES AUTOMÁTICAS
+        // =================================
+
+        $queryAutomaticos =
+            Usuarios::where(
+                'status_usuario',
+                'ATIVO'
+            )
+                ->where(
+                    'id_usuario',
+                    '<>',
+                    $idUsuario
+                );
+
+        // ADM/Palestrante é conectado
+        // automaticamente com todo mundo.
+        if (
+            !$this->ehPerfilGlobal(
+                $usuarioLogado
+                    ->perfil_usuario
+            )
+        ) {
+            // Usuário comum possui conexão
+            // automática somente com
+            // ADM e palestrantes.
+            $queryAutomaticos
+                ->whereIn(
+                    'perfil_usuario',
+                    self::PERFIS_GLOBAIS
+                );
+        }
+
+        $usuariosAutomaticos =
+            $queryAutomaticos
+                ->get([
+                    'id_usuario',
+                    'nome_usuario',
+                    'foto_usuario',
+                    'perfil_usuario',
+                ]);
+
+        $idsAutomaticos =
+            $usuariosAutomaticos
+                ->pluck(
+                    'id_usuario'
+                )
+                ->map(
+                    fn ($id) =>
+                        (int) $id
+                )
+                ->all();
+
+        $automaticas =
+            $usuariosAutomaticos
+                ->map(
+                    function (
+                        $usuario
+                    ) {
+                        return [
+                            'id_conexao' =>
+                                null,
+
+                            'status_conexao' =>
+                                'ACEITA',
+
+                            'conexao_automatica' =>
+                                true,
+
+                            'usuario' =>
+                                $usuario,
+
+                            'criado_em_conexao' =>
+                                null,
+
+                            'atualizado_em_conexao' =>
+                                null,
+                        ];
+                    }
+                );
+
+        // =================================
+        // CONEXÕES USUÁRIO ↔ USUÁRIO
+        // =================================
+
+        $conexoes =
+            Conexao::with([
+                'solicitante:id_usuario,nome_usuario,foto_usuario,perfil_usuario,status_usuario',
+                'destino:id_usuario,nome_usuario,foto_usuario,perfil_usuario,status_usuario',
+            ])
+                ->where(
+                    'status_conexao',
+                    'ACEITA'
+                )
+                ->where(
+                    function ($query) use (
                         $idUsuario
-                    )
-                    ->orWhere(
-                        'id_usuario_destino',
-                        $idUsuario
-                    );
-            })
-            ->orderByDesc('atualizado_em_conexao')
-            ->get();
+                    ) {
+                        $query
+                            ->where(
+                                'id_usuario_solicitante',
+                                $idUsuario
+                            )
+                            ->orWhere(
+                                'id_usuario_destino',
+                                $idUsuario
+                            );
+                    }
+                )
+                ->orderByDesc(
+                    'atualizado_em_conexao'
+                )
+                ->get();
 
+        $explicitas =
+            $conexoes
+                ->map(
+                    function (
+                        $conexao
+                    ) use (
+                        $idUsuario,
+                        $idsAutomaticos
+                    ) {
+                        $usuarioConectado =
+                            (int)
+                            $conexao
+                                ->id_usuario_solicitante ===
+                            (int)
+                            $idUsuario
+                                ? $conexao
+                                    ->destino
+                                : $conexao
+                                    ->solicitante;
 
-        $dados = $conexoes->map(
-            function ($conexao) use ($idUsuario) {
+                        if (
+                            !$usuarioConectado
+                        ) {
+                            return null;
+                        }
 
-                $usuarioConectado =
-                    $conexao->id_usuario_solicitante === $idUsuario
-                        ? $conexao->destino
-                        : $conexao->solicitante;
+                        if (
+                            $usuarioConectado
+                                ->status_usuario !==
+                            'ATIVO'
+                        ) {
+                            return null;
+                        }
 
+                        // Conexão automática não
+                        // precisa aparecer duas vezes.
+                        if (
+                            in_array(
+                                (int)
+                                $usuarioConectado
+                                    ->id_usuario,
+                                $idsAutomaticos,
+                                true
+                            )
+                        ) {
+                            return null;
+                        }
 
-                return [
-                    'id_conexao' =>
-                        $conexao->id_conexao,
+                        // Tabela de conexão fica
+                        // responsável apenas
+                        // usuário ↔ usuário.
+                        if (
+                            $usuarioConectado
+                                ->perfil_usuario !==
+                            'usuario'
+                        ) {
+                            return null;
+                        }
 
-                    'status_conexao' =>
-                        $conexao->status_conexao,
+                        return [
+                            'id_conexao' =>
+                                $conexao
+                                    ->id_conexao,
 
-                    'usuario' =>
-                        $usuarioConectado,
+                            'status_conexao' =>
+                                $conexao
+                                    ->status_conexao,
 
-                    'criado_em_conexao' =>
-                        $conexao->criado_em_conexao,
+                            'conexao_automatica' =>
+                                false,
 
-                    'atualizado_em_conexao' =>
-                        $conexao->atualizado_em_conexao,
-                ];
-            }
-        );
+                            'usuario' =>
+                                $usuarioConectado,
 
+                            'criado_em_conexao' =>
+                                $conexao
+                                    ->criado_em_conexao,
+
+                            'atualizado_em_conexao' =>
+                                $conexao
+                                    ->atualizado_em_conexao,
+                        ];
+                    }
+                )
+                ->filter()
+                ->values();
+
+        $dados =
+            $automaticas
+                ->concat(
+                    $explicitas
+                )
+                ->unique(
+                    fn ($item) =>
+                        $item['usuario']
+                            ->id_usuario
+                )
+                ->sortBy(
+                    fn ($item) =>
+                        mb_strtolower(
+                            $item['usuario']
+                                ->nome_usuario
+                        )
+                )
+                ->values();
 
         return response()->json([
             'success' => true,
@@ -74,30 +257,60 @@ class ConexaoController extends Controller
         ]);
     }
 
+    // =====================================
+    // SOLICITAÇÕES RECEBIDAS
+    // =====================================
 
-    /**
-     * Solicitações recebidas pelo usuário autenticado.
-     */
-    public function solicitacoes(Request $request): JsonResponse
-    {
-        $idUsuario = $request->user()->id_usuario;
+    public function solicitacoes(
+        Request $request
+    ): JsonResponse {
 
-        $solicitacoes = Conexao::with([
-            'solicitante:id_usuario,nome_usuario,foto_usuario,perfil_usuario',
-        ])
-            ->where(
-                'id_usuario_destino',
-                $idUsuario
-            )
-            ->where(
-                'status_conexao',
-                'PENDENTE'
-            )
-            ->orderByDesc(
-                'criado_em_conexao'
-            )
-            ->get();
+        $usuarioLogado =
+            $request->user();
 
+        if (
+            $this->ehPerfilGlobal(
+                $usuarioLogado
+                    ->perfil_usuario
+            )
+        ) {
+            return response()->json([
+                'success' => true,
+                'data' => [],
+            ]);
+        }
+
+        $solicitacoes =
+            Conexao::with([
+                'solicitante:id_usuario,nome_usuario,foto_usuario,perfil_usuario',
+            ])
+                ->where(
+                    'id_usuario_destino',
+                    $usuarioLogado
+                        ->id_usuario
+                )
+                ->where(
+                    'status_conexao',
+                    'PENDENTE'
+                )
+                ->whereHas(
+                    'solicitante',
+                    function ($query) {
+                        $query
+                            ->where(
+                                'perfil_usuario',
+                                'usuario'
+                            )
+                            ->where(
+                                'status_usuario',
+                                'ATIVO'
+                            );
+                    }
+                )
+                ->orderByDesc(
+                    'criado_em_conexao'
+                )
+                ->get();
 
         return response()->json([
             'success' => true,
@@ -105,30 +318,60 @@ class ConexaoController extends Controller
         ]);
     }
 
+    // =====================================
+    // SOLICITAÇÕES ENVIADAS
+    // =====================================
 
-    /**
-     * Solicitações enviadas pelo usuário autenticado.
-     */
-    public function enviadas(Request $request): JsonResponse
-    {
-        $idUsuario = $request->user()->id_usuario;
+    public function enviadas(
+        Request $request
+    ): JsonResponse {
 
-        $solicitacoes = Conexao::with([
-            'destino:id_usuario,nome_usuario,foto_usuario,perfil_usuario',
-        ])
-            ->where(
-                'id_usuario_solicitante',
-                $idUsuario
-            )
-            ->where(
-                'status_conexao',
-                'PENDENTE'
-            )
-            ->orderByDesc(
-                'criado_em_conexao'
-            )
-            ->get();
+        $usuarioLogado =
+            $request->user();
 
+        if (
+            $this->ehPerfilGlobal(
+                $usuarioLogado
+                    ->perfil_usuario
+            )
+        ) {
+            return response()->json([
+                'success' => true,
+                'data' => [],
+            ]);
+        }
+
+        $solicitacoes =
+            Conexao::with([
+                'destino:id_usuario,nome_usuario,foto_usuario,perfil_usuario',
+            ])
+                ->where(
+                    'id_usuario_solicitante',
+                    $usuarioLogado
+                        ->id_usuario
+                )
+                ->where(
+                    'status_conexao',
+                    'PENDENTE'
+                )
+                ->whereHas(
+                    'destino',
+                    function ($query) {
+                        $query
+                            ->where(
+                                'perfil_usuario',
+                                'usuario'
+                            )
+                            ->where(
+                                'status_usuario',
+                                'ATIVO'
+                            );
+                    }
+                )
+                ->orderByDesc(
+                    'criado_em_conexao'
+                )
+                ->get();
 
         return response()->json([
             'success' => true,
@@ -136,10 +379,10 @@ class ConexaoController extends Controller
         ]);
     }
 
+    // =====================================
+    // ENVIAR SOLICITAÇÃO
+    // =====================================
 
-    /**
-     * Envia solicitação de conexão.
-     */
     public function store(
         Request $request,
         int $idUsuario
@@ -148,19 +391,19 @@ class ConexaoController extends Controller
         $usuarioLogado =
             $request->user();
 
-
         if (
-            $usuarioLogado->id_usuario ===
+            (int)
+            $usuarioLogado
+                ->id_usuario ===
+            (int)
             $idUsuario
         ) {
-
             return response()->json([
                 'success' => false,
                 'message' =>
                     'Você não pode se conectar consigo mesmo.',
             ], 422);
         }
-
 
         $usuarioDestino =
             Usuarios::where(
@@ -173,9 +416,7 @@ class ConexaoController extends Controller
                 )
                 ->first();
 
-
         if (!$usuarioDestino) {
-
             return response()->json([
                 'success' => false,
                 'message' =>
@@ -183,25 +424,59 @@ class ConexaoController extends Controller
             ], 404);
         }
 
+        // =================================
+        // ADM / PALESTRANTE
+        // =================================
 
-        /**
-         * Verifica a conexão nos dois sentidos:
-         *
-         * A -> B
-         * ou
-         * B -> A
-         */
+        if (
+            $this->ehPerfilGlobal(
+                $usuarioLogado
+                    ->perfil_usuario
+            ) ||
+            $this->ehPerfilGlobal(
+                $usuarioDestino
+                    ->perfil_usuario
+            )
+        ) {
+            return response()->json([
+                'success' => false,
+
+                'message' =>
+                    'Este perfil já faz parte da sua rede por padrão.',
+            ], 409);
+        }
+
+        // =================================
+        // SOMENTE USUÁRIO ↔ USUÁRIO
+        // =================================
+
+        if (
+            $usuarioLogado
+                ->perfil_usuario !==
+            'usuario' ||
+            $usuarioDestino
+                ->perfil_usuario !==
+            'usuario'
+        ) {
+            return response()->json([
+                'success' => false,
+
+                'message' =>
+                    'Solicitações de conexão são permitidas apenas entre usuários.',
+            ], 422);
+        }
+
         $conexaoExistente =
             Conexao::where(
                 function ($query) use (
                     $usuarioLogado,
                     $idUsuario
                 ) {
-
                     $query
                         ->where(
                             'id_usuario_solicitante',
-                            $usuarioLogado->id_usuario
+                            $usuarioLogado
+                                ->id_usuario
                         )
                         ->where(
                             'id_usuario_destino',
@@ -214,7 +489,6 @@ class ConexaoController extends Controller
                         $usuarioLogado,
                         $idUsuario
                     ) {
-
                         $query
                             ->where(
                                 'id_usuario_solicitante',
@@ -222,50 +496,44 @@ class ConexaoController extends Controller
                             )
                             ->where(
                                 'id_usuario_destino',
-                                $usuarioLogado->id_usuario
+                                $usuarioLogado
+                                    ->id_usuario
                             );
                     }
                 )
                 ->first();
 
-
         if ($conexaoExistente) {
-
             if (
                 $conexaoExistente
                     ->status_conexao ===
                 'ACEITA'
             ) {
-
                 return response()->json([
                     'success' => false,
+
                     'message' =>
                         'Vocês já são conexões.',
                 ], 409);
             }
-
 
             if (
                 $conexaoExistente
                     ->status_conexao ===
                 'PENDENTE'
             ) {
-
                 return response()->json([
                     'success' => false,
+
                     'message' =>
                         'Já existe uma solicitação de conexão pendente.',
                 ], 409);
             }
 
-
-            /**
-             * Se havia sido recusada,
-             * permite uma nova solicitação.
-             */
             $conexaoExistente->update([
                 'id_usuario_solicitante' =>
-                    $usuarioLogado->id_usuario,
+                    $usuarioLogado
+                        ->id_usuario,
 
                 'id_usuario_destino' =>
                     $idUsuario,
@@ -274,57 +542,62 @@ class ConexaoController extends Controller
                     'PENDENTE',
             ]);
 
-
-            $this->criarNotificacaoSolicitacao(
-                $usuarioLogado,
-                $usuarioDestino,
-                $conexaoExistente->id_conexao
-            );
-
+            $this
+                ->criarNotificacaoSolicitacao(
+                    $usuarioLogado,
+                    $usuarioDestino,
+                    $conexaoExistente
+                        ->id_conexao
+                );
 
             return response()->json([
                 'success' => true,
+
                 'message' =>
                     'Solicitação de conexão enviada.',
+
                 'data' =>
-                    $conexaoExistente->fresh(),
+                    $conexaoExistente
+                        ->fresh(),
             ]);
         }
 
+        $conexao =
+            Conexao::create([
+                'id_usuario_solicitante' =>
+                    $usuarioLogado
+                        ->id_usuario,
 
-        $conexao = Conexao::create([
-            'id_usuario_solicitante' =>
-                $usuarioLogado->id_usuario,
+                'id_usuario_destino' =>
+                    $idUsuario,
 
-            'id_usuario_destino' =>
-                $idUsuario,
+                'status_conexao' =>
+                    'PENDENTE',
+            ]);
 
-            'status_conexao' =>
-                'PENDENTE',
-        ]);
-
-
-        $this->criarNotificacaoSolicitacao(
-            $usuarioLogado,
-            $usuarioDestino,
-            $conexao->id_conexao
-        );
-
+        $this
+            ->criarNotificacaoSolicitacao(
+                $usuarioLogado,
+                $usuarioDestino,
+                $conexao
+                    ->id_conexao
+            );
 
         return response()->json([
             'success' => true,
+
             'message' =>
                 'Solicitação de conexão enviada.',
-            'data' => $conexao,
+
+            'data' =>
+                $conexao,
         ], 201);
     }
 
+    // =====================================
+    // ACEITAR
+    // =====================================
 
-    /**
-     * Aceita solicitação.
-     *
-     * Apenas quem recebeu pode aceitar.
-     */
     public function aceitar(
         Request $request,
         int $idConexao
@@ -333,15 +606,19 @@ class ConexaoController extends Controller
         $usuarioLogado =
             $request->user();
 
-
         $conexao =
-            Conexao::where(
-                'id_conexao',
-                $idConexao
-            )
+            Conexao::with([
+                'solicitante',
+                'destino',
+            ])
+                ->where(
+                    'id_conexao',
+                    $idConexao
+                )
                 ->where(
                     'id_usuario_destino',
-                    $usuarioLogado->id_usuario
+                    $usuarioLogado
+                        ->id_usuario
                 )
                 ->where(
                     'status_conexao',
@@ -349,50 +626,68 @@ class ConexaoController extends Controller
                 )
                 ->first();
 
-
         if (!$conexao) {
-
             return response()->json([
                 'success' => false,
+
                 'message' =>
                     'Solicitação não encontrada.',
             ], 404);
         }
 
+        if (
+            !$conexao->solicitante ||
+            !$conexao->destino ||
+            $conexao
+                ->solicitante
+                ->perfil_usuario !==
+                'usuario' ||
+            $conexao
+                ->destino
+                ->perfil_usuario !==
+                'usuario'
+        ) {
+            return response()->json([
+                'success' => false,
+
+                'message' =>
+                    'Esta conexão é automática e não precisa ser aceita.',
+            ], 409);
+        }
 
         $conexao->update([
             'status_conexao' =>
                 'ACEITA',
         ]);
 
+        $this
+            ->marcarSolicitacaoComoLida(
+                $conexao
+            );
 
-        // A solicitação recebida deixa de ficar pendente
-        // na central de notificações do destinatário.
-        $this->marcarSolicitacaoComoLida(
-            $conexao
-        );
-
-
-        // Quem enviou a solicitação recebe a confirmação.
         Notificacao::create([
             'id_usuario_destino' =>
-                $conexao->id_usuario_solicitante,
+                $conexao
+                    ->id_usuario_solicitante,
 
             'id_usuario_origem' =>
-                $usuarioLogado->id_usuario,
+                $usuarioLogado
+                    ->id_usuario,
 
             'tipo_notificacao' =>
                 'CONEXAO_ACEITA',
 
             'titulo_notificacao' =>
-                $usuarioLogado->nome_usuario
+                $usuarioLogado
+                    ->nome_usuario
                 . ' aceitou sua solicitação de conexão.',
 
             'mensagem_notificacao' =>
                 'Vocês agora fazem parte da mesma rede de conexões.',
 
             'id_referencia' =>
-                $conexao->id_conexao,
+                $conexao
+                    ->id_conexao,
 
             'tipo_referencia' =>
                 'CONEXAO',
@@ -401,35 +696,41 @@ class ConexaoController extends Controller
                 false,
         ]);
 
-
         return response()->json([
             'success' => true,
+
             'message' =>
                 'Conexão aceita com sucesso.',
+
             'data' =>
-                $conexao->fresh(),
+                $conexao
+                    ->fresh(),
         ]);
     }
 
+    // =====================================
+    // RECUSAR
+    // =====================================
 
-    /**
-     * Recusa solicitação.
-     *
-     * Apenas quem recebeu pode recusar.
-     */
     public function recusar(
         Request $request,
         int $idConexao
     ): JsonResponse {
 
         $conexao =
-            Conexao::where(
-                'id_conexao',
-                $idConexao
-            )
+            Conexao::with([
+                'solicitante',
+                'destino',
+            ])
+                ->where(
+                    'id_conexao',
+                    $idConexao
+                )
                 ->where(
                     'id_usuario_destino',
-                    $request->user()->id_usuario
+                    $request
+                        ->user()
+                        ->id_usuario
                 )
                 ->where(
                     'status_conexao',
@@ -437,62 +738,84 @@ class ConexaoController extends Controller
                 )
                 ->first();
 
-
         if (!$conexao) {
-
             return response()->json([
                 'success' => false,
+
                 'message' =>
                     'Solicitação não encontrada.',
             ], 404);
         }
 
+        if (
+            !$conexao->solicitante ||
+            !$conexao->destino ||
+            $conexao
+                ->solicitante
+                ->perfil_usuario !==
+                'usuario' ||
+            $conexao
+                ->destino
+                ->perfil_usuario !==
+                'usuario'
+        ) {
+            return response()->json([
+                'success' => false,
+
+                'message' =>
+                    'Esta conexão é automática e não precisa ser recusada.',
+            ], 409);
+        }
 
         $conexao->update([
             'status_conexao' =>
                 'RECUSADA',
         ]);
 
-
-        // A notificação de solicitação deixa de ficar pendente.
-        // Não criamos notificação de "conexão recusada".
-        $this->marcarSolicitacaoComoLida(
-            $conexao
-        );
-
+        $this
+            ->marcarSolicitacaoComoLida(
+                $conexao
+            );
 
         return response()->json([
             'success' => true,
+
             'message' =>
                 'Solicitação recusada.',
+
             'data' =>
-                $conexao->fresh(),
+                $conexao
+                    ->fresh(),
         ]);
     }
 
+    // =====================================
+    // REMOVER CONEXÃO
+    // =====================================
 
-    /**
-     * Remove uma conexão existente.
-     */
     public function destroy(
         Request $request,
         int $idConexao
     ): JsonResponse {
 
         $idUsuario =
-            $request->user()->id_usuario;
-
+            $request
+                ->user()
+                ->id_usuario;
 
         $conexao =
-            Conexao::where(
-                'id_conexao',
-                $idConexao
-            )
+            Conexao::with([
+                'solicitante',
+                'destino',
+            ])
+                ->where(
+                    'id_conexao',
+                    $idConexao
+                )
                 ->where(
                     function ($query) use (
                         $idUsuario
                     ) {
-
                         $query
                             ->where(
                                 'id_usuario_solicitante',
@@ -506,32 +829,55 @@ class ConexaoController extends Controller
                 )
                 ->first();
 
-
         if (!$conexao) {
-
             return response()->json([
                 'success' => false,
+
                 'message' =>
                     'Conexão não encontrada.',
             ], 404);
         }
 
+        if (
+            (
+                $conexao->solicitante &&
+                $this->ehPerfilGlobal(
+                    $conexao
+                        ->solicitante
+                        ->perfil_usuario
+                )
+            ) ||
+            (
+                $conexao->destino &&
+                $this->ehPerfilGlobal(
+                    $conexao
+                        ->destino
+                        ->perfil_usuario
+                )
+            )
+        ) {
+            return response()->json([
+                'success' => false,
+
+                'message' =>
+                    'Conexões com administradores e palestrantes são automáticas e não podem ser removidas.',
+            ], 409);
+        }
 
         $conexao->delete();
 
-
         return response()->json([
             'success' => true,
+
             'message' =>
                 'Conexão removida com sucesso.',
         ]);
     }
 
+    // =====================================
+    // NOTIFICAÇÃO DE SOLICITAÇÃO
+    // =====================================
 
-    /**
-     * Cria a notificação enviada ao usuário
-     * que recebeu uma solicitação de conexão.
-     */
     private function criarNotificacaoSolicitacao(
         $usuarioOrigem,
         $usuarioDestino,
@@ -540,16 +886,19 @@ class ConexaoController extends Controller
 
         Notificacao::create([
             'id_usuario_destino' =>
-                $usuarioDestino->id_usuario,
+                $usuarioDestino
+                    ->id_usuario,
 
             'id_usuario_origem' =>
-                $usuarioOrigem->id_usuario,
+                $usuarioOrigem
+                    ->id_usuario,
 
             'tipo_notificacao' =>
                 'SOLICITACAO_CONEXAO',
 
             'titulo_notificacao' =>
-                $usuarioOrigem->nome_usuario
+                $usuarioOrigem
+                    ->nome_usuario
                 . ' enviou uma solicitação de conexão.',
 
             'mensagem_notificacao' =>
@@ -566,22 +915,23 @@ class ConexaoController extends Controller
         ]);
     }
 
+    // =====================================
+    // MARCAR SOLICITAÇÃO COMO LIDA
+    // =====================================
 
-    /**
-     * Marca a notificação correspondente à solicitação
-     * como lida depois de aceitar ou recusar.
-     */
     private function marcarSolicitacaoComoLida(
         Conexao $conexao
     ): void {
 
         Notificacao::where(
             'id_usuario_destino',
-            $conexao->id_usuario_destino
+            $conexao
+                ->id_usuario_destino
         )
             ->where(
                 'id_usuario_origem',
-                $conexao->id_usuario_solicitante
+                $conexao
+                    ->id_usuario_solicitante
             )
             ->where(
                 'tipo_notificacao',
@@ -589,7 +939,8 @@ class ConexaoController extends Controller
             )
             ->where(
                 'id_referencia',
-                $conexao->id_conexao
+                $conexao
+                    ->id_conexao
             )
             ->where(
                 'tipo_referencia',
@@ -603,5 +954,19 @@ class ConexaoController extends Controller
                 'lida_notificacao' =>
                     true,
             ]);
+    }
+
+    // =====================================
+    // PERFIL GLOBAL
+    // =====================================
+
+    private function ehPerfilGlobal(
+        ?string $perfil
+    ): bool {
+        return in_array(
+            $perfil,
+            self::PERFIS_GLOBAIS,
+            true
+        );
     }
 }

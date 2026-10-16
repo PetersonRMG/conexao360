@@ -16,103 +16,195 @@ class PublicacaoController extends Controller
 
     public function index(Request $request): JsonResponse
     {
-        $idUsuario = $request->user()->id_usuario;
+        // =====================================
+        // USUÁRIO AUTENTICADO
+        // =====================================
+
+        $usuarioLogado =
+            $request->user();
+
+        $idUsuario =
+            $usuarioLogado->id_usuario;
+
+        $perfilUsuario =
+            $usuarioLogado->perfil_usuario;
 
 
         // =====================================
-        // CONEXÕES ACEITAS DO USUÁRIO
+        // QUERY BASE DAS PUBLICAÇÕES
         // =====================================
 
-        $conexoes = Conexao::where(
-            'status_conexao',
-            'ACEITA'
-        )
-            ->where(function ($query) use ($idUsuario) {
+        $query = Publicacao::with([
+            'usuario:id_usuario,nome_usuario,foto_usuario,perfil_usuario'
+        ])
 
+            ->withCount(
+                'curtidas'
+            )
+
+            ->withCount([
+                'comentarios as comentarios_count' =>
+                    function ($query) {
+
+                        $query->where(
+                            'status_comentario_publicacao',
+                            'ATIVO'
+                        );
+                    }
+            ])
+
+            ->withExists([
+                'curtidas as curtido_por_mim' =>
+                    function ($query) use (
+                        $idUsuario
+                    ) {
+
+                        $query->where(
+                            'id_usuario',
+                            $idUsuario
+                        );
+                    }
+            ])
+
+            ->where(
+                'status_publicacao',
+                'ATIVO'
+            );
+
+
+        // =====================================
+        // ADMINISTRADOR / PALESTRANTE
+        // =====================================
+        //
+        // Administradores e palestrantes
+        // são conectados automaticamente
+        // com todos os usuários.
+        //
+        // Por isso enxergam todas as
+        // publicações ATIVAS.
+        // =====================================
+
+        if (
+            in_array(
+                $perfilUsuario,
+                [
+                    'administrador',
+                    'palestrante',
+                ],
+                true
+            )
+        ) {
+
+            $publicacoes =
                 $query
-                    ->where(
-                        'id_usuario_solicitante',
-                        $idUsuario
+                    ->orderByDesc(
+                        'criado_em_publicacao'
                     )
-                    ->orWhere(
-                        'id_usuario_destino',
-                        $idUsuario
-                    );
+                    ->get();
 
-            })
-            ->get([
-                'id_usuario_solicitante',
-                'id_usuario_destino',
+
+            return response()->json([
+                'success' => true,
+                'data' =>
+                    $publicacoes,
             ]);
+        }
+
+
+        // =====================================
+        // USUÁRIO COMUM
+        // =====================================
+        //
+        // Usuário comum continua vendo:
+        //
+        // - próprias publicações;
+        // - administradores;
+        // - palestrantes;
+        // - usuários com conexão ACEITA.
+        // =====================================
+
+
+        // =====================================
+        // CONEXÕES ACEITAS
+        // =====================================
+
+        $conexoes =
+            Conexao::where(
+                'status_conexao',
+                'ACEITA'
+            )
+                ->where(
+                    function ($query) use (
+                        $idUsuario
+                    ) {
+
+                        $query
+                            ->where(
+                                'id_usuario_solicitante',
+                                $idUsuario
+                            )
+                            ->orWhere(
+                                'id_usuario_destino',
+                                $idUsuario
+                            );
+                    }
+                )
+                ->get([
+                    'id_usuario_solicitante',
+                    'id_usuario_destino',
+                ]);
 
 
         // =====================================
         // IDS DOS USUÁRIOS CONECTADOS
         // =====================================
 
-        $idsConexoes = $conexoes
-            ->map(function ($conexao) use ($idUsuario) {
-
-                if (
-                    (int) $conexao->id_usuario_solicitante ===
-                    (int) $idUsuario
-                ) {
-
-                    return (int) $conexao->id_usuario_destino;
-
-                }
-
-
-                return (int) $conexao->id_usuario_solicitante;
-
-            })
-            ->values()
-            ->all();
-
-
-        // =====================================
-        // PUBLICAÇÕES
-        // =====================================
-
-        $publicacoes = Publicacao::with([
-            'usuario:id_usuario,nome_usuario,foto_usuario'
-        ])
-
-            ->withCount('curtidas')
-
-            ->withCount([
-                'comentarios as comentarios_count' => function ($query) {
-
-                    $query->where(
-                        'status_comentario_publicacao',
-                        'ATIVO'
-                    );
-
-                }
-            ])
-
-            ->withExists([
-                'curtidas as curtido_por_mim' => function ($query) use ($idUsuario) {
-
-                    $query->where(
-                        'id_usuario',
+        $idsConexoes =
+            $conexoes
+                ->map(
+                    function (
+                        $conexao
+                    ) use (
                         $idUsuario
-                    );
+                    ) {
 
-                }
-            ])
+                        if (
+                            (int)
+                            $conexao
+                                ->id_usuario_solicitante ===
+                            (int)
+                            $idUsuario
+                        ) {
 
-            ->where(
-                'status_publicacao',
-                'ATIVO'
-            )
+                            return (int)
+                                $conexao
+                                    ->id_usuario_destino;
+                        }
 
-            ->where(function ($query) use (
+
+                        return (int)
+                            $conexao
+                                ->id_usuario_solicitante;
+                    }
+                )
+                ->unique()
+                ->values()
+                ->all();
+
+
+        // =====================================
+        // FILTRO DO FEED DO USUÁRIO
+        // =====================================
+
+        $query->where(
+            function ($query) use (
                 $idUsuario,
                 $idsConexoes
             ) {
 
+                // =============================
                 // PRÓPRIAS PUBLICAÇÕES
+                // =============================
 
                 $query->where(
                     'id_usuario',
@@ -120,47 +212,67 @@ class PublicacaoController extends Controller
                 );
 
 
-                // ADMINISTRADORES E PALESTRANTES
+                // =============================
+                // ADM / PALESTRANTES
+                // =============================
 
                 $query->orWhereHas(
                     'usuario',
-                    function ($usuarioQuery) {
+                    function (
+                        $usuarioQuery
+                    ) {
 
-                        $usuarioQuery->whereIn(
-                            'perfil_usuario',
-                            [
-                                'administrador',
-                                'palestrante',
-                            ]
-                        );
-
+                        $usuarioQuery
+                            ->whereIn(
+                                'perfil_usuario',
+                                [
+                                    'administrador',
+                                    'palestrante',
+                                ]
+                            )
+                            ->where(
+                                'status_usuario',
+                                'ATIVO'
+                            );
                     }
                 );
 
 
+                // =============================
                 // USUÁRIOS CONECTADOS
+                // =============================
 
-                if (!empty($idsConexoes)) {
+                if (
+                    !empty(
+                        $idsConexoes
+                    )
+                ) {
 
                     $query->orWhereIn(
                         'id_usuario',
                         $idsConexoes
                     );
-
                 }
+            }
+        );
 
-            })
 
-            ->orderByDesc(
-                'criado_em_publicacao'
-            )
+        // =====================================
+        // RESULTADO
+        // =====================================
 
-            ->get();
+        $publicacoes =
+            $query
+                ->orderByDesc(
+                    'criado_em_publicacao'
+                )
+                ->get();
 
 
         return response()->json([
             'success' => true,
-            'data' => $publicacoes,
+            'data' =>
+                $publicacoes,
         ]);
     }
 
@@ -169,8 +281,10 @@ class PublicacaoController extends Controller
     // CRIAR PUBLICAÇÃO PELO APP
     // =============================================================
 
-    public function store(Request $request): JsonResponse
-    {
+    public function store(
+        Request $request
+    ): JsonResponse {
+
         $request->validate(
             [
                 'texto_publicacao' => [
@@ -211,40 +325,49 @@ class PublicacaoController extends Controller
         // USUÁRIO AUTENTICADO
         // =====================================
 
-        $usuario = $request->user();
+        $usuario =
+            $request->user();
 
 
         // =====================================
         // IMAGEM
         // =====================================
 
-        [$tipoMidia, $caminhoMidia] =
-            $this->salvarImagem($request);
+        [
+            $tipoMidia,
+            $caminhoMidia
+        ] =
+            $this->salvarImagem(
+                $request
+            );
 
 
         // =====================================
         // CRIAR PUBLICAÇÃO
         // =====================================
 
-        $publicacao = Publicacao::create([
-            'id_usuario' =>
-                $usuario->id_usuario,
+        $publicacao =
+            Publicacao::create([
+                'id_usuario' =>
+                    $usuario
+                        ->id_usuario,
 
-            'id_evento' =>
-                null,
+                'id_evento' =>
+                    null,
 
-            'texto_publicacao' =>
-                $request->texto_publicacao,
+                'texto_publicacao' =>
+                    $request
+                        ->texto_publicacao,
 
-            'tipo_midia_publicacao' =>
-                $tipoMidia,
+                'tipo_midia_publicacao' =>
+                    $tipoMidia,
 
-            'midia_publicacao' =>
-                $caminhoMidia,
+                'midia_publicacao' =>
+                    $caminhoMidia,
 
-            'status_publicacao' =>
-                'ATIVO',
-        ]);
+                'status_publicacao' =>
+                    'ATIVO',
+            ]);
 
 
         // =====================================
@@ -252,7 +375,7 @@ class PublicacaoController extends Controller
         // =====================================
 
         $publicacao->load([
-            'usuario:id_usuario,nome_usuario,foto_usuario'
+            'usuario:id_usuario,nome_usuario,foto_usuario,perfil_usuario'
         ]);
 
 
@@ -278,9 +401,12 @@ class PublicacaoController extends Controller
 
         return response()->json([
             'success' => true,
+
             'message' =>
                 'Publicação criada com sucesso.',
-            'data' => $publicacao,
+
+            'data' =>
+                $publicacao,
         ], 201);
     }
 
@@ -303,7 +429,6 @@ class PublicacaoController extends Controller
                 null,
                 null,
             ];
-
         }
 
 
@@ -313,10 +438,11 @@ class PublicacaoController extends Controller
             );
 
 
-        $extensao = strtolower(
-            $arquivo
-                ->getClientOriginalExtension()
-        );
+        $extensao =
+            strtolower(
+                $arquivo
+                    ->getClientOriginalExtension()
+            );
 
 
         $nomeArquivo =
@@ -327,9 +453,10 @@ class PublicacaoController extends Controller
             . $extensao;
 
 
-        $diretorio = public_path(
-            'conexao360/uploads/publicacoes/'
-        );
+        $diretorio =
+            public_path(
+                'conexao360/uploads/publicacoes/'
+            );
 
 
         if (
@@ -343,7 +470,6 @@ class PublicacaoController extends Controller
                 0755,
                 true
             );
-
         }
 
 
@@ -355,6 +481,7 @@ class PublicacaoController extends Controller
 
         return [
             'IMAGEM',
+
             'uploads/publicacoes/'
                 . $nomeArquivo,
         ];

@@ -10,42 +10,72 @@ use App\Http\Controllers\Api\V1\CurtidaPublicacaoController;
 use App\Http\Controllers\Api\V1\ComentarioPublicacaoController;
 use App\Http\Controllers\Api\V1\ConexaoController;
 use App\Http\Controllers\Api\V1\PerfilController;
+use App\Http\Controllers\Api\V1\NotificacaoController;
+use App\Http\Controllers\Api\V1\ConversaController;
 
 
 Route::prefix('v1')->group(function () {
 
-    // ==============================
-    // PÚBLICAS
-    // ==============================
+    // =============================================================
+    // ROTAS PÚBLICAS
+    // =============================================================
 
-    Route::get('/status', [
-        StatusController::class,
-        'index'
-    ]);
-
-
-    Route::post('/auth/login', [
-        AuthController::class,
-        'login'
-    ]);
+    Route::get(
+        '/status',
+        [
+            StatusController::class,
+            'index'
+        ]
+    );
 
 
-    // ==============================
-    // PROTEGIDAS
-    // ==============================
+    // LOGIN
 
-    Route::middleware('auth:sanctum')->group(function () {
+    Route::post(
+        '/auth/login',
+        [
+            AuthController::class,
+            'login'
+        ]
+    );
 
 
+    // CADASTRO
+
+    Route::post(
+        '/auth/register',
+        [
+            AuthController::class,
+            'register'
+        ]
+    );
+
+
+    // =============================================================
+    // ROTAS PROTEGIDAS
+    // =============================================================
+
+    Route::middleware(
+        'auth:sanctum'
+    )->group(function () {
+
+
+        // =========================================================
         // USUÁRIO LOGADO
+        // =========================================================
 
-        Route::get('/usuario', [
-            UsuarioController::class,
-            'show'
-        ]);
+        Route::get(
+            '/usuario',
+            [
+                UsuarioController::class,
+                'show'
+            ]
+        );
 
 
+        // =========================================================
         // PERFIL DE USUÁRIO
+        // =========================================================
 
         Route::get(
             '/usuarios/{idUsuario}',
@@ -56,15 +86,31 @@ Route::prefix('v1')->group(function () {
         );
 
 
+        // =========================================================
         // PUBLICAÇÕES
+        // =========================================================
 
-        Route::get('/publicacoes', [
-            PublicacaoController::class,
-            'index'
-        ]);
+        Route::get(
+            '/publicacoes',
+            [
+                PublicacaoController::class,
+                'index'
+            ]
+        );
 
 
+        Route::post(
+            '/publicacoes',
+            [
+                PublicacaoController::class,
+                'store'
+            ]
+        );
+
+
+        // =========================================================
         // CURTIDAS
+        // =========================================================
 
         Route::post(
             '/publicacoes/{id}/curtidas',
@@ -84,7 +130,9 @@ Route::prefix('v1')->group(function () {
         );
 
 
+        // =========================================================
         // COMENTÁRIOS
+        // =========================================================
 
         Route::get(
             '/publicacoes/{id}/comentarios',
@@ -103,13 +151,10 @@ Route::prefix('v1')->group(function () {
             ]
         );
 
-        Route::post('/publicacoes', [
-            PublicacaoController::class,
-            'store'
-        ]);
 
-
+        // =========================================================
         // CONEXÕES
+        // =========================================================
 
         Route::get(
             '/conexoes',
@@ -174,12 +219,104 @@ Route::prefix('v1')->group(function () {
         );
 
 
+        // =========================================================
+        // CONVERSAS / CHAT
+        // =========================================================
+
+        // LISTAR CONVERSAS DO USUÁRIO
+
+        Route::get(
+            '/conversas',
+            [
+                ConversaController::class,
+                'index'
+            ]
+        );
+
+
+        // ABRIR OU CRIAR CONVERSA COM UM USUÁRIO
+
+        Route::post(
+            '/conversas/{idUsuario}',
+            [
+                ConversaController::class,
+                'store'
+            ]
+        );
+
+
+        // LISTAR MENSAGENS DA CONVERSA
+
+        Route::get(
+            '/conversas/{idConversa}/mensagens',
+            [
+                ConversaController::class,
+                'mensagens'
+            ]
+        );
+
+
+        // ENVIAR MENSAGEM
+
+        Route::post(
+            '/conversas/{idConversa}/mensagens',
+            [
+                ConversaController::class,
+                'enviarMensagem'
+            ]
+        );
+
+
+        // =========================================================
+        // NOTIFICAÇÕES
+        // =========================================================
+
+        Route::get(
+            '/notificacoes',
+            [
+                NotificacaoController::class,
+                'index'
+            ]
+        );
+
+
+        Route::get(
+            '/notificacoes/nao-lidas',
+            [
+                NotificacaoController::class,
+                'naoLidas'
+            ]
+        );
+
+
+        Route::patch(
+            '/notificacoes/ler-todas',
+            [
+                NotificacaoController::class,
+                'lerTodas'
+            ]
+        );
+
+
+        Route::patch(
+            '/notificacoes/{idNotificacao}/ler',
+            [
+                NotificacaoController::class,
+                'ler'
+            ]
+        );
+
+
+        // =========================================================
         // LOGOUT
+        // =========================================================
 
-        Route::post('/auth/logout', [
-            AuthController::class,
-            'logout'
-        ]);
-
+        Route::post(
+            '/auth/logout',
+            [
+                AuthController::class,
+                'logout'
+            ]
+        );
     });
 });
