@@ -318,5 +318,12 @@ Route::prefix('v1')->group(function () {
                 'logout'
             ]
         );
+
+        Route::put(
+            '/usuario',
+            [UsuarioController::class, 'update']
+        );
+
+
     });
 });
