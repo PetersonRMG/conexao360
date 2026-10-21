@@ -1,122 +1,910 @@
 @extends('layout.admin')
-@section('title', 'Cadastro Usuários')
-@section('pg-titulo', 'Cadastro Usuários')
-@section('link-topo', 'Cadastro Usuários')
+
+@section('title', 'Membros')
+@section('pg-titulo', 'Membros')
+@section('link-topo', 'Membros')
+
 
 @section('content')
-    <main class="app-main">
-        {{-- Cabeçalho da Página --}}
-        <div class="app-content-header pt-3">
-            <div class="container-fluid d-flex justify-content-between align-items-center">
-                <div>
-                    <h4 class="mb-0 text-white font-weight-bold">Gerenciamento de Usuários</h4>
-                    <p class="text-muted small mb-0">Crie os acessos iniciais para os novos membros da equipe
-                        administrativa.</p>
-                </div>
-                <button type="button" class="btn btn-primary rounded-3 d-flex align-items-center px-3 py-2"
-                    data-bs-toggle="modal" data-bs-target="#modalNovoUsuario">
-                    <i class="bi bi-person-plus me-2"></i> Pré-Cadastrar Usuário
-                </button>
-            </div>
-        </div>
 
-        {{-- Conteúdo Principal --}}
-        <div class="app-content ps-3 pt-3">
-            <div class="container-fluid">
+<div class="site-editor-main">
 
-                <div class="card card-outline card-primary bg-dark text-white border-0 shadow-sm rounded-3">
-                    <div class="card-header border-bottom border-secondary">
-                        <h3 class="card-title text-white mb-0" style="font-size: 1.05rem;">
-                            <i class="bi bi-people me-2 text-primary"></i> Operadores de Sistema
-                        </h3>
+    <div class="site-editor-page">
+
+        <div class="site-editor">
+
+
+            {{-- =====================================================
+                 CABEÇALHO
+            ====================================================== --}}
+
+            <div class="site-editor-tabs-header mb-4">
+
+                <div class="site-editor-tabs-title">
+
+                    <i class="bi bi-people"></i>
+
+                    <div>
+
+                        <strong>
+                            Membros do aplicativo
+                        </strong>
+
+                        <span>
+                            Acompanhe os usuários cadastrados no
+                            Conexão 360° e monitore novos cadastros.
+                        </span>
+
                     </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-dark table-hover mb-0 align-middle">
-                                <thead class="table-black text-muted small uppercase">
+
+                </div>
+
+            </div>
+
+
+            {{-- =====================================================
+                 INDICADORES
+            ====================================================== --}}
+
+            <section class="mb-4">
+
+                <div class="site-editor-section-header">
+
+                    <div>
+
+                        <div class="site-editor-section-icon">
+                            <i class="bi bi-bar-chart"></i>
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                Visão geral
+                            </h4>
+
+                            <p>
+                                Resumo dos usuários cadastrados na plataforma.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="row g-3">
+
+
+                    {{-- TOTAL --}}
+
+                    <div class="col-12 col-md-6 col-xl-3">
+
+                        <div class="site-editor-card h-100">
+
+                            <div
+                                class="
+                                    d-flex
+                                    align-items-center
+                                    justify-content-between
+                                    gap-3
+                                "
+                            >
+
+                                <div>
+
+                                    <div class="form-text mb-2">
+                                        Total de membros
+                                    </div>
+
+                                    <h2 class="mb-0">
+                                        {{ $totalUsuarios }}
+                                    </h2>
+
+                                </div>
+
+
+                                <div class="site-editor-section-icon mb-0">
+
+                                    <i class="bi bi-people-fill"></i>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    {{-- NOVOS ESTE MÊS --}}
+
+                    <div class="col-12 col-md-6 col-xl-3">
+
+                        <a
+                            href="{{ route(
+                                'admin.cadastro.usuarios',
+                                ['periodo' => 'mes']
+                            ) }}"
+                            class="text-decoration-none"
+                        >
+
+                            <div class="site-editor-card h-100">
+
+                                <div
+                                    class="
+                                        d-flex
+                                        align-items-center
+                                        justify-content-between
+                                        gap-3
+                                    "
+                                >
+
+                                    <div>
+
+                                        <div class="form-text mb-2">
+                                            Novos este mês
+                                        </div>
+
+                                        <h2 class="mb-0">
+                                            {{ $novosEsteMes }}
+                                        </h2>
+
+                                    </div>
+
+
+                                    <div class="site-editor-section-icon mb-0">
+
+                                        <i class="bi bi-person-plus-fill"></i>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+
+                    {{-- ATIVOS --}}
+
+                    <div class="col-12 col-md-6 col-xl-3">
+
+                        <a
+                            href="{{ route(
+                                'admin.cadastro.usuarios',
+                                ['status' => 'ATIVO']
+                            ) }}"
+                            class="text-decoration-none"
+                        >
+
+                            <div class="site-editor-card h-100">
+
+                                <div
+                                    class="
+                                        d-flex
+                                        align-items-center
+                                        justify-content-between
+                                        gap-3
+                                    "
+                                >
+
+                                    <div>
+
+                                        <div class="form-text mb-2">
+                                            Usuários ativos
+                                        </div>
+
+                                        <h2 class="mb-0">
+                                            {{ $usuariosAtivos }}
+                                        </h2>
+
+                                    </div>
+
+
+                                    <div class="site-editor-section-icon mb-0">
+
+                                        <i class="bi bi-person-check-fill"></i>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+
+                    {{-- NÃO ATIVOS --}}
+
+                    <div class="col-12 col-md-6 col-xl-3">
+
+                        <div class="site-editor-card h-100">
+
+                            <div
+                                class="
+                                    d-flex
+                                    align-items-center
+                                    justify-content-between
+                                    gap-3
+                                "
+                            >
+
+                                <div>
+
+                                    <div class="form-text mb-2">
+                                        Não ativos
+                                    </div>
+
+                                    <h2 class="mb-0">
+                                        {{ $usuariosNaoAtivos }}
+                                    </h2>
+
+                                </div>
+
+
+                                <div class="site-editor-section-icon mb-0">
+
+                                    <i class="bi bi-person-dash-fill"></i>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+            {{-- =====================================================
+                 FILTROS
+            ====================================================== --}}
+
+            <section class="mb-4">
+
+                <div class="site-editor-section-header">
+
+                    <div>
+
+                        <div class="site-editor-section-icon">
+                            <i class="bi bi-funnel"></i>
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                Filtros
+                            </h4>
+
+                            <p>
+                                Localize usuários por nome, perfil,
+                                status ou período de cadastro.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="site-editor-card">
+
+                    <form
+                        action="{{ route('admin.cadastro.usuarios') }}"
+                        method="GET"
+                    >
+
+                        <div class="row g-4">
+
+
+                            {{-- BUSCA --}}
+
+                            <div class="col-12 col-xl-4">
+
+                                <label
+                                    for="busca"
+                                    class="form-label"
+                                >
+                                    Buscar membro
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="busca"
+                                    id="busca"
+                                    class="form-control"
+                                    value="{{ $busca }}"
+                                    placeholder="Nome, e-mail ou área de atuação"
+                                >
+
+                            </div>
+
+
+                            {{-- PERFIL --}}
+
+                            <div class="col-12 col-md-4 col-xl-2">
+
+                                <label
+                                    for="perfil"
+                                    class="form-label"
+                                >
+                                    Perfil
+                                </label>
+
+                                <select
+                                    name="perfil"
+                                    id="perfil"
+                                    class="form-select"
+                                >
+
+                                    <option value="">
+                                        Todos
+                                    </option>
+
+
+                                    @foreach ($perfisDisponiveis as $perfilDisponivel)
+
+                                        <option
+                                            value="{{ $perfilDisponivel }}"
+                                            @selected(
+                                                $perfil === $perfilDisponivel
+                                            )
+                                        >
+
+                                            {{ ucfirst($perfilDisponivel) }}
+
+                                        </option>
+
+                                    @endforeach
+
+                                </select>
+
+                            </div>
+
+
+                            {{-- STATUS --}}
+
+                            <div class="col-12 col-md-4 col-xl-2">
+
+                                <label
+                                    for="status"
+                                    class="form-label"
+                                >
+                                    Status
+                                </label>
+
+                                <select
+                                    name="status"
+                                    id="status"
+                                    class="form-select"
+                                >
+
+                                    <option value="">
+                                        Todos
+                                    </option>
+
+
+                                    @foreach ($statusDisponiveis as $statusDisponivel)
+
+                                        <option
+                                            value="{{ $statusDisponivel }}"
+                                            @selected(
+                                                $status === $statusDisponivel
+                                            )
+                                        >
+
+                                            {{
+                                                ucfirst(
+                                                    strtolower(
+                                                        $statusDisponivel
+                                                    )
+                                                )
+                                            }}
+
+                                        </option>
+
+                                    @endforeach
+
+                                </select>
+
+                            </div>
+
+
+                            {{-- PERÍODO --}}
+
+                            <div class="col-12 col-md-4 col-xl-2">
+
+                                <label
+                                    for="periodo"
+                                    class="form-label"
+                                >
+                                    Cadastro
+                                </label>
+
+                                <select
+                                    name="periodo"
+                                    id="periodo"
+                                    class="form-select"
+                                >
+
+                                    <option
+                                        value=""
+                                        @selected($periodo === '')
+                                    >
+                                        Todos
+                                    </option>
+
+                                    <option
+                                        value="hoje"
+                                        @selected($periodo === 'hoje')
+                                    >
+                                        Hoje
+                                    </option>
+
+                                    <option
+                                        value="7dias"
+                                        @selected($periodo === '7dias')
+                                    >
+                                        Últimos 7 dias
+                                    </option>
+
+                                    <option
+                                        value="mes"
+                                        @selected($periodo === 'mes')
+                                    >
+                                        Novos este mês
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            {{-- BOTÕES --}}
+
+                            <div
+                                class="
+                                    col-12
+                                    col-xl-2
+                                    d-flex
+                                    align-items-end
+                                    gap-2
+                                "
+                            >
+
+                                <button
+                                    type="submit"
+                                    class="btn-site-editor-save flex-grow-1"
+                                >
+
+                                    <i class="bi bi-funnel-fill"></i>
+
+                                    Filtrar
+
+                                </button>
+
+
+                                <a
+                                    href="{{ route(
+                                        'admin.cadastro.usuarios'
+                                    ) }}"
+                                    class="publication-manager-button"
+                                    title="Limpar filtros"
+                                >
+
+                                    <i class="bi bi-x-lg"></i>
+
+                                </a>
+
+                            </div>
+
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </section>
+
+
+            {{-- =====================================================
+                 USUÁRIOS CADASTRADOS
+            ====================================================== --}}
+
+            <section>
+
+                <div class="site-editor-section-header">
+
+                    <div>
+
+                        <div class="site-editor-section-icon">
+                            <i class="bi bi-people"></i>
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                Usuários cadastrados
+                            </h4>
+
+                            <p>
+                                Visualize os membros cadastrados
+                                atualmente no aplicativo.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <span class="publication-total">
+
+                        {{ $usuarios->total() }}
+
+                        {{
+                            $usuarios->total() === 1
+                                ? 'usuário'
+                                : 'usuários'
+                        }}
+
+                    </span>
+
+                </div>
+
+
+                <div class="site-editor-card p-0">
+
+                    <div class="table-responsive">
+
+                        <table
+                            class="
+                                table
+                                table-dark
+                                table-hover
+                                align-middle
+                                mb-0
+                            "
+                        >
+
+                            <thead>
+
+                                <tr>
+
+                                    <th class="ps-4">
+                                        Membro
+                                    </th>
+
+                                    <th>
+                                        E-mail
+                                    </th>
+
+                                    <th>
+                                        Área de atuação
+                                    </th>
+
+                                    <th>
+                                        Perfil
+                                    </th>
+
+                                    <th>
+                                        Estado
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th class="pe-4">
+                                        Cadastro
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                @forelse ($usuarios as $usuario)
+
+                                    @php
+                                        $dataCadastro = $usuario->criado_em_usuario
+                                            ? \Carbon\Carbon::parse(
+                                                $usuario->criado_em_usuario
+                                            )
+                                            : null;
+
+                                        $novoEsteMes = $dataCadastro
+                                            && $dataCadastro->isCurrentMonth();
+
+                                        $statusUsuario = strtoupper(
+                                            (string) $usuario->status_usuario
+                                        );
+                                    @endphp
+
+
                                     <tr>
-                                        <th class="ps-4">E-mail de Acesso</th>
-                                        <th>Cargo / Função administrativa</th>
-                                        <th>Status do Perfil</th>
-                                        <th class="text-end pe-4" style="width: 150px;">Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
+
+
+                                        {{-- MEMBRO --}}
+
                                         <td class="ps-4">
-                                            <div class="font-weight-bold text-white">suporte@conexao360.com</div>
+
+                                            <div
+                                                class="
+                                                    d-flex
+                                                    align-items-center
+                                                    gap-3
+                                                "
+                                            >
+
+                                                <div class="publication-manager-avatar">
+
+                                                    {{
+                                                        strtoupper(
+                                                            substr(
+                                                                $usuario->nome_usuario
+                                                                    ?? 'U',
+                                                                0,
+                                                                1
+                                                            )
+                                                        )
+                                                    }}
+
+                                                </div>
+
+
+                                                <div class="publication-manager-author-info">
+
+                                                    <strong>
+
+                                                        {{
+                                                            $usuario->nome_usuario
+                                                                ?: 'Usuário sem nome'
+                                                        }}
+
+                                                    </strong>
+
+
+                                                    <span>
+
+                                                        ID #{{ $usuario->id_usuario }}
+
+                                                    </span>
+
+
+                                                    @if ($novoEsteMes)
+
+                                                        <span
+                                                            class="
+                                                                publication-total
+                                                                mt-1
+                                                            "
+                                                        >
+                                                            Novo
+                                                        </span>
+
+                                                    @endif
+
+                                                </div>
+
+                                            </div>
+
                                         </td>
+
+
+                                        {{-- E-MAIL --}}
+
                                         <td>
-                                            <span class="badge bg-primary rounded-2">Moderador de Conteúdo</span>
+
+                                            {{
+                                                $usuario->email_usuario
+                                                    ?: '-'
+                                            }}
+
                                         </td>
+
+
+                                        {{-- ÁREA --}}
+
                                         <td>
-                                            <span class="badge bg-success rounded-pill px-2"
-                                                style="font-size: 0.7rem;">Ativo / Configurado</span>
+
+                                            {{
+                                                $usuario->area_atuacao_usuario
+                                                    ?: 'Não informada'
+                                            }}
+
                                         </td>
-                                        <td class="text-end pe-4">
-                                            <button class="btn btn-sm btn-outline-light rounded-2 me-1"
-                                                title="Editar Cargo"><i class="bi bi-pencil"></i></button>
-                                            <button class="btn btn-sm btn-outline-danger rounded-2"
-                                                title="Bloquear Conta"><i class="bi bi-toggle-on"></i></button>
+
+
+                                        {{-- PERFIL --}}
+
+                                        <td>
+
+                                            <span class="publication-total">
+
+                                                {{
+                                                    ucfirst(
+                                                        $usuario->perfil_usuario
+                                                            ?: 'usuario'
+                                                    )
+                                                }}
+
+                                            </span>
+
                                         </td>
+
+
+                                        {{-- ESTADO --}}
+
+                                        <td>
+
+                                            {{
+                                                $usuario->estado_usuario
+                                                    ?: '-'
+                                            }}
+
+                                        </td>
+
+
+                                        {{-- STATUS --}}
+
+                                        <td>
+
+                                            @if ($statusUsuario === 'ATIVO')
+
+                                                <span
+                                                    class="
+                                                        publication-status-pill
+                                                        publication-status-pill--active
+                                                    "
+                                                >
+
+                                                    <i class="bi bi-circle-fill"></i>
+
+                                                    Ativo
+
+                                                </span>
+
+                                            @else
+
+                                                <span
+                                                    class="
+                                                        publication-status-pill
+                                                        publication-status-pill--hidden
+                                                    "
+                                                >
+
+                                                    <i class="bi bi-circle-fill"></i>
+
+                                                    {{
+                                                        ucfirst(
+                                                            strtolower(
+                                                                $usuario->status_usuario
+                                                                    ?: 'Inativo'
+                                                            )
+                                                        )
+                                                    }}
+
+                                                </span>
+
+                                            @endif
+
+                                        </td>
+
+
+                                        {{-- CADASTRO --}}
+
+                                        <td class="pe-4">
+
+                                            @if ($dataCadastro)
+
+                                                <strong>
+                                                    {{
+                                                        $dataCadastro->format(
+                                                            'd/m/Y'
+                                                        )
+                                                    }}
+                                                </strong>
+
+                                                <div class="form-text">
+
+                                                    {{
+                                                        $dataCadastro->format(
+                                                            'H:i'
+                                                        )
+                                                    }}
+
+                                                </div>
+
+                                            @else
+
+                                                -
+
+                                            @endif
+
+                                        </td>
+
+
                                     </tr>
-                                </tbody>
-                            </table>
-                        </div>
+
+                                @empty
+
+
+                                    <tr>
+
+                                        <td
+                                            colspan="7"
+                                            class="text-center py-5"
+                                        >
+
+                                            <div class="publication-manager-empty">
+
+                                                <i class="bi bi-people"></i>
+
+                                                <strong>
+                                                    Nenhum usuário encontrado
+                                                </strong>
+
+                                                <span>
+                                                    Tente alterar ou limpar
+                                                    os filtros utilizados.
+                                                </span>
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+
+
+                                @endforelse
+
+                            </tbody>
+
+                        </table>
+
                     </div>
+
+
+                    {{-- =================================================
+                         PAGINAÇÃO
+                    ================================================== --}}
+
+                    @if ($usuarios->hasPages())
+
+                        <div class="p-4">
+
+                            {{
+                                $usuarios
+                                    ->onEachSide(1)
+                                    ->links('pagination::bootstrap-5')
+                            }}
+
+                        </div>
+
+                    @endif
+
                 </div>
 
-            </div>
+            </section>
+
+
         </div>
-    </main>
 
-    {{-- MODAL OTIMIZADO: PRÉ-CADASTRO DE USUÁRIO --}}
-    <div class="modal fade" id="modalNovoUsuario" tabindex="-1" aria-labelledby="modalNovoUsuarioLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content bg-dark text-white border-secondary">
-                <div class="modal-header border-secondary">
-                    <h5 class="modal-title d-flex align-items-center" id="modalNovoUsuarioLabel">
-                        <i class="bi bi-person-plus-fill text-primary me-2"></i> Conceder Acesso ao Painel
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <form action="#" method="POST">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="row g-3">
-                            {{-- Email --}}
-                            <div class="col-12">
-                                <label class="form-label text-muted small">E-mail Institucional</label>
-                                <input type="email" name="email"
-                                    class="form-control bg-black text-white border-secondary rounded-3"
-                                    placeholder="Ex: admin@conexao360.com" required>
-                            </div>
-
-                            {{-- Cargo --}}
-                            <div class="col-12">
-                                <label class="form-label text-muted small">Cargo / Departamento</label>
-                                <input type="text" name="cargo"
-                                    class="form-control bg-black text-white border-secondary rounded-3"
-                                    placeholder="Ex: Suporte / Gerente de Marketing" required>
-                            </div>
-
-                            {{-- Senha Inicial --}}
-                            <div class="col-12">
-                                <label class="form-label text-muted small">Senha Provisória de Acesso</label>
-                                <input type="password" name="password"
-                                    class="form-control bg-black text-white border-secondary rounded-3"
-                                    placeholder="Mínimo 8 caracteres" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer border-secondary">
-                        <button type="button" class="btn btn-outline-light rounded-3"
-                            data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary rounded-3 px-4">Criar Conta</button>
-                    </div>
-                </form>
-            </div>
-        </div>
     </div>
+
+</div>
+
 @endsection

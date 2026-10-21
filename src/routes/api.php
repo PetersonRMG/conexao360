@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\V1\ConexaoController;
 use App\Http\Controllers\Api\V1\PerfilController;
 use App\Http\Controllers\Api\V1\NotificacaoController;
 use App\Http\Controllers\Api\V1\ConversaController;
+use App\Http\Controllers\Api\V1\DenunciaPublicacaoController;
 
 
 Route::prefix('v1')->group(function () {
@@ -323,6 +324,42 @@ Route::prefix('v1')->group(function () {
             '/usuario',
             [UsuarioController::class, 'update']
         );
+
+        Route::post(
+            '/publicacoes/{id}/denuncias',
+            [DenunciaPublicacaoController::class, 'store']
+        );
+
+        Route::delete(
+            '/publicacoes/{id}',
+            [PublicacaoController::class, 'destroy']
+        );
+
+        // =========================================================
+// PESQUISA DE USUÁRIOS
+// =========================================================
+
+        Route::get(
+            '/usuarios',
+            [
+                UsuarioController::class,
+                'index'
+            ]
+        );
+
+
+        // =========================================================
+// PERFIL DE USUÁRIO
+// =========================================================
+
+        Route::get(
+            '/usuarios/{idUsuario}',
+            [
+                PerfilController::class,
+                'show'
+            ]
+        );
+
 
 
     });
