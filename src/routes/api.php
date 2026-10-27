@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\V1\PerfilController;
 use App\Http\Controllers\Api\V1\NotificacaoController;
 use App\Http\Controllers\Api\V1\ConversaController;
 use App\Http\Controllers\Api\V1\DenunciaPublicacaoController;
+use App\Http\Controllers\Api\V1\EnqueteController;
 
 
 Route::prefix('v1')->group(function () {
@@ -359,6 +360,27 @@ Route::prefix('v1')->group(function () {
                 'show'
             ]
         );
+
+        // =========================================================
+// ENQUETES
+// =========================================================
+
+Route::get(
+    '/enquetes',
+    [
+        EnqueteController::class,
+        'index'
+    ]
+);
+
+
+Route::post(
+    '/enquetes/{idEnquete}/resposta',
+    [
+        EnqueteController::class,
+        'responder'
+    ]
+)->whereNumber('idEnquete');
 
 
 

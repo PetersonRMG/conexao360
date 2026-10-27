@@ -10,10 +10,20 @@ class Enquete extends Model
 
     protected $primaryKey = 'id_enquete';
 
-    public $timestamps = false;
+    public $timestamps = true;
+
+    const CREATED_AT = 'criado_em_enquete';
+    const UPDATED_AT = 'atualizado_em_enquete';
 
     protected $fillable = [
+        'id_usuario',
         'pergunta_enquete',
+        'status_enquete',
+    ];
+
+    protected $casts = [
+        'criado_em_enquete' => 'datetime',
+        'atualizado_em_enquete' => 'datetime',
     ];
 
     public function respostas()
@@ -22,6 +32,15 @@ class Enquete extends Model
             Resposta::class,
             'id_enquete',
             'id_enquete'
+        );
+    }
+
+    public function usuario()
+    {
+        return $this->belongsTo(
+            Usuarios::class,
+            'id_usuario',
+            'id_usuario'
         );
     }
 }
