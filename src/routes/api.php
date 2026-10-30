@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\V1\NotificacaoController;
 use App\Http\Controllers\Api\V1\ConversaController;
 use App\Http\Controllers\Api\V1\DenunciaPublicacaoController;
 use App\Http\Controllers\Api\V1\EnqueteController;
+use App\Http\Controllers\Api\V1\EventoController;
 
 
 Route::prefix('v1')->group(function () {
@@ -33,13 +34,7 @@ Route::prefix('v1')->group(function () {
 
     // LOGIN
 
-    Route::post(
-        '/auth/login',
-        [
-            AuthController::class,
-            'login'
-        ]
-    );
+    Route::post('/auth/login',[AuthController::class,'login']);
 
 
     // CADASTRO
@@ -365,22 +360,27 @@ Route::prefix('v1')->group(function () {
 // ENQUETES
 // =========================================================
 
-Route::get(
-    '/enquetes',
-    [
-        EnqueteController::class,
-        'index'
-    ]
+        Route::get(
+            '/enquetes',
+            [
+                EnqueteController::class,
+                'index'
+            ]
+        );
+
+
+        Route::post(
+            '/enquetes/{idEnquete}/resposta',
+            [
+                EnqueteController::class,
+                'responder'
+            ]
+        )->whereNumber('idEnquete');
+
+        Route::get(
+    '/eventos',
+    [EventoController::class, 'index']
 );
-
-
-Route::post(
-    '/enquetes/{idEnquete}/resposta',
-    [
-        EnqueteController::class,
-        'responder'
-    ]
-)->whereNumber('idEnquete');
 
 
 
