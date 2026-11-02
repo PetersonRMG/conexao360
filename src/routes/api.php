@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\V1\ConversaController;
 use App\Http\Controllers\Api\V1\DenunciaPublicacaoController;
 use App\Http\Controllers\Api\V1\EnqueteController;
 use App\Http\Controllers\Api\V1\EventoController;
+use App\Http\Controllers\Api\V1\VerificacaoEmailController;
 
 
 Route::prefix('v1')->group(function () {
@@ -46,6 +47,37 @@ Route::prefix('v1')->group(function () {
             'register'
         ]
     );
+
+    // VERIFICAÇÃO DO CADASTRO
+Route::post('/auth/register/code', [
+    VerificacaoEmailController::class,
+    'codigoCadastro'
+]);
+
+// RECUPERAÇÃO DE SENHA
+Route::post('/auth/password/code', [
+    VerificacaoEmailController::class,
+    'codigoRecuperacao'
+]);
+
+Route::post('/auth/password/reset', [
+    VerificacaoEmailController::class,
+    'redefinirSenha'
+]);
+
+Route::get('/auth/verification/channels', [
+    VerificacaoEmailController::class,
+    'canais'
+]);
+
+Route::post('/auth/register/whatsapp/code', [
+    VerificacaoEmailController::class,
+    'codigoCadastroWhatsapp'
+]);
+
+Route::post('/auth/password/verify', [VerificacaoEmailController::class, 'verificarCodigoRecuperacao']);
+
+
 
 
     // =============================================================
@@ -381,6 +413,19 @@ Route::prefix('v1')->group(function () {
     '/eventos',
     [EventoController::class, 'index']
 );
+
+
+// ALTERAÇÃO DE SENHA DO USUÁRIO LOGADO
+
+Route::post('/auth/password/change/code', [
+    VerificacaoEmailController::class,
+    'codigoAlteracao'
+]);
+
+Route::post('/auth/password/change', [
+    VerificacaoEmailController::class,
+    'alterarSenha'
+]);
 
 
 
