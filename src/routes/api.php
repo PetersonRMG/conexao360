@@ -427,6 +427,11 @@ Route::post('/auth/password/change', [
     'alterarSenha'
 ]);
 
+Route::get(
+    '/eventos/{id}/galeria',
+    [EventoController::class, 'galeria']
+)->whereNumber('id');
+
 
 
     });

@@ -1,132 +1,146 @@
+
 <?php
 
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Video;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class VideoController extends Controller
 {
-    //
     public function createVideo(Request $request)
     {
-        $request->validate([
-            'titulo_video'            => 'required|string|max:255',
-            'subtitulo_video'         => 'required|string',
-            'legenda_video'            => 'required|string|max:255',
-            'breve_descricao_video'   => 'required|string|max:255',
-            'status_video'            => 'required|in:ATIVO,INATIVO',
-            'url_video'               => 'nullable|file|mimes:mp4,webm,mov|max:51200', 
-            'capa_video'              => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-        ]);
+        $dados = $this->validarVideo($request, true);
 
-        $caminhoVideo = null;
-        $caminhoCapa = null;
+        $caminhoVideo = $this->salvarArquivo(
+            $request,
+            'url_video'
+        );
 
-        // Upload do vídeo
-        if ($request->hasFile('url_video')) {
+        $caminhoCapa = $this->salvarArquivo(
+            $request,
+            'capa_video'
+        );
 
-            $video = $request->file('url_video');
+        $video = new Video();
 
-            $nomeVideo = time() . '.' . $video->getClientOriginalExtension();
+        $video->id_evento = $dados['id_evento'];
+        $video->titulo_video = $dados['titulo_video'];
+        $video->subtitulo_video = $dados['subtitulo_video'];
+        $video->legenda_video = $dados['legenda_video'];
+        $video->breve_descricao_video =
+            $dados['breve_descricao_video'];
+        $video->status_video = $dados['status_video'];
+        $video->url_video = $caminhoVideo;
+        $video->capa_video = $caminhoCapa;
 
-            $video->move(
-                public_path('conexao360/img/video/'),
-                $nomeVideo
-            );
-
-            $caminhoVideo = 'video/' . $nomeVideo;
-        }
-
-        // Upload da capa
-        if ($request->hasFile('capa_video')) {
-
-            $capa = $request->file('capa_video');
-
-            $nomeCapa = time() . '.' . $capa->getClientOriginalExtension();
-
-            $capa->move(
-                public_path('conexao360/img/video/'),
-                $nomeCapa
-            );
-            $caminhoCapa = 'video/' . $nomeCapa;
-        }
-
-        Video::create([
-            'titulo_video'            => $request->titulo_video,
-            'subtitulo_video'         => $request->subtitulo_video,
-            'legenda_video'            =>  $request->legenda_video,
-            'breve_descricao_video'   => $request->breve_descricao_video,
-            'status_video'            => $request->status_video,
-            'url_video'               => $caminhoVideo,
-            'capa_video'              => $caminhoCapa,
-        ]);
-
+        $video->save();
 
         return redirect()
-        ->route('admin.modificar.site')
-        ->with('success', 'Video criado com sucesso!');
+            ->route('admin.modificar.site')
+            ->with('success', 'Vídeo vinculado ao evento com sucesso!');
     }
+
     public function updateVideo(Request $request, $id)
     {
-            $request->validate([
-            'titulo_video'            => 'required|string|max:255',
-            'subtitulo_video'         => 'required|string',
-            'legenda_video'            => 'required|string|max:255',
-            'breve_descricao_video'   => 'required|string|max:255',
-            'status_video'            => 'required|in:ATIVO,INATIVO',
-            'url_video'               => 'nullable|file|mimes:mp4,webm,mov|max:51200', 
-            'capa_video'              => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-        ]);
+        $dados = $this->validarVideo($request, false);
 
-        $videos = Video::findOrFail($id);
+        $video = Video::findOrFail($id);
 
-        $caminhoVideo = null;
-        $caminhoCapa = null;
+        $video->id_evento = $dados['id_evento'];
+        $video->titulo_video = $dados['titulo_video'];
+        $video->subtitulo_video = $dados['subtitulo_video'];
+        $video->legenda_video = $dados['legenda_video'];
+        $video->breve_descricao_video =
+            $dados['breve_descricao_video'];
+        $video->status_video = $dados['status_video'];
 
-        // Upload do vídeo
         if ($request->hasFile('url_video')) {
-
-            $video = $request->file('url_video');
-
-            $nomeVideo = time() . '.' . $video->getClientOriginalExtension();
-
-            $video->move(
-                public_path('conexao360/img/video/'),
-                $nomeVideo
+            $video->url_video = $this->salvarArquivo(
+                $request,
+                'url_video'
             );
-
-            $caminhoVideo = 'video/' . $nomeVideo;
         }
 
-        // Upload da capa
         if ($request->hasFile('capa_video')) {
-
-            $capa = $request->file('capa_video');
-
-            $nomeCapa = time() . '.' . $capa->getClientOriginalExtension();
-
-            $capa->move(
-                public_path('conexao360/img/video/'),
-                $nomeCapa
+            $video->capa_video = $this->salvarArquivo(
+                $request,
+                'capa_video'
             );
-            $caminhoCapa = 'video/' . $nomeCapa;
         }
 
-        $videos->update([
-            'titulo_video'            => $request->titulo_video,
-            'subtitulo_video'         => $request->subtitulo_video,
-            'legenda_video'            =>  $request->legenda_video,
-            'breve_descricao_video'   => $request->breve_descricao_video,
-            'status_video'            => $request->status_video,
-            'url_video'             => $caminhoVideo ?? $videos->url_video,
-            'capa_video'            => $caminhoCapa ?? $videos->capa_video,
-        ]);
-
+        $video->save();
 
         return redirect()
-        ->route('admin.modificar.site')
-        ->with('success', 'Video editado com sucesso!');
+            ->route('admin.modificar.site')
+            ->with('success', 'Vídeo e evento atualizados com sucesso!');
+    }
+
+    private function validarVideo(
+        Request $request,
+        bool $criando
+    ): array {
+        return $request->validate([
+            'id_evento' => [
+                'required',
+                'integer',
+                Rule::exists('tbl_eventos', 'id_evento'),
+            ],
+
+            'titulo_video' => 'required|string|max:50',
+            'subtitulo_video' => 'required|string|max:50',
+            'legenda_video' => 'required|string|max:100',
+            'breve_descricao_video' => 'required|string|max:80',
+            'status_video' => 'required|in:ATIVO,INATIVO',
+
+            'url_video' => [
+                $criando ? 'required' : 'nullable',
+                'file',
+                'mimes:mp4,webm,mov',
+                'max:51200',
+            ],
+
+            'capa_video' => [
+                $criando ? 'required' : 'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:2048',
+            ],
+        ], [
+            'id_evento.required' =>
+                'Selecione o evento relacionado ao vídeo.',
+            'id_evento.exists' =>
+                'O evento selecionado não existe.',
+            'url_video.required' =>
+                'Selecione o arquivo do vídeo.',
+            'capa_video.required' =>
+                'Selecione uma capa para o vídeo.',
+        ]);
+    }
+
+    private function salvarArquivo(
+        Request $request,
+        string $campo
+    ): ?string {
+        if (!$request->hasFile($campo)) {
+            return null;
+        }
+
+        $arquivo = $request->file($campo);
+
+        $diretorio = public_path('conexao360/img/video');
+
+        File::ensureDirectoryExists($diretorio);
+
+        $nome = Str::uuid() . '.' .
+            $arquivo->getClientOriginalExtension();
+
+        $arquivo->move($diretorio, $nome);
+
+        return 'video/' . $nome;
     }
 }
