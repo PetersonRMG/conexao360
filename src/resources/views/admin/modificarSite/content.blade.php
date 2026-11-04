@@ -211,8 +211,18 @@
                                         <div class="col-12 col-md-6">
                                             <form method="POST" action="{{ route('admin.evento.update', $item->id_evento) }}"
                                                 enctype="multipart/form-data">
+                                                <div class="px-2 pb-3">
+                                                    <a
+                                                        href="{{ route('admin.eventos.conteudo', ['idEvento' => $item->id_evento]) }}"
+                                                        class="btn btn-outline-warning w-100 fw-semibold"
+                                                    >
+                                                        <i class="bi bi-folder2-open me-1"></i>
+                                                        Gerenciar conteúdo
+                                                    </a>
+                                                </div>
                                                 @csrf
                                                 @method('PUT')
+
                                                 <div class="site-editor-card h-100">
                                                     <div class="premium-item-card">
                                                         <label class="form-label text-center d-block">Banner do Evento</label>

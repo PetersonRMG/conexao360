@@ -21,7 +21,6 @@ use App\Services\CodigoEmailService;
 
 
 class AuthController extends Controller
-
 {
 
     // =============================================================
@@ -45,7 +44,6 @@ class AuthController extends Controller
             'email' => [
 
                 'required',
-
                 'email',
 
             ],
@@ -55,7 +53,6 @@ class AuthController extends Controller
             'senha' => [
 
                 'required',
-
                 'string',
 
             ],
@@ -65,7 +62,6 @@ class AuthController extends Controller
             'device_name' => [
 
                 'required',
-
                 'string',
 
             ],
@@ -89,11 +85,8 @@ class AuthController extends Controller
             Usuarios::where(
 
                 'email_usuario',
-
                 $request->email
-
             )
-
                 ->first();
 
 
@@ -113,13 +106,9 @@ class AuthController extends Controller
 
 
             return response()->json([
-
                 'success' => false,
 
-
-
                 'message' =>
-
                     'E-mail ou senha inválidos.',
 
             ], 401);
@@ -668,69 +657,69 @@ class AuthController extends Controller
 
                 return Usuarios::create([
 
-                'nome_usuario' =>
+                    'nome_usuario' =>
 
-                    $nome,
-
-
-
-                'foto_usuario' =>
-
-                    '',
+                        $nome,
 
 
 
-                'email_usuario' =>
+                    'foto_usuario' =>
 
-                    $email,
-
-
-
-                'area_atuacao_usuario' =>
-
-                    $areaAtuacao,
+                        '',
 
 
 
-                'senha_usuario' =>
+                    'email_usuario' =>
 
-                    Hash::make(
-
-                        $request->senha
-
-                    ),
+                        $email,
 
 
 
-                'termos_usuario' =>
+                    'area_atuacao_usuario' =>
 
-                    true,
-
-
-
-                'perfil_usuario' =>
-
-                    'usuario',
+                        $areaAtuacao,
 
 
 
-                'estado_usuario' =>
+                    'senha_usuario' =>
 
-                    $estado,
+                        Hash::make(
 
+                            $request->senha
 
-
-                'sobre_usuario' =>
-
-                    $sobre,
+                        ),
 
 
 
-                'status_usuario' =>
+                    'termos_usuario' =>
 
-                    'ATIVO',
+                        true,
 
-            ]);
+
+
+                    'perfil_usuario' =>
+
+                        'usuario',
+
+
+
+                    'estado_usuario' =>
+
+                        $estado,
+
+
+
+                    'sobre_usuario' =>
+
+                        $sobre,
+
+
+
+                    'status_usuario' =>
+
+                        'ATIVO',
+
+                ]);
             }
         );
 

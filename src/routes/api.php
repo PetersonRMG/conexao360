@@ -388,9 +388,16 @@ Route::post('/auth/password/verify', [VerificacaoEmailController::class, 'verifi
             ]
         );
 
+        // Exclusão da própria conta: autenticação, senha e confirmação no aplicativo.
+        Route::delete('/usuario', [UsuarioController::class, 'destroy'])
+            ->middleware('throttle:5,1');
+
+        // ENQUETES (também chamadas "Tópicos" no aplicativo)
         // =========================================================
-// ENQUETES
-// =========================================================
+        Route::post('/enquetes', [EnqueteController::class, 'store'])
+            ->middleware('throttle:10,1');
+
+
 
         Route::get(
             '/enquetes',

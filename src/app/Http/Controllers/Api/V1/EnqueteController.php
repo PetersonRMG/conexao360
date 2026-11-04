@@ -191,6 +191,53 @@ class EnqueteController extends Controller
 
 
     // =============================================================
+    // CRIAR ENQUETE (também exibida na tela "Tópicos" do app)
+    // Usa a tabela tbl_enquetes, sem models/tabelas paralelos.
+    // =============================================================
+
+    public function store(Request $request): JsonResponse
+    {
+        $usuario = $request->user();
+        $perfil = mb_strtolower((string) ($usuario->perfil_usuario ?? ''));
+
+        if (!in_array($perfil, ['palestrante', 'administrador'], true)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Somente palestrantes e administradores podem criar enquetes.',
+            ], 403);
+        }
+
+        $dados = $request->validate([
+            'pergunta_enquete' => ['required', 'string', 'max:80'],
+        ], [
+            'pergunta_enquete.required' => 'Informe a pergunta da enquete.',
+            'pergunta_enquete.max' => 'A pergunta deve ter no máximo 80 caracteres.',
+        ]);
+
+        $pergunta = trim($dados['pergunta_enquete']);
+        if ($pergunta === '') {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'pergunta_enquete' => 'Informe a pergunta da enquete.',
+            ]);
+        }
+
+        $enquete = Enquete::create([
+            'id_usuario' => (int) $usuario->id_usuario,
+            'pergunta_enquete' => $pergunta,
+            'status_enquete' => 'ATIVA',
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Enquete publicada com sucesso.',
+            'data' => $this->formatarEnquete(
+                $this->buscarEnquete((int) $enquete->id_enquete, (int) $usuario->id_usuario)
+            ),
+        ], 201);
+    }
+
+
+    // =============================================================
     // RESPONDER ENQUETE
     // =============================================================
 

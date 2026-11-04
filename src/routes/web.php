@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\DashController;
 use App\Http\Controllers\Admin\ConexaoController;
 use App\Http\Controllers\Admin\EventoController;
 use App\Http\Controllers\Admin\DataController;
+use App\Http\Controllers\Admin\ConteudoEventoController;
 
 use App\Http\Controllers\Admin\TemasController;
 use App\Http\Controllers\Admin\HeroController;
@@ -132,6 +133,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/moderacao', [ModeracaoController::class, 'index'])->name('moderacao.index');
 
         Route::patch('/moderacao/{id}/analisar', [ModeracaoController::class, 'analisar'])->name('moderacao.analisar');
+
+
+        // GERENCIAR CONTEÚDO DOS EVENTOS
+        Route::get('/eventos/{idEvento}/conteudo',[ConteudoEventoController::class, 'show'])->whereNumber('idEvento')->name('eventos.conteudo');
+
+        Route::post('/eventos/{idEvento}/albuns',[ConteudoEventoController::class, 'criarAlbum']  )->whereNumber('idEvento')->name('eventos.albuns.store');
+
+        Route::post('/eventos/{idEvento}/albuns/{idAlbum}/fotos',[ConteudoEventoController::class, 'enviarFoto']
+        )->whereNumber('idEvento')
+            ->whereNumber('idAlbum')
+            ->name('eventos.fotos.store');
     });
 
     Route::prefix('palestrante')->middleware(['auth:admin', 'perfil:palestrante'])->group(function () {
@@ -151,15 +163,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get(
             '/publicacoes',
-            [PublicacaoController::class, 'indexPalestrante'])->name('palestrante.publicacoes.index');
+            [PublicacaoController::class, 'indexPalestrante']
+        )->name('palestrante.publicacoes.index');
 
         Route::post(
             '/publicacoes',
-            [PublicacaoController::class, 'storePalestrante'])->name('palestrante.publicacoes.store');
+            [PublicacaoController::class, 'storePalestrante']
+        )->name('palestrante.publicacoes.store');
 
         Route::patch(
             '/publicacoes/{id}/status',
-            [PublicacaoController::class, 'statusPalestrante'])->name('palestrante.publicacoes.status');
+            [PublicacaoController::class, 'statusPalestrante']
+        )->name('palestrante.publicacoes.status');
 
         // VÍDEOS DAS PALESTRAS
         Route::get('/videos', [ConteudosController::class, 'videosPalestrante'])->name('palestrante.video.index');

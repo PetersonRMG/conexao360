@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Http\Controllers\Api\V1;
@@ -8,6 +7,8 @@ use App\Models\Eventos;
 use App\Models\Conteudo;
 use App\Models\Video;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class EventoController extends Controller
 {
@@ -64,6 +65,51 @@ class EventoController extends Controller
             ->whereIn('status_evento', ['ATIVO', 'INATIVO'])
             ->findOrFail($id);
 
+        // Cada álbum pertence a um evento e cada foto pertence a um álbum.
+        // Consultar pelas duas relações impede que fotos de outra edição apareçam aqui.
+        $albuns = collect();
+        $fotos = collect();
+
+        // A API continua respondendo quando a migration da galeria ainda não foi executada.
+        if (Schema::hasTable('tbl_albuns_evento') && Schema::hasTable('tbl_fotos_evento')) {
+            $albunsDoEvento = DB::table('tbl_albuns_evento')
+                ->where('id_evento', $evento->id_evento)
+                ->where('status_album', 'ATIVO')
+                ->orderByDesc('id_album')
+                ->get();
+
+            $fotosPorAlbum = DB::table('tbl_fotos_evento')
+                ->whereIn('id_album', $albunsDoEvento->pluck('id_album'))
+                ->where('status_foto', 'ATIVO')
+                ->orderBy('id_foto')
+                ->get()
+                ->groupBy('id_album');
+
+            $albuns = $albunsDoEvento->map(function ($album) use ($fotosPorAlbum) {
+                $fotosDoAlbum = $fotosPorAlbum
+                    ->get($album->id_album, collect())
+                    ->map(fn ($foto) => [
+                        'id_foto' => $foto->id_foto,
+                        'id_album' => $album->id_album,
+                        'titulo_foto' => $foto->titulo_foto,
+                        'descricao_foto' => $foto->descricao_foto,
+                        'url_foto' => asset('conexao360/uploads/galeria/' . $foto->arquivo_foto),
+                    ])
+                    ->values();
+
+                return [
+                    'id_album' => $album->id_album,
+                    'titulo_album' => $album->titulo_album,
+                    'descricao_album' => $album->descricao_album,
+                    'fotos' => $fotosDoAlbum,
+                ];
+            })->values();
+
+            // Campo já existente na resposta: lista simples para clientes que exibem fotos
+            // sem separar por álbum. `albuns` permite a navegação agrupada.
+            $fotos = $albuns->flatMap(fn ($album) => $album['fotos'])->values();
+        }
+
         // Vídeos enviados diretamente pelo dashboard.
         $videosSite = Video::query()
             ->where('id_evento', $evento->id_evento)
@@ -119,9 +165,8 @@ class EventoController extends Controller
                     ),
                 ],
 
-                // A galeria oficial de fotos será
-                // ligada após criarmos o cadastro no painel.
-                'fotos' => [],
+                'albuns' => $albuns,
+                'fotos' => $fotos,
 
                 'videos' => $videosSite
                     ->concat($videosPalestras)
