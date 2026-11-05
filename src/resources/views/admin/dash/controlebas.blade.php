@@ -137,32 +137,12 @@
                             <i class="bi bi-arrow-up-right dash-module-arrow"></i>
                         </a>
 
-                        <a href="{{ route('admin.conteudos.videos') }}" class="dash-module-card">
-                            <div class="dash-module-icon"><i class="bi bi-play-btn"></i></div>
-                            <div class="dash-module-copy">
-                                <span>Vídeos</span>
-                                <strong>{{ $totalVideos }}</strong>
-                                <small>{{ $videosAtivos }} ativos</small>
-                            </div>
-                            <i class="bi bi-arrow-up-right dash-module-arrow"></i>
-                        </a>
-
-                        <a href="{{ route('admin.enquetes.index') }}" class="dash-module-card">
-                            <div class="dash-module-icon"><i class="bi bi-bar-chart-line"></i></div>
-                            <div class="dash-module-copy">
-                                <span>Enquetes</span>
-                                <strong>{{ $totalEnquetes }}</strong>
-                                <small>{{ $totalRespostasEnquetes }} respostas</small>
-                            </div>
-                            <i class="bi bi-arrow-up-right dash-module-arrow"></i>
-                        </a>
-
-                        <a href="{{ route('admin.modificar.site') }}" class="dash-module-card">
+                        <a href="{{ route('admin.eventos.index') }}" class="dash-module-card">
                             <div class="dash-module-icon"><i class="bi bi-calendar-event"></i></div>
                             <div class="dash-module-copy">
                                 <span>Eventos</span>
                                 <strong>{{ $totalEventos }}</strong>
-                                <small>Eventos cadastrados</small>
+                                <small>{{ $totalVideos }} vídeos · {{ $totalEnquetes }} enquetes</small>
                             </div>
                             <i class="bi bi-arrow-up-right dash-module-arrow"></i>
                         </a>

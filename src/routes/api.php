@@ -388,16 +388,9 @@ Route::post('/auth/password/verify', [VerificacaoEmailController::class, 'verifi
             ]
         );
 
-        // Exclusão da própria conta: autenticação, senha e confirmação no aplicativo.
-        Route::delete('/usuario', [UsuarioController::class, 'destroy'])
-            ->middleware('throttle:5,1');
-
-        // ENQUETES (também chamadas "Tópicos" no aplicativo)
         // =========================================================
-        Route::post('/enquetes', [EnqueteController::class, 'store'])
-            ->middleware('throttle:10,1');
-
-
+// ENQUETES
+// =========================================================
 
         Route::get(
             '/enquetes',
@@ -438,6 +431,9 @@ Route::get(
     '/eventos/{id}/galeria',
     [EventoController::class, 'galeria']
 )->whereNumber('id');
+
+Route::get('/eventos/{id}/videos', [EventoController::class, 'videos'])->whereNumber('id');
+Route::get('/eventos/{id}/programacao', [EventoController::class, 'programacao'])->whereNumber('id');
 
 
 

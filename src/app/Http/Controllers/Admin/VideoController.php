@@ -40,7 +40,7 @@ class VideoController extends Controller
         $video->save();
 
         return redirect()
-            ->route('admin.modificar.site')
+            ->route('admin.eventos.conteudo', ['idEvento' => $video->id_evento])
             ->with('success', 'Vídeo vinculado ao evento com sucesso!');
     }
 
@@ -75,7 +75,7 @@ class VideoController extends Controller
         $video->save();
 
         return redirect()
-            ->route('admin.modificar.site')
+            ->route('admin.eventos.conteudo', ['idEvento' => $video->id_evento])
             ->with('success', 'Vídeo e evento atualizados com sucesso!');
     }
 

@@ -1,11 +1,9 @@
 @php
 
     $rotaPublicacoes = \Illuminate\Support\Facades\Route::has('admin.publicacoes.index');
-    $rotaConteudos = \Illuminate\Support\Facades\Route::has('admin.conteudos.index');
 
     // Próximos módulos
     $rotaParticipantes = \Illuminate\Support\Facades\Route::has('admin.participantes.index');
-    $rotaEnquetes = \Illuminate\Support\Facades\Route::has('admin.enquetes.index');
     $rotaModeracao = \Illuminate\Support\Facades\Route::has('admin.moderacao.index');
     $rotaConfiguracoes = \Illuminate\Support\Facades\Route::has('admin.rede.configuracoes');
 
@@ -206,27 +204,6 @@
                 </li>
 
 
-                {{-- CONTEÚDOS --}}
-                <li class="nav-item">
-
-                    <a
-                        href="{{ $rotaConteudos ? route('admin.conteudos.index') : '#' }}"
-                        class="nav-link admin-sidebar-link
-                        {{ Request::routeIs('admin.conteudos.*') ? 'active' : '' }}
-                        {{ !$rotaConteudos ? 'disabled' : '' }}">
-
-                        <i class="nav-icon bi bi-collection-play-fill"></i>
-
-                        <p>
-                            Conteúdos
-                        </p>
-
-                    </a>
-
-                </li>
-
-
-
                 {{-- ====================================================
                      EVENTOS / PARTICIPAÇÃO
                 ===================================================== --}}
@@ -234,6 +211,15 @@
                     Eventos e Participação
                 </li>
 
+
+                {{-- EVENTOS: cadastro, manutenção e conteúdos no mesmo lugar --}}
+                <li class="nav-item">
+                    <a href="{{ route('admin.eventos.index') }}"
+                       class="nav-link admin-sidebar-link {{ Request::routeIs('admin.eventos.*') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-calendar-event-fill"></i>
+                        <p>Eventos</p>
+                    </a>
+                </li>
 
                 {{-- PARTICIPANTES / PRESENÇAS --}}
                 <li class="nav-item">
@@ -259,33 +245,6 @@
                     </a>
 
                 </li>
-
-
-                {{-- ENQUETES --}}
-                <li class="nav-item">
-
-                    <a
-                        href="{{ $rotaEnquetes ? route('admin.enquetes.index') : '#' }}"
-                        class="nav-link admin-sidebar-link
-                        {{ Request::routeIs('admin.enquetes.*') ? 'active' : '' }}
-                        {{ !$rotaEnquetes ? 'disabled' : '' }}">
-
-                        <i class="nav-icon bi bi-bar-chart-fill"></i>
-
-                        <p>
-                            Enquetes
-                        </p>
-
-                        @if (!$rotaEnquetes)
-                            <span class="badge admin-sidebar-coming-soon">
-                                Em breve
-                            </span>
-                        @endif
-
-                    </a>
-
-                </li>
-
 
 
                 {{-- ====================================================

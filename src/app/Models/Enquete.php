@@ -17,6 +17,7 @@ class Enquete extends Model
 
     protected $fillable = [
         'id_usuario',
+        'id_evento',
         'pergunta_enquete',
         'status_enquete',
     ];
@@ -33,6 +34,11 @@ class Enquete extends Model
             'id_enquete',
             'id_enquete'
         );
+    }
+
+    public function evento()
+    {
+        return $this->belongsTo(Eventos::class, 'id_evento', 'id_evento');
     }
 
     public function usuario()

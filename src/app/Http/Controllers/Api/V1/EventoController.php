@@ -110,6 +110,77 @@ class EventoController extends Controller
             $fotos = $albuns->flatMap(fn ($album) => $album['fotos'])->values();
         }
 
+        $videos = $this->listarVideosEvento($evento);
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'evento' => [
+                    'id_evento' => $evento->id_evento,
+                    'titulo_evento' => $evento->titulo_evento,
+                    'edicao_evento' => $evento->edicao_evento,
+                    'descricao_evento' =>
+                        $evento->descricao_evento,
+                    'banner_url' => $this->urlImagem(
+                        $evento->banner_evento
+                    ),
+                ],
+
+                'albuns' => $albuns,
+                'fotos' => $fotos,
+
+                'videos' => $videos,
+            ],
+        ]);
+    }
+
+    public function videos(int $id): JsonResponse
+    {
+        $evento = Eventos::query()
+            ->whereIn('status_evento', ['ATIVO', 'INATIVO'])->findOrFail($id);
+        return response()->json([
+            'success' => true,
+            'data' => $this->listarVideosEvento($evento),
+        ]);
+    }
+
+    public function programacao(int $id): JsonResponse
+    {
+        $evento = Eventos::query()
+            ->whereIn('status_evento', ['ATIVO', 'INATIVO'])->findOrFail($id);
+        if (!Schema::hasTable('tbl_programacao_evento')) {
+            return response()->json([
+                'success' => false,
+                'message' => 'A programação ainda não foi disponibilizada neste ambiente.',
+            ], 503);
+        }
+
+        $atividades = DB::table('tbl_programacao_evento')
+            ->where('id_evento', $evento->id_evento)
+            ->where('status_programacao', 'ATIVO')
+            ->orderBy('inicio_programacao')
+            ->orderBy('id_programacao')
+            ->get()
+            ->map(fn ($item) => [
+                'id_programacao' => $item->id_programacao,
+                'id_evento' => $item->id_evento,
+                'titulo_programacao' => $item->titulo_programacao,
+                'descricao_programacao' => $item->descricao_programacao,
+                'inicio_programacao' => $item->inicio_programacao,
+                'fim_programacao' => $item->fim_programacao,
+                'local_programacao' => $item->local_programacao,
+                'palestrante_programacao' => $item->palestrante_programacao,
+            ]);
+
+        return response()->json([
+            'success' => true,
+            'data' => $atividades,
+        ]);
+    }
+
+    /** Mesmo formato de vídeo já exposto pela API de galeria. */
+    private function listarVideosEvento(Eventos $evento)
+    {
         // Vídeos enviados diretamente pelo dashboard.
         $videosSite = Video::query()
             ->where('id_evento', $evento->id_evento)
@@ -151,28 +222,7 @@ class EventoController extends Controller
                 ];
             });
 
-        return response()->json([
-            'success' => true,
-            'data' => [
-                'evento' => [
-                    'id_evento' => $evento->id_evento,
-                    'titulo_evento' => $evento->titulo_evento,
-                    'edicao_evento' => $evento->edicao_evento,
-                    'descricao_evento' =>
-                        $evento->descricao_evento,
-                    'banner_url' => $this->urlImagem(
-                        $evento->banner_evento
-                    ),
-                ],
-
-                'albuns' => $albuns,
-                'fotos' => $fotos,
-
-                'videos' => $videosSite
-                    ->concat($videosPalestras)
-                    ->values(),
-            ],
-        ]);
+        return $videosSite->concat($videosPalestras)->values();
     }
 
     private function urlImagem(?string $caminho): ?string

@@ -29,6 +29,18 @@
                     </div>
                 @endif
 
+                <div class="site-editor-card mb-4" style="padding: 18px 22px; border-color: var(--site-editor-border-strong);">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                        <div>
+                            <strong style="color: var(--site-editor-primary);"><i class="bi bi-calendar-event me-2"></i>Eventos agora possuem uma área própria</strong>
+                            <p class="mb-0 mt-1" style="color: var(--site-editor-text-soft);">Crie e edite eventos e gerencie, em cada edição, galeria, vídeos, enquetes e programação.</p>
+                        </div>
+                        <a href="{{ route('admin.eventos.index') }}" class="btn-site-editor-add text-decoration-none">
+                            <i class="bi bi-arrow-up-right"></i> Gerenciar eventos
+                        </a>
+                    </div>
+                </div>
+
                 {{-- ==========================================================
                      ABAS DE EDIÇÃO
                      ========================================================== --}}
@@ -57,27 +69,11 @@
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="eventos-tab" data-bs-toggle="tab"
-                                    data-bs-target="#eventos-pane" type="button" role="tab"
-                                    aria-controls="eventos-pane" aria-selected="false">
-                                    <i class="bi bi-calendar-event"></i>
-                                    <span>Eventos</span>
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="temas-tab" data-bs-toggle="tab"
                                     data-bs-target="#temas-pane" type="button" role="tab"
                                     aria-controls="temas-pane" aria-selected="false">
                                     <i class="bi bi-palette"></i>
                                     <span>Temas</span>
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="videos-tab" data-bs-toggle="tab"
-                                    data-bs-target="#videos-pane" type="button" role="tab"
-                                    aria-controls="videos-pane" aria-selected="false">
-                                    <i class="bi bi-play-btn"></i>
-                                    <span>Vídeos</span>
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
@@ -189,124 +185,6 @@
                         </div>
 
                         {{-- EVENTOS --}}
-                        <div class="tab-pane fade" id="eventos-pane" role="tabpanel"
-                            aria-labelledby="eventos-tab" tabindex="0">
-                            <div class="site-editor-section-header">
-                                <div>
-                                    <span class="site-editor-section-icon"><i class="bi bi-calendar-event"></i></span>
-                                    <div>
-                                        <h4>Editar Eventos</h4>
-                                        <p>Gerencie os eventos exibidos na Landing Page.</p>
-                                    </div>
-                                </div>
-                                <button type="button" class="btn-site-editor-add" data-bs-toggle="modal"
-                                    data-bs-target="#criarEvento">
-                                    <i class="bi bi-plus-circle"></i>
-                                    Novo Evento
-                                </button>
-                            </div>
-                            <div class="site-editor-content">
-                                <div class="row g-4">
-                                    @foreach ($evento as $item)
-                                        <div class="col-12 col-md-6">
-                                            <form method="POST" action="{{ route('admin.evento.update', $item->id_evento) }}"
-                                                enctype="multipart/form-data">
-                                                <div class="px-2 pb-3">
-                                                    <a
-                                                        href="{{ route('admin.eventos.conteudo', ['idEvento' => $item->id_evento]) }}"
-                                                        class="btn btn-outline-warning w-100 fw-semibold"
-                                                    >
-                                                        <i class="bi bi-folder2-open me-1"></i>
-                                                        Gerenciar conteúdo
-                                                    </a>
-                                                </div>
-                                                @csrf
-                                                @method('PUT')
-
-                                                <div class="site-editor-card h-100">
-                                                    <div class="premium-item-card">
-                                                        <label class="form-label text-center d-block">Banner do Evento</label>
-                                                        <div class="media-preview-container mb-3">
-                                                            <iframe src="{{ $item->url_evento }}" width="600" height="50"
-                                                                style="border:0;" allowfullscreen loading="lazy"
-                                                                referrerpolicy="no-referrer-when-downgrade"></iframe>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <input type="file" class="form-control" name="banner_evento"
-                                                                accept="image/png,image/jpeg,image/webp">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Título Evento</label>
-                                                            <input type="text" class="form-control" name="titulo_evento"
-                                                                value="{{ $item->titulo_evento }}">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Edição Evento</label>
-                                                            <input type="text" class="form-control" name="edicao_evento"
-                                                                value="{{ $item->edicao_evento }}">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Descrição</label>
-                                                            <textarea class="form-control" rows="4"
-                                                                name="descricao_evento">{{ $item->descricao_evento }}</textarea>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-6 mb-3">
-                                                                <label class="form-label">Data Início</label>
-                                                                <input type="date" class="form-control" name="data_inicial_evento"
-                                                                    value="{{ $item->data_inicial_evento }}">
-                                                            </div>
-                                                            <div class="col-6 mb-3">
-                                                                <label class="form-label">Hora Início</label>
-                                                                <input type="time" class="form-control" name="hora_inicial_evento"
-                                                                    value="{{ $item->hora_inicial_evento }}">
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-6 mb-3">
-                                                                <label class="form-label">Data Término</label>
-                                                                <input type="date" class="form-control" name="data_termino_evento"
-                                                                    value="{{ $item->data_termino_evento }}">
-                                                            </div>
-                                                            <div class="col-6 mb-3">
-                                                                <label class="form-label">Hora Término</label>
-                                                                <input type="time" class="form-control" name="hora_termino_evento"
-                                                                    value="{{ $item->hora_termino_evento }}">
-                                                            </div>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Endereço</label>
-                                                            <input type="text" class="form-control" name="endereco_evento"
-                                                                value="{{ $item->endereco_evento }}">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">URL Evento</label>
-                                                            <input type="text" class="form-control" name="url_evento"
-                                                                value="{{ $item->url_evento }}">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Status</label>
-                                                            <select class="form-select" name="status_evento">
-                                                                <option value="ATIVO" {{ $item->status_evento == 'ATIVO' ? 'selected' : '' }}>Ativo</option>
-                                                                <option value="INATIVO" {{ $item->status_evento == 'INATIVO' ? 'selected' : '' }}>Inativo</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="site-editor-card-footer">
-                                                        <button type="submit" class="btn-site-editor-save w-100">
-                                                            <i class="bi bi-check-circle"></i>
-                                                            Salvar Evento
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- TEMAS --}}
                         <div class="tab-pane fade" id="temas-pane" role="tabpanel"
                             aria-labelledby="temas-tab" tabindex="0">
                             <div class="site-editor-section-header">
@@ -382,127 +260,6 @@
                         </div>
 
                         {{-- VÍDEOS --}}
-                        <div class="tab-pane fade" id="videos-pane" role="tabpanel"
-                            aria-labelledby="videos-tab" tabindex="0">
-                            <div class="site-editor-section-header">
-                                <div>
-                                    <span class="site-editor-section-icon"><i class="bi bi-play-btn"></i></span>
-                                    <div>
-                                        <h4>Editar Vídeos</h4>
-                                        <p>Gerencie os vídeos apresentados no site.</p>
-                                    </div>
-                                </div>
-                                <button type="button" class="btn-site-editor-add" data-bs-toggle="modal"
-                                    data-bs-target="#criarVideo">
-                                    <i class="bi bi-plus-circle"></i>
-                                    Novo Vídeo
-                                </button>
-                            </div>
-                            <div class="site-editor-content">
-                                @foreach ($video as $item)
-                                    <div class="row g-4">
-                                        <div class="col-12">
-                                            <form method="POST" action="{{ route('admin.video.update', $item->id_video) }}"
-                                                enctype="multipart/form-data">
-                                                @csrf
-                                                @method('PUT')
-                                                <div class="site-editor-card">
-                                                    <div class="row g-4">
-                                                        <div class="col-12 col-lg-8">
-                                                            {{-- Vinculação do vídeo ao evento --}}
-                                                            <div class="mb-3">
-                                                                <label class="form-label" for="id_evento_video_{{ $item->id_video }}">
-                                                                    Evento relacionado
-                                                                </label>
-                                                                <select
-                                                                    class="form-select"
-                                                                    name="id_evento"
-                                                                    id="id_evento_video_{{ $item->id_video }}"
-                                                                    required>
-                                                                    <option value="">Selecione o evento</option>
-                                                                    @foreach ($evento as $eventoOpcao)
-                                                                        <option
-                                                                            value="{{ $eventoOpcao->id_evento }}"
-                                                                            @selected((int) $item->id_evento === (int) $eventoOpcao->id_evento)>
-                                                                            {{ $eventoOpcao->titulo_evento }}
-                                                                            — {{ $eventoOpcao->edicao_evento }}
-                                                                        </option>
-                                                                    @endforeach
-                                                                </select>
-                                                                <div class="form-text">
-                                                                    Associe este vídeo ao evento correspondente.
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Título do Vídeo</label>
-                                                                <input type="text" class="form-control" name="titulo_video"
-                                                                    value="{{ $item->titulo_video }}">
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Subtítulo</label>
-                                                                <textarea class="form-control" name="subtitulo_video"
-                                                                    rows="3">{{ $item->subtitulo_video }}</textarea>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Breve Descrição</label>
-                                                                <textarea class="form-control" name="breve_descricao_video"
-                                                                    rows="4">{{ $item->breve_descricao_video }}</textarea>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label class="form-label">Legenda</label>
-                                                                    <input type="text" class="form-control" name="legenda_video"
-                                                                        value="{{ $item->legenda_video }}">
-                                                                </div>
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label class="form-label">Status</label>
-                                                                    <select class="form-select" name="status_video">
-                                                                        <option value="ATIVO" {{ $item->status_video == 'ATIVO' ? 'selected' : '' }}>Ativo</option>
-                                                                        <option value="INATIVO" {{ $item->status_video == 'INATIVO' ? 'selected' : '' }}>Inativo</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12 col-lg-4">
-                                                            <label class="form-label">Capa Atual</label>
-                                                            <div class="media-preview-container mb-3">
-                                                                <img src="{{ asset('conexao360/img/' . $item->capa_video) }}"
-                                                                    alt="{{ $item->titulo_video }}">
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Alterar Capa</label>
-                                                                <input type="file" class="form-control" name="capa_video"
-                                                                    accept="image/png,image/jpeg,image/webp">
-                                                            </div>
-                                                            <label class="form-label">Vídeo Atual</label>
-                                                            <div class="media-preview-container mb-3">
-                                                                <video class="w-100 rounded" controls>
-                                                                    <source src="{{ asset('conexao360/img/' . $item->url_video) }}"
-                                                                        type="video/mp4">
-                                                                </video>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Alterar Vídeo</label>
-                                                                <input type="file" class="form-control" name="url_video"
-                                                                    accept="video/mp4,video/webm,video/quicktime">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="site-editor-card-footer">
-                                                        <button type="submit" class="btn-site-editor-save">
-                                                            <i class="bi bi-check-circle"></i>
-                                                            Salvar Vídeo
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-
-                        {{-- DRA. --}}
                         <div class="tab-pane fade" id="dra-pane" role="tabpanel"
                             aria-labelledby="dra-tab" tabindex="0">
                             <div class="site-editor-section-header">
@@ -665,9 +422,7 @@
     </script>
 
     {{-- Os modais originais permanecem nos mesmos arquivos. --}}
-    @include('admin.modal.criar-videos')
     @include('admin.modal.criar-banner')
-    @include('admin.modal.criar-evento')
     @include('admin.modal.criar-temas')
     @include('admin.modal.criar-dra')
 

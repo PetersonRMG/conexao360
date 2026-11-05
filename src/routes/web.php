@@ -115,18 +115,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::patch('/publicacoes/{id}/status', [PublicacaoController::class, 'status'])->name('publicacoes.status');
 
         // CONTEÚDOS / VÍDEOS
-        Route::get('/conteudos', [ConteudosController::class, 'index'])->name('conteudos.index');
+        Route::get('/conteudos', fn () => redirect()->route('admin.eventos.index'))->name('conteudos.index');
 
-        Route::get('/conteudos/videos', [ConteudosController::class, 'videos'])->name('conteudos.videos');
+        Route::get('/conteudos/videos', fn () => redirect()->route('admin.eventos.index'))->name('conteudos.videos');
 
-        Route::post('/conteudos/videos', [ConteudosController::class, 'storeVideo'])->name('conteudos.videos.store');
+        // Cadastro de vídeo do administrador ocorre em /eventos/{idEvento}/videos.
 
         Route::patch('/conteudos/videos/{id}/status', [ConteudosController::class, 'statusVideo'])->name('conteudos.videos.status');
 
         // ENQUETES
-        Route::get('/enquetes', [EnquetesController::class, 'index'])->name('enquetes.index');
+        Route::get('/enquetes', fn () => redirect()->route('admin.eventos.index'))->name('enquetes.index');
 
-        Route::post('/enquetes', [EnquetesController::class, 'store'])->name('enquetes.store');
+        // Cadastro de enquete do administrador ocorre em /eventos/{idEvento}/enquetes.
 
 
         // MODERAÇÃO / DENÚNCIAS
@@ -134,6 +134,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::patch('/moderacao/{id}/analisar', [ModeracaoController::class, 'analisar'])->name('moderacao.analisar');
 
+
+        // EVENTOS: manutenção centralizada, sem telas independentes para vídeos/enquetes.
+        Route::get('/eventos', [EventoController::class, 'index'])->name('eventos.index');
+        Route::get('/eventos/novo', [EventoController::class, 'novo'])->name('eventos.novo');
+        Route::get('/eventos/{idEvento}/editar', [EventoController::class, 'editar'])
+            ->whereNumber('idEvento')->name('eventos.editar');
 
         // GERENCIAR CONTEÚDO DOS EVENTOS
         Route::get('/eventos/{idEvento}/conteudo',[ConteudoEventoController::class, 'show'])->whereNumber('idEvento')->name('eventos.conteudo');
@@ -144,6 +150,49 @@ Route::prefix('admin')->name('admin.')->group(function () {
         )->whereNumber('idEvento')
             ->whereNumber('idAlbum')
             ->name('eventos.fotos.store');
+
+        // Edição e exclusão dos álbuns e fotos, sempre escopadas ao evento.
+        Route::put('/eventos/{idEvento}/albuns/{idAlbum}', [ConteudoEventoController::class, 'atualizarAlbum'])
+            ->whereNumber('idEvento')->whereNumber('idAlbum')->name('eventos.albuns.update');
+        Route::delete('/eventos/{idEvento}/albuns/{idAlbum}', [ConteudoEventoController::class, 'excluirAlbum'])
+            ->whereNumber('idEvento')->whereNumber('idAlbum')->name('eventos.albuns.destroy');
+        Route::put('/eventos/{idEvento}/albuns/{idAlbum}/fotos/{idFoto}', [ConteudoEventoController::class, 'atualizarFoto'])
+            ->whereNumber('idEvento')->whereNumber('idAlbum')->whereNumber('idFoto')->name('eventos.fotos.update');
+        Route::delete('/eventos/{idEvento}/albuns/{idAlbum}/fotos/{idFoto}', [ConteudoEventoController::class, 'excluirFoto'])
+            ->whereNumber('idEvento')->whereNumber('idAlbum')->whereNumber('idFoto')->name('eventos.fotos.destroy');
+
+        // Vídeos cadastrados diretamente no evento (URLs externas).
+        Route::post('/eventos/{idEvento}/videos', [ConteudoEventoController::class, 'criarVideo'])
+            ->whereNumber('idEvento')->name('eventos.videos.store');
+        Route::patch('/eventos/{idEvento}/videos/{idVideo}/status', [ConteudoEventoController::class, 'alterarStatusVideo'])
+            ->whereNumber('idEvento')->whereNumber('idVideo')->name('eventos.videos.status');
+
+        Route::put('/eventos/{idEvento}/videos/{idVideo}', [ConteudoEventoController::class, 'atualizarVideo'])
+            ->whereNumber('idEvento')->whereNumber('idVideo')->name('eventos.videos.update');
+        Route::delete('/eventos/{idEvento}/videos/{idVideo}', [ConteudoEventoController::class, 'excluirVideo'])
+            ->whereNumber('idEvento')->whereNumber('idVideo')->name('eventos.videos.destroy');
+
+        // Enquetes são mantidas em tbl_enquetes, agora vinculadas ao evento.
+        Route::post('/eventos/{idEvento}/enquetes', [ConteudoEventoController::class, 'criarEnquete'])
+            ->whereNumber('idEvento')->name('eventos.enquetes.store');
+        Route::patch('/eventos/{idEvento}/enquetes/{idEnquete}/status', [ConteudoEventoController::class, 'alterarStatusEnquete'])
+            ->whereNumber('idEvento')->whereNumber('idEnquete')->name('eventos.enquetes.status');
+
+        Route::post('/eventos/{idEvento}/enquetes/vincular', [ConteudoEventoController::class, 'vincularEnquete'])
+            ->whereNumber('idEvento')->name('eventos.enquetes.vincular');
+
+        Route::put('/eventos/{idEvento}/enquetes/{idEnquete}', [ConteudoEventoController::class, 'atualizarEnquete'])
+            ->whereNumber('idEvento')->whereNumber('idEnquete')->name('eventos.enquetes.update');
+        Route::delete('/eventos/{idEvento}/enquetes/{idEnquete}', [ConteudoEventoController::class, 'excluirEnquete'])
+            ->whereNumber('idEvento')->whereNumber('idEnquete')->name('eventos.enquetes.destroy');
+
+        // Programação por evento, com edição e inativação sem excluir histórico.
+        Route::post('/eventos/{idEvento}/programacao', [ConteudoEventoController::class, 'criarProgramacao'])
+            ->whereNumber('idEvento')->name('eventos.programacao.store');
+        Route::put('/eventos/{idEvento}/programacao/{idProgramacao}', [ConteudoEventoController::class, 'atualizarProgramacao'])
+            ->whereNumber('idEvento')->whereNumber('idProgramacao')->name('eventos.programacao.update');
+        Route::patch('/eventos/{idEvento}/programacao/{idProgramacao}/status', [ConteudoEventoController::class, 'alterarStatusProgramacao'])
+            ->whereNumber('idEvento')->whereNumber('idProgramacao')->name('eventos.programacao.status');
     });
 
     Route::prefix('palestrante')->middleware(['auth:admin', 'perfil:palestrante'])->group(function () {
