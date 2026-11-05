@@ -7,7 +7,52 @@
 
 @section('content')
 
-<div class="site-editor-main">
+
+{{-- A tabela utiliza a paleta já definida pelo painel em data-bs-theme. --}}
+<style>
+    .usuarios-admin-page .usuarios-tabela-tema {
+        --bs-table-bg: var(--site-editor-surface);
+        --bs-table-color: var(--site-editor-text);
+        --bs-table-border-color: var(--site-editor-border);
+        --bs-table-hover-bg: var(--site-editor-surface-2);
+        --bs-table-hover-color: var(--site-editor-text);
+        background-color: var(--site-editor-surface);
+        color: var(--site-editor-text);
+    }
+    .usuarios-admin-page .usuarios-tabela-tema thead th {
+        background-color: var(--site-editor-surface-2);
+        color: var(--site-editor-text);
+        border-bottom-color: var(--site-editor-border);
+        font-size: .9rem;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+    .usuarios-admin-page .usuarios-tabela-tema tbody td {
+        color: var(--site-editor-text);
+        border-bottom-color: var(--site-editor-border);
+        font-size: .9rem;
+        vertical-align: middle;
+    }
+    .usuarios-admin-page .usuarios-tabela-tema .publication-manager-author-info strong,
+    .usuarios-admin-page .usuarios-tabela-tema td > strong {
+        color: var(--site-editor-text);
+        font-size: .9rem;
+    }
+    .usuarios-admin-page .usuarios-tabela-tema .publication-manager-author-info span,
+    .usuarios-admin-page .usuarios-tabela-tema .form-text {
+        color: var(--site-editor-text-muted);
+        font-size: .79rem;
+    }
+    .usuarios-admin-page .usuarios-tabela-tema .publication-manager-avatar {
+        color: var(--site-editor-primary);
+    }
+    .usuarios-admin-page .table-responsive {
+        border-radius: 0 0 var(--site-editor-radius) var(--site-editor-radius);
+    }
+</style>
+
+
+<div class="site-editor-main usuarios-admin-page">
 
     <div class="site-editor-page">
 
@@ -570,7 +615,7 @@
                         <table
                             class="
                                 table
-                                table-dark
+                                usuarios-tabela-tema
                                 table-hover
                                 align-middle
                                 mb-0
