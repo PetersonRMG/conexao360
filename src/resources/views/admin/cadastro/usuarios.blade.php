@@ -7,50 +7,110 @@
 
 @section('content')
 
-
-{{-- A tabela utiliza a paleta já definida pelo painel em data-bs-theme. --}}
 <style>
+
     .usuarios-admin-page .usuarios-tabela-tema {
+
         --bs-table-bg: var(--site-editor-surface);
+
         --bs-table-color: var(--site-editor-text);
+
         --bs-table-border-color: var(--site-editor-border);
+
         --bs-table-hover-bg: var(--site-editor-surface-2);
+
         --bs-table-hover-color: var(--site-editor-text);
+
         background-color: var(--site-editor-surface);
+
         color: var(--site-editor-text);
+
     }
+
     .usuarios-admin-page .usuarios-tabela-tema thead th {
+
         background-color: var(--site-editor-surface-2);
+
         color: var(--site-editor-text);
+
         border-bottom-color: var(--site-editor-border);
+
         font-size: .9rem;
+
         font-weight: 700;
+
         white-space: nowrap;
+
     }
+
     .usuarios-admin-page .usuarios-tabela-tema tbody td {
+
         color: var(--site-editor-text);
+
         border-bottom-color: var(--site-editor-border);
+
         font-size: .9rem;
+
         vertical-align: middle;
+
     }
+
     .usuarios-admin-page .usuarios-tabela-tema .publication-manager-author-info strong,
+
     .usuarios-admin-page .usuarios-tabela-tema td > strong {
+
         color: var(--site-editor-text);
+
         font-size: .9rem;
+
     }
+
     .usuarios-admin-page .usuarios-tabela-tema .publication-manager-author-info span,
+
     .usuarios-admin-page .usuarios-tabela-tema .form-text {
+
         color: var(--site-editor-text-muted);
+
         font-size: .79rem;
+
     }
+
     .usuarios-admin-page .usuarios-tabela-tema .publication-manager-avatar {
+
         color: var(--site-editor-primary);
+
     }
+
     .usuarios-admin-page .table-responsive {
+
         border-radius: 0 0 var(--site-editor-radius) var(--site-editor-radius);
+
+    }
+
+    .usuarios-admin-page .usuarios-card-cabecalho,
+    .usuarios-admin-page .usuarios-lista-cabecalho,
+    .usuarios-admin-page .usuarios-lista-identificacao {
+        display: flex; align-items: center; gap: 14px;
+    }
+    .usuarios-admin-page .usuarios-card-cabecalho { margin-bottom: 20px; }
+    .usuarios-admin-page .usuarios-lista-cabecalho {
+        justify-content: space-between; flex-wrap: wrap;
+        padding: 17px 22px; border-bottom: 1px solid var(--site-editor-border);
+    }
+    .usuarios-admin-page .usuarios-card-cabecalho h4,
+    .usuarios-admin-page .usuarios-lista-cabecalho h4 {
+        font-size: 1rem; font-weight: 700; color: var(--site-editor-text); margin: 0 0 4px;
+    }
+    .usuarios-admin-page .usuarios-card-cabecalho p,
+    .usuarios-admin-page .usuarios-lista-cabecalho p {
+        color: var(--site-editor-text-muted); margin: 0; font-size: .85rem;
+    }
+    .usuarios-admin-page .usuarios-card-cabecalho .site-editor-section-icon,
+    .usuarios-admin-page .usuarios-lista-cabecalho .site-editor-section-icon {flex: 0 0 auto; margin: 0;}
+    @media (max-width: 600px) {
+        .usuarios-admin-page .usuarios-lista-cabecalho {align-items: flex-start;}
     }
 </style>
-
 
 <div class="site-editor-main usuarios-admin-page">
 
@@ -60,63 +120,10 @@
 
 
             {{-- =====================================================
-                 CABEÇALHO
-            ====================================================== --}}
-
-            <div class="site-editor-tabs-header mb-4">
-
-                <div class="site-editor-tabs-title">
-
-                    <i class="bi bi-people"></i>
-
-                    <div>
-
-                        <strong>
-                            Membros do aplicativo
-                        </strong>
-
-                        <span>
-                            Acompanhe os usuários cadastrados no
-                            Conexão 360° e monitore novos cadastros.
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            {{-- =====================================================
                  INDICADORES
             ====================================================== --}}
 
             <section class="mb-4">
-
-                <div class="site-editor-section-header">
-
-                    <div>
-
-                        <div class="site-editor-section-icon">
-                            <i class="bi bi-bar-chart"></i>
-                        </div>
-
-                        <div>
-
-                            <h4>
-                                Visão geral
-                            </h4>
-
-                            <p>
-                                Resumo dos usuários cadastrados na plataforma.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
 
                 <div class="row g-3">
 
@@ -316,33 +323,14 @@
 
             <section class="mb-4">
 
-                <div class="site-editor-section-header">
-
-                    <div>
-
-                        <div class="site-editor-section-icon">
-                            <i class="bi bi-funnel"></i>
-                        </div>
-
+                <div class="site-editor-card usuarios-filtros-card">
+                    <div class="usuarios-card-cabecalho">
+                        <span class="site-editor-section-icon"><i class="bi bi-funnel"></i></span>
                         <div>
-
-                            <h4>
-                                Filtros
-                            </h4>
-
-                            <p>
-                                Localize usuários por nome, perfil,
-                                status ou período de cadastro.
-                            </p>
-
+                            <h4>Filtros</h4>
+                            <p>Localize usuários por nome, perfil, status ou período de cadastro.</p>
                         </div>
-
                     </div>
-
-                </div>
-
-
-                <div class="site-editor-card">
 
                     <form
                         action="{{ route('admin.cadastro.usuarios') }}"
@@ -569,31 +557,13 @@
 
             <section>
 
-                <div class="site-editor-section-header">
-
-                    <div>
-
-                        <div class="site-editor-section-icon">
-                            <i class="bi bi-people"></i>
+                <div class="site-editor-card p-0 usuarios-lista-card">
+                    <div class="usuarios-lista-cabecalho">
+                        <div class="usuarios-lista-identificacao">
+                            <span class="site-editor-section-icon"><i class="bi bi-people"></i></span>
+                            <div><h4>Usuários cadastrados</h4><p>Visualize os membros cadastrados no aplicativo.</p></div>
                         </div>
-
-                        <div>
-
-                            <h4>
-                                Usuários cadastrados
-                            </h4>
-
-                            <p>
-                                Visualize os membros cadastrados
-                                atualmente no aplicativo.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <span class="publication-total">
+                        <span class="publication-total">
 
                         {{ $usuarios->total() }}
 
@@ -604,11 +574,7 @@
                         }}
 
                     </span>
-
-                </div>
-
-
-                <div class="site-editor-card p-0">
+                    </div>
 
                     <div class="table-responsive">
 

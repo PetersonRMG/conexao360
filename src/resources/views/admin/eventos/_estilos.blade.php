@@ -12,7 +12,9 @@
         background: var(--ev-bg);
         min-height: calc(100vh - 70px);
     }
-    .eventos-admin .ev-shell { max-width: 1330px; margin: 0 auto; padding: 28px 22px 70px; }
+    /* Ocupa toda a coluna principal do dashboard; sem centralizacao limitada a 1330px. */
+    .eventos-admin .ev-shell { width: 100%; max-width: none; margin: 0; padding: 24px clamp(16px, 2vw, 32px) 60px; box-sizing: border-box; }
+    .eventos-admin .ev-shell--fluid { width: 100%; max-width: none; }
     .eventos-admin .ev-top { display:flex; justify-content:space-between; align-items:flex-start; gap:20px; flex-wrap:wrap; margin-bottom:25px; }
     .eventos-admin .ev-eyebrow { text-transform:uppercase; letter-spacing:.12em; color:var(--ev-gold); font-size:.75rem; font-weight:700; }
     .eventos-admin h2 {font-size:clamp(1.55rem,3vw,2.1rem);font-weight:750;color:var(--ev-text);margin:7px 0 8px;}
@@ -22,7 +24,7 @@
     .eventos-admin .ev-btn--outline {background:transparent;color:var(--ev-gold);}
     .eventos-admin .ev-btn--outline:hover {background:rgba(214,178,106,.1);color:var(--ev-gold);}
     .eventos-admin .ev-btn--neutral {background:var(--ev-surface-2);color:var(--ev-text);border-color:var(--ev-border);}
-    .eventos-admin .ev-btn--neutral:hover {background:#252525;color:var(--ev-text);border-color:var(--ev-gold);}
+    .eventos-admin .ev-btn--neutral:hover {background:var(--ev-surface);color:var(--ev-text);border-color:var(--ev-gold);}
     .eventos-admin .ev-summary {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:22px 0;}
     .eventos-admin .ev-stat {padding:18px 20px;background:var(--ev-surface);border:1px solid var(--ev-border);border-radius:14px;}
     .eventos-admin .ev-stat small{color:var(--ev-muted);display:block;font-size:.86rem;}
@@ -31,12 +33,12 @@
     .eventos-admin .ev-filter {display:flex;gap:10px;align-items:end;flex-wrap:wrap;background:var(--ev-surface);border:1px solid var(--ev-border);border-radius:14px;padding:16px;margin-bottom:17px;}
     .eventos-admin label {color:var(--ev-muted);font-size:.88rem;font-weight:600;display:block;margin-bottom:6px;}
     .eventos-admin .ev-field {flex:1;min-width:220px;}
-    .eventos-admin input:not([type=file]),.eventos-admin textarea,.eventos-admin select,.eventos-admin input[type=file] {color:var(--ev-text);background:var(--ev-surface-2);border:1px solid rgba(214,178,106,.23);border-radius:9px;padding:11px 12px;width:100%;min-height:44px;color-scheme:dark;}
+    .eventos-admin input:not([type=file]),.eventos-admin textarea,.eventos-admin select,.eventos-admin input[type=file] {color:var(--ev-text);background:var(--ev-surface-2);border:1px solid rgba(214,178,106,.23);border-radius:9px;padding:11px 12px;width:100%;min-height:44px;color-scheme:inherit;}
     .eventos-admin input:focus,.eventos-admin textarea:focus,.eventos-admin select:focus {outline:0;border-color:var(--ev-gold);box-shadow:0 0 0 3px rgba(214,178,106,.14);}
-    .eventos-admin input::placeholder,.eventos-admin textarea::placeholder {color:#aaa49a;}
+    .eventos-admin input::placeholder,.eventos-admin textarea::placeholder {color:var(--ev-muted);opacity:.85;}
     .eventos-admin textarea {min-height:125px;resize:vertical;}
     .eventos-admin .ev-card {display:grid;grid-template-columns:185px minmax(0,1fr);border:1px solid var(--ev-border);background:var(--ev-surface);border-radius:16px;overflow:hidden;margin-bottom:13px;}
-    .eventos-admin .ev-cover {background:linear-gradient(135deg,#292313,#101010);min-height:185px;display:flex;align-items:center;justify-content:center;}
+    .eventos-admin .ev-cover {background:linear-gradient(135deg,var(--ev-surface-2),var(--ev-bg));min-height:185px;display:flex;align-items:center;justify-content:center;}
     .eventos-admin .ev-cover img {width:100%;height:100%;object-fit:cover;}
     .eventos-admin .ev-cover i {font-size:3rem;color:var(--ev-gold);opacity:.7;}
     .eventos-admin .ev-card-body {padding:20px 24px;min-width:0;}
@@ -64,6 +66,35 @@
     .eventos-admin .page-link {background:var(--ev-surface-2);color:var(--ev-gold);border-color:var(--ev-border);}
     .eventos-admin .page-item.active .page-link {background:var(--ev-gold);color:#17120b;border-color:var(--ev-gold);}
     .eventos-admin .page-item.disabled .page-link {background:var(--ev-surface);color:var(--ev-muted);border-color:var(--ev-border);}
+    /* Contraste e controles nativos coerentes com o tema global do painel. */
+    [data-bs-theme="light"] .eventos-admin .ev-badge--active {color:#147c4a;background:#e6f4eb;border-color:#a7d9ba;}
+    [data-bs-theme="light"] .eventos-admin .ev-flash {color:#146a3f;background:#e8f6ed;border-color:#8acfa8;}
+    [data-bs-theme="light"] .eventos-admin .ev-errors {color:#a12b35;background:#fff0f1;border-color:#e5adb3;}
     @media (max-width:860px) {.eventos-admin .ev-card{grid-template-columns:130px 1fr;}.eventos-admin .ev-col-8,.eventos-admin .ev-col-4{grid-column:span 6;}}
     @media (max-width:600px) {.eventos-admin .ev-summary{grid-template-columns:1fr 1fr;}.eventos-admin .ev-card{display:block;}.eventos-admin .ev-cover{min-height:140px;height:160px;}.eventos-admin .ev-card-body{padding:17px;}.eventos-admin .ev-col-6,.eventos-admin .ev-col-8,.eventos-admin .ev-col-4{grid-column:span 12;}.eventos-admin .ev-shell{padding:20px 15px 50px;}}
+
+    /* Acoes no lado direito dos cards em telas amplas, preservando a estrutura original. */
+    @media (min-width: 1280px) {
+        .eventos-admin .ev-card-body {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            grid-template-rows: auto auto auto;
+            align-content: center;
+            column-gap: 24px;
+        }
+        .eventos-admin .ev-card-body > .d-flex,
+        .eventos-admin .ev-card-body > .ev-card-sub,
+        .eventos-admin .ev-card-body > .ev-meta {
+            grid-column: 1;
+        }
+        .eventos-admin .ev-card-actions {
+            grid-column: 2;
+            grid-row: 1 / 4;
+            align-self: center;
+            justify-content: flex-end;
+            align-items: center;
+            flex-wrap: wrap;
+            max-width: 300px;
+        }
+    }
 </style>

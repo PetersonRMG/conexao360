@@ -1,32 +1,41 @@
 @extends('layout.admin')
 
-@section('content')
+@section('title', 'Publicações')
+@section('pg-titulo', 'Publicações')
+@section('link-topo', 'Publicações')
 
-<div class="site-editor-main">
+@section('content')
+<style>
+    /* Os cabecalhos agora integram os cards em vez de criar secoes soltas. */
+    .publicacoes-admin-page .publicacoes-card-titulo,
+    .publicacoes-admin-page .publicacoes-lista-titulo,
+    .publicacoes-admin-page .publicacoes-lista-identificacao {
+        display: flex; align-items: center; gap: 14px;
+    }
+    .publicacoes-admin-page .publicacoes-card-titulo {
+        padding-bottom: 16px; margin-bottom: 22px;
+        border-bottom: 1px solid var(--site-editor-border);
+    }
+    .publicacoes-admin-page .publicacoes-lista-titulo {
+        justify-content: space-between; flex-wrap: wrap; margin: 0 0 16px;
+    }
+    .publicacoes-admin-page .publicacoes-card-titulo h4,
+    .publicacoes-admin-page .publicacoes-lista-titulo h4 {
+        color: var(--site-editor-text); font-size: 1rem; font-weight: 700; margin: 0 0 4px;
+    }
+    .publicacoes-admin-page .publicacoes-card-titulo p,
+    .publicacoes-admin-page .publicacoes-lista-titulo p {
+        color: var(--site-editor-text-muted); font-size: .85rem; margin: 0;
+    }
+    .publicacoes-admin-page .publicacoes-card-titulo .site-editor-section-icon,
+    .publicacoes-admin-page .publicacoes-lista-titulo .site-editor-section-icon {margin: 0; flex: 0 0 auto;}
+</style>
+
+<div class="site-editor-main publicacoes-admin-page">
 
     <div class="site-editor-page">
 
         <div class="site-editor">
-
-            {{-- CABEÇALHO DA PÁGINA --}}
-            <div class="site-editor-tabs-header mb-4">
-
-                <div class="site-editor-tabs-title">
-
-                    <i class="bi bi-file-post"></i>
-
-                    <div>
-                        <strong>Publicações</strong>
-
-                        <span>
-                            Crie e gerencie as publicações oficiais da rede Conexão 360.
-                        </span>
-                    </div>
-
-                </div>
-
-            </div>
-
 
             {{-- SUCESSO --}}
             @if (session('success'))
@@ -68,29 +77,12 @@
             ========================================================== --}}
             <section class="mb-4">
 
-                <div class="site-editor-section-header">
-
-                    <div>
-
-                        <div class="site-editor-section-icon">
-                            <i class="bi bi-send"></i>
-                        </div>
-
-                        <div>
-                            <h4>Nova publicação</h4>
-
-                            <p>
-                                Publique novidades, avisos e conteúdos oficiais
-                                para os membros da rede.
-                            </p>
-                        </div>
-
+                <div class="site-editor-card publicacoes-criacao-card">
+                    <div class="publicacoes-card-titulo">
+                        <span class="site-editor-section-icon"><i class="bi bi-send"></i></span>
+                        <div><h4>Nova publicação</h4>
+                        <p>Publique novidades, avisos e conteúdos oficiais para os membros da rede.</p></div>
                     </div>
-
-                </div>
-
-
-                <div class="site-editor-card">
 
                     <form
                         action="{{ route('admin.publicacoes.store') }}"
@@ -229,32 +221,14 @@
             ========================================================== --}}
             <section>
 
-                <div class="site-editor-section-header">
-
-                    <div>
-
-                        <div class="site-editor-section-icon">
-                            <i class="bi bi-collection"></i>
-                        </div>
-
-                        <div>
-                            <h4>Publicações cadastradas</h4>
-
-                            <p>
-                                Visualize e controle as publicações disponíveis
-                                na rede.
-                            </p>
-                        </div>
-
+                <div class="publicacoes-lista-titulo">
+                    <div class="publicacoes-lista-identificacao">
+                        <span class="site-editor-section-icon"><i class="bi bi-collection"></i></span>
+                        <div><h4>Publicações cadastradas</h4>
+                        <p>Visualize e controle as publicações disponíveis na rede.</p></div>
                     </div>
-
-                    <span class="publication-total">
-                        {{ $publicacoes->count() }}
-                        {{ $publicacoes->count() === 1 ? 'publicação' : 'publicações' }}
-                    </span>
-
+                    <span class="publication-total">{{ $publicacoes->count() }} {{ $publicacoes->count() === 1 ? 'publicação' : 'publicações' }}</span>
                 </div>
-
                 <div class="publication-manager">
 
     @forelse ($publicacoes as $publicacao)

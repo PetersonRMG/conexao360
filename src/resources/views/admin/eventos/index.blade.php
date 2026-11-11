@@ -9,9 +9,51 @@
 @section('content')
 
 <style>
-    /* Estilos exclusivos da tela Conteúdo do Evento.
-       O menu e o cabeçalho continuam controlados pelo layout.admin. */
+    /* Escopo exclusivo: nao altera header, menu nem outras telas. */
     .evento-conteudo-page {
+        /* Tema claro (padrao do painel e modo automatico claro). */
+        --evento-bg: #f6f3ee;
+        --evento-card: #fffefa;
+        --evento-header: #f8f3eb;
+        --evento-form: #fffdf9;
+        --evento-border: #d7cabc;
+        --evento-border-soft: #e7ded2;
+        --evento-text: #2b2722;
+        --evento-muted: #665f55;
+        --evento-gold: #95671e;
+        --evento-gold-hover: #774d12;
+        --evento-gold-dark: #20180b;
+        --evento-field-bg: #ffffff;
+        --evento-field-focus: #fffefa;
+        --evento-field-border: #c6b9a9;
+        --evento-placeholder: #80766b;
+        --evento-file-bg: #f2eadf;
+        --evento-file-text: #332c24;
+        --evento-shadow: rgba(56, 41, 22, .08);
+        --evento-input-scheme: light;
+        --evento-badge-bg: #eee4d7;
+        --evento-badge-text: #5a4932;
+        --evento-success-bg: #e7f5e9;
+        --evento-success-border: #91cba4;
+        --evento-success-text: #205c37;
+        --evento-danger-bg: #fff0f0;
+        --evento-danger-border: #e3a4aa;
+        --evento-danger-text: #9b2b37;
+        --evento-warning-bg: #fff5df;
+        --evento-warning-border: #d6b46f;
+        --evento-warning-text: #77500d;
+        --evento-info-bg: #f2ede5;
+        --evento-info-border: #d2bd9b;
+        --evento-info-text: #57432b;
+        --evento-validation-text: #a82333;
+        background-color: var(--evento-bg) !important;
+        color: var(--evento-text);
+        color-scheme: var(--evento-input-scheme);
+        min-height: 100vh;
+    }
+
+    /* Tema escuro selecionado no painel (html[data-bs-theme]). */
+    [data-bs-theme="dark"] .evento-conteudo-page {
         --evento-bg: #101010;
         --evento-card: #171717;
         --evento-header: #1e1a15;
@@ -23,24 +65,85 @@
         --evento-gold: #d3ab55;
         --evento-gold-hover: #e4c16f;
         --evento-gold-dark: #161208;
-        background-color: var(--evento-bg) !important;
-        color: var(--evento-text);
-        min-height: 100vh;
+        --evento-field-bg: #1c1c1c;
+        --evento-field-focus: #202020;
+        --evento-field-border: #5b5041;
+        --evento-placeholder: #a99f91;
+        --evento-file-bg: #332a1b;
+        --evento-file-text: #f4f0e8;
+        --evento-shadow: rgba(0, 0, 0, .16);
+        --evento-input-scheme: dark;
+        --evento-badge-bg: #3e3529;
+        --evento-badge-text: #f5e5ca;
+        --evento-success-bg: #12291e;
+        --evento-success-border: #276a45;
+        --evento-success-text: #c1f0d3;
+        --evento-danger-bg: #331719;
+        --evento-danger-border: #873942;
+        --evento-danger-text: #ffd9dc;
+        --evento-warning-bg: #332817;
+        --evento-warning-border: #8c713d;
+        --evento-warning-text: #f7e3b5;
+        --evento-info-bg: #25221d;
+        --evento-info-border: #6d5a3d;
+        --evento-info-text: #e9dfcd;
+        --evento-validation-text: #ffb5b9;
+    }
+
+    /* Compatibilidade com a opcao "Automático" quando o sistema esta escuro. */
+    @media (prefers-color-scheme: dark) {
+        [data-bs-theme="auto"] .evento-conteudo-page {
+            --evento-bg: #101010;
+            --evento-card: #171717;
+            --evento-header: #1e1a15;
+            --evento-form: #121212;
+            --evento-border: #40382b;
+            --evento-border-soft: #34302b;
+            --evento-text: #f4f0e8;
+            --evento-muted: #bdb5a9;
+            --evento-gold: #d3ab55;
+            --evento-gold-hover: #e4c16f;
+            --evento-gold-dark: #161208;
+            --evento-field-bg: #1c1c1c;
+            --evento-field-focus: #202020;
+            --evento-field-border: #5b5041;
+            --evento-placeholder: #a99f91;
+            --evento-file-bg: #332a1b;
+            --evento-file-text: #f4f0e8;
+            --evento-shadow: rgba(0, 0, 0, .16);
+            --evento-input-scheme: dark;
+            --evento-badge-bg: #3e3529;
+            --evento-badge-text: #f5e5ca;
+            --evento-success-bg: #12291e;
+            --evento-success-border: #276a45;
+            --evento-success-text: #c1f0d3;
+            --evento-danger-bg: #331719;
+            --evento-danger-border: #873942;
+            --evento-danger-text: #ffd9dc;
+            --evento-warning-bg: #332817;
+            --evento-warning-border: #8c713d;
+            --evento-warning-text: #f7e3b5;
+            --evento-info-bg: #25221d;
+            --evento-info-border: #6d5a3d;
+            --evento-info-text: #e9dfcd;
+            --evento-validation-text: #ffb5b9;
+        }
     }
 
     .evento-conteudo-page h2,
     .evento-conteudo-page h3,
     .evento-conteudo-page h4,
     .evento-conteudo-page strong,
-    .evento-conteudo-page .form-label {
+    .evento-conteudo-page .form-label,
+    .evento-conteudo-page summary {
         color: var(--evento-text);
     }
 
-    .evento-conteudo-page .text-body-secondary {
+    .evento-conteudo-page .text-body-secondary,
+    .evento-conteudo-page .form-text {
         color: var(--evento-muted) !important;
     }
 
-    /* Links e indicadores */
     .evento-conteudo-page a:not(.btn) {
         color: var(--evento-gold);
     }
@@ -58,78 +161,81 @@
         transform: translateY(-2px);
     }
 
-    .evento-conteudo-page .row > [class*="col-"] > a > .card i {
-        color: var(--evento-gold);
-    }
-
-    .evento-conteudo-page .card {
-        background: var(--evento-card);
-        color: var(--evento-text);
-        border: 1px solid var(--evento-border-soft);
-        border-radius: .65rem;
-        box-shadow: 0 6px 18px rgba(0, 0, 0, .16) !important;
-    }
-
-    .evento-conteudo-page .card-header {
-        background: var(--evento-header);
-        border-bottom: 1px solid var(--evento-border);
-        color: var(--evento-text);
-        border-radius: .65rem .65rem 0 0;
-    }
-
+    .evento-conteudo-page .row > [class*="col-"] > a > .card i,
     .evento-conteudo-page .card-header > i,
     .evento-conteudo-page .card-header h3 > i {
         color: var(--evento-gold);
     }
 
-    /* Formulários e divisórias */
+    .evento-conteudo-page .card {
+        background-color: var(--evento-card);
+        color: var(--evento-text);
+        border: 1px solid var(--evento-border-soft);
+        border-radius: .65rem;
+        box-shadow: 0 6px 18px var(--evento-shadow) !important;
+    }
+
+    .evento-conteudo-page .card-header {
+        background-color: var(--evento-header);
+        border-bottom: 1px solid var(--evento-border);
+        color: var(--evento-text);
+        border-radius: .65rem .65rem 0 0;
+    }
+
+    /* Formulários, blocos internos e divisórias. */
     .evento-conteudo-page form.border,
-    .evento-conteudo-page .card-body > .border {
-        background: var(--evento-form);
+    .evento-conteudo-page .card-body > .border,
+    .evento-conteudo-page details.border {
+        background-color: var(--evento-form);
         border-color: var(--evento-border) !important;
         border-radius: .55rem !important;
     }
 
     .evento-conteudo-page .border,
     .evento-conteudo-page .border-top,
-    .evento-conteudo-page .border-bottom {
+    .evento-conteudo-page .border-bottom,
+    .evento-conteudo-page img.border {
         border-color: var(--evento-border-soft) !important;
     }
 
     .evento-conteudo-page .form-control,
     .evento-conteudo-page .form-select {
-        background-color: #1c1c1c;
-        border: 1px solid #5b5041;
+        background-color: var(--evento-field-bg);
+        border: 1px solid var(--evento-field-border);
         color: var(--evento-text);
-        color-scheme: dark;
+        color-scheme: var(--evento-input-scheme);
         min-height: 42px;
     }
 
     .evento-conteudo-page .form-control::placeholder {
-        color: #a99f91;
+        color: var(--evento-placeholder);
         opacity: 1;
     }
 
     .evento-conteudo-page .form-control:focus,
     .evento-conteudo-page .form-select:focus {
-        background-color: #202020;
+        background-color: var(--evento-field-focus);
         border-color: var(--evento-gold);
         color: var(--evento-text);
         box-shadow: 0 0 0 .2rem rgba(211, 171, 85, .18);
     }
 
     .evento-conteudo-page .form-control[type="file"]::file-selector-button {
-        background: #332a1b;
-        color: var(--evento-text);
+        background-color: var(--evento-file-bg);
+        color: var(--evento-file-text);
         border: 0;
         border-right: 1px solid var(--evento-border);
         margin-right: 1rem;
         padding: .6rem .9rem;
     }
 
-    /* Botões alinhados ao dourado institucional */
+    .evento-conteudo-page .form-control[type="file"]::file-selector-button:hover {
+        filter: brightness(.96);
+    }
+
+    /* Botões dourados institucionais. */
     .evento-conteudo-page .btn-warning {
-        background: var(--evento-gold);
+        background-color: var(--evento-gold);
         color: var(--evento-gold-dark);
         border-color: var(--evento-gold);
         font-weight: 600;
@@ -137,7 +243,7 @@
 
     .evento-conteudo-page .btn-warning:hover,
     .evento-conteudo-page .btn-warning:focus-visible {
-        background: var(--evento-gold-hover);
+        background-color: var(--evento-gold-hover);
         border-color: var(--evento-gold-hover);
         color: var(--evento-gold-dark);
     }
@@ -151,7 +257,7 @@
     .evento-conteudo-page .btn-outline-warning:hover,
     .evento-conteudo-page .btn-outline-warning:focus-visible {
         color: var(--evento-gold-dark);
-        background: var(--evento-gold);
+        background-color: var(--evento-gold);
         border-color: var(--evento-gold);
     }
 
@@ -160,47 +266,43 @@
         box-shadow: 0 0 0 .2rem rgba(211, 171, 85, .25);
     }
 
-    /* Feedback: verde/vermelho continuam indicando situação, não navegação. */
+    /* Mantém as cores semânticas de feedback em ambos os temas. */
     .evento-conteudo-page .badge.text-bg-secondary {
-        background: #3e3529 !important;
-        color: #f5e5ca !important;
+        background-color: var(--evento-badge-bg) !important;
+        color: var(--evento-badge-text) !important;
     }
 
     .evento-conteudo-page .alert-success {
-        background: #12291e;
-        border-color: #276a45;
-        color: #c1f0d3;
+        background-color: var(--evento-success-bg);
+        border-color: var(--evento-success-border);
+        color: var(--evento-success-text);
     }
 
     .evento-conteudo-page .alert-danger {
-        background: #331719;
-        border-color: #873942;
-        color: #ffd9dc;
+        background-color: var(--evento-danger-bg);
+        border-color: var(--evento-danger-border);
+        color: var(--evento-danger-text);
     }
 
     .evento-conteudo-page .alert-warning {
-        background: #332817;
-        border-color: #8c713d;
-        color: #f7e3b5;
+        background-color: var(--evento-warning-bg);
+        border-color: var(--evento-warning-border);
+        color: var(--evento-warning-text);
     }
 
     .evento-conteudo-page .alert-info,
     .evento-conteudo-page .alert-secondary {
-        background: #25221d;
-        border-color: #6d5a3d;
-        color: #e9dfcd;
+        background-color: var(--evento-info-bg);
+        border-color: var(--evento-info-border);
+        color: var(--evento-info-text);
     }
 
     .evento-conteudo-page .alert code {
-        color: var(--evento-gold-hover);
-    }
-
-    .evento-conteudo-page .form-text {
-        color: var(--evento-muted);
+        color: var(--evento-gold);
     }
 
     .evento-conteudo-page .album-validacao {
-        color: #ffb5b9;
+        color: var(--evento-validation-text);
         font-size: .92rem;
         margin-top: .35rem;
     }
@@ -209,7 +311,6 @@
         border-color: #b95560;
     }
 
-    /* Legibilidade das informações e das fotos */
     .evento-conteudo-page .card-body,
     .evento-conteudo-page .form-label,
     .evento-conteudo-page p {
@@ -219,16 +320,12 @@
     .evento-conteudo-page .card-header h3 {
         font-size: 1.14rem;
     }
-
-    .evento-conteudo-page img.border {
-        border-color: var(--evento-border) !important;
-    }
 </style>
 
 
 <main class="app-main dash-main--bg evento-conteudo-page">
 
-    <div class="app-content container-fluid py-4 px-3 px-lg-4" style="max-width:1180px;">
+    <div class="app-content container-fluid py-4 px-3 px-lg-4" style="width:100%; max-width:none;">
 
         <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
 

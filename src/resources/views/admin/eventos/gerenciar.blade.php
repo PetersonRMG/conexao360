@@ -7,7 +7,7 @@
 @section('content')
 @include('admin.eventos._estilos')
 <main class="app-main eventos-admin">
-    <div class="ev-shell">
+    <div class="ev-shell ev-shell--fluid">
         <header class="ev-top">
             <div>
                 <span class="ev-eyebrow"><i class="bi bi-calendar2-week me-2"></i> Gestão de eventos</span>
